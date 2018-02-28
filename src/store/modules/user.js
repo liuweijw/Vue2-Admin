@@ -7,13 +7,12 @@ const user = {
     status: '',
     code: '',
     token: getToken(),
+    refresh_token: '',
     name: '',
     avatar: '',
     introduction: '',
     roles: [],
-    setting: {
-      articlePlatform: []
-    }
+    permissions: []
   },
 
   mutations: {
@@ -22,6 +21,9 @@ const user = {
     },
     SET_TOKEN: (state, token) => {
       state.token = token
+    },
+    SET_REFRESH_TOKEN: (state, refreshToken) => {
+      state.refresh_token = refreshToken
     },
     SET_INTRODUCTION: (state, introduction) => {
       state.introduction = introduction
@@ -40,6 +42,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_PERMISSIONS: (state, permissions) => {
+      state.permissions = permissions
     }
   },
 
@@ -49,9 +54,9 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         loginByUsername(username, userInfo.password).then(response => {
-          const data = response.data
-          commit('SET_TOKEN', data.token)
-          setToken(response.data.token)
+          commit('SET_TOKEN', response.access_token)
+          commit('SET_REFRESH_TOKEN', response.refresh_token)
+          setToken(response.access_token)
           resolve()
         }).catch(error => {
           reject(error)
@@ -62,15 +67,17 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.token).then(response => {
-          if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
-            reject('error')
-          }
+        getUserInfo().then(response => {
           const data = response.data
           commit('SET_ROLES', data.roles)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
+          commit('SET_NAME', data.user.username)
+          commit('SET_AVATAR', data.user.avatar)
+          commit('SET_INTRODUCTION', data.user.introduction)
+          const permissions = {}
+          for (let i = 0; i < data.permissions.length; i++) {
+            permissions[data.permissions[i]] = true
+          }
+          commit('SET_PERMISSIONS', permissions)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -83,6 +90,7 @@ const user = {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('SET_TOKEN', '')
+          commit('SET_REFRESH_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()
           resolve()
@@ -96,6 +104,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_REFRESH_TOKEN', '')
         removeToken()
         resolve()
       })

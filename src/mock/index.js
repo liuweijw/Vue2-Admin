@@ -6,8 +6,9 @@ import loginAPI from './login'
 // })
 
 // 登录相关
-Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
-Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
-Mock.mock(/\/user\/info\.*/, 'get', loginAPI.getUserInfo)
+Mock.mock(/\/auth\/oauth\/token/, 'post', loginAPI.loginByUsername)
+Mock.mock(/\/auth\/removeToken/, 'post', loginAPI.logout)
+Mock.mock(/\/admin\/user\/info\.*/, 'get', loginAPI.getUserInfo)
+Mock.mock(/\/admin\/menu\/userTree/, 'get', loginAPI.getUserTree)
 
 export default Mock

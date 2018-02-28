@@ -9,12 +9,12 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 
 // permissiom judge function
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('admin') >= 0) return true // admin permission passed directly
+  if (roles.indexOf('ROLE_ADMIN') >= 0) return true // admin permission passed directly
   if (!permissionRoles) return true
   return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
-const whiteList = ['/login', '/authredirect']// no redirect whitelist
+const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
           })
         }).catch(() => {
           store.dispatch('FedLogOut').then(() => {
-            Message.error('Verification failed, please login again')
+            Message.error(this.$t('tips.error_verification'))
             next({ path: '/login' })
           })
         })

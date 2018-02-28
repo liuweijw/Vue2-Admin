@@ -1,10 +1,16 @@
 ## Vue2-Admin 简介
 
-`Vue2-admin` 是基于 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 一个后台基础精简版本，可以直接做业务开发
+`Vue2-admin` 是基于 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 一个后台包含登录、权限管理的精简版本，可以在基础上进行业务开发
 
 ## 前序准备
 
 你的本地环境需要安装 [node](http://nodejs.org/) 和 [git](https://git-scm.com/)。技术栈基于 [ES2015+](http://es6.ruanyifeng.com/)、[vue](https://cn.vuejs.org/index.html)、[vuex](https://vuex.vuejs.org/zh-cn/)、[vue-router](https://router.vuejs.org/zh-cn/) 、 [element-ui](https://github.com/ElemeFE/element) 和 [vue2-all](https://github.com/liuweijw/Vue2-All)
+
+## 数据接口准备
+
+你本地可以采用mock数据进行本地调试，同时也可以配合[服务接口](https://github.com/liuweijw/fw-cloud-framework)进行开发
+
+注：去掉mock很容易，注释main.js 中的 import './mock' 并删除 mock 文件夹即可
 
 ## 开发
 ```bash

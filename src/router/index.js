@@ -36,9 +36,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: 'dashboard',
     children: [{
-      path: 'dashboard',
-      component: _import('dashboard/index'),
-      name: 'dashboard',
+      path: 'dashboard', component: _import('dashboard/index'), name: 'dashboard',
       meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
     }]
   }
@@ -51,20 +49,21 @@ export default new Router({
 })
 
 export const asyncRouterMap = [
-  // {
-  //   path: '/components',
-  //   component: Layout,
-  //   redirect: 'noredirect',
-  //   name: 'component-demo',
-  //   meta: {
-  //     title: 'components',
-  //     icon: 'component'
-  //   },
-  //   children: [
-  //     { path: 'tinymce', component: _import('components-demo/tinymce'), name: 'tinymce-demo', meta: { title: 'tinymce' }},
-  //     { path: 'back-to-top', component: _import('components-demo/backToTop'), name: 'backToTop-demo', meta: { title: 'backToTop' }}
-  //   ]
-  // },
-
+  {
+    menuId: 1,
+    path: '/admin',
+    component: Layout,
+    name: 'menu_manage',
+    hidden: false,
+    redirect: '/admin/user/index',
+    meta: {
+      title: 'menu_manage',
+      icon: 'people'
+    },
+    children: [
+      { menuId: 2, path: 'user', component: _import('admin/user/index'), name: 'menu_user', meta: { title: 'menu_user', icon: 'user' }},
+      { menuId: 3, path: 'role', component: _import('admin/role/index'), name: 'menu_role', meta: { title: 'menu_role', icon: 'role' }}
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
