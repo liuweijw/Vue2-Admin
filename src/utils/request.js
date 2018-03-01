@@ -47,7 +47,7 @@ service.interceptors.response.use(
   error => {
     const res = error.response
     console.log(res.status)
-    if (res.status === 478 || res.status === 403) {
+    if (res.status === 403) {
       message(res.status + '： ' + res.data.msg, 'error')
     } else if (res.status === 400) {
       message(res.status + '： ' + res.data.error_description, 'error')

@@ -115,12 +115,17 @@ const user = {
       return new Promise(resolve => {
         commit('SET_TOKEN', role)
         setToken(role)
-        getUserInfo(role).then(response => {
+        getUserInfo().then(response => {
           const data = response.data
           commit('SET_ROLES', data.roles)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
+          commit('SET_NAME', data.user.username)
+          commit('SET_AVATAR', data.user.avatar)
+          commit('SET_INTRODUCTION', data.user.introduction)
+          const permissions = {}
+          for (let i = 0; i < data.permissions.length; i++) {
+            permissions[data.permissions[i]] = true
+          }
+          commit('SET_PERMISSIONS', permissions)
           resolve()
         })
       })
