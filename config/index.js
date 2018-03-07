@@ -13,14 +13,14 @@ module.exports = {
     proxyTable: {
       // 采用网关的方式进行访问接口数据请打开下面注释，否则将采用mock的方式进行获取本地数据
       // '/auth': {
-      //   target: 'http://192.168.31.154:1003',
+      //   target: 'http://localhost:1003',
       //   changeOrigin: true,
       //   pathRewrite: {
       //     '^/auth': '/auth'
       //   }
       // },
       // '/admin': {
-      //   target: 'http://192.168.31.154:1003',
+      //   target: 'http://localhost:1003',
       //   changeOrigin: true,
       //   pathRewrite: {
       //     '^/admin': '/admin'
@@ -28,7 +28,7 @@ module.exports = {
       // }
       // 为方便调试其它业务，将网关、授权等模块关闭，基础登录数据采用mock方式获取，仅用于本地调试方便
       '/admin': {
-        target: 'http://192.168.31.154:2002',
+        target: 'http://localhost:2002',
         changeOrigin: true,
         pathRewrite: {
           '^/admin': ''

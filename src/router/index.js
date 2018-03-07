@@ -39,6 +39,16 @@ export const constantRouterMap = [
       path: 'dashboard', component: _import('dashboard/index'), name: 'dashboard',
       meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
     }]
+  },
+  {
+    path: '/modify',
+    component: Layout,
+    hidden: true,
+    redirect: '/modify/index',
+    children: [{
+      path: 'index', component: _import('admin/modify/index'), name: 'modify',
+      meta: { title: 'modify', icon: 'user', noCache: true }
+    }]
   }
 ]
 
@@ -62,7 +72,7 @@ export const asyncRouterMap = [
     },
     children: [
       { menuId: 2, path: 'user', component: _import('admin/user/index'), name: 'menu_user', meta: { title: 'menu_user', icon: 'user' }},
-      { menuId: 3, path: 'role', component: _import('admin/role/index'), name: 'menu_role', meta: { title: 'menu_role', icon: 'role' }}
+      { menuId: 3, hidden: true, path: 'role', component: _import('admin/role/index'), name: 'menu_role', meta: { title: 'menu_role', icon: 'role' }}
     ]
   },
   { path: '*', redirect: '/404', hidden: true }

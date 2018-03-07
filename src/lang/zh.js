@@ -12,7 +12,8 @@ export default {
     tag_close_orthers: '关闭其它',
     menu_manage: '系统管理',
     menu_user: '用户管理',
-    menu_role: '系统角色'
+    menu_role: '系统角色',
+    modify: '修改'
   },
   navbar: {
     logOut: '退出登录',

@@ -12,12 +12,13 @@ export default {
     tag_close_orthers: 'Close Others',
     menu_manage: 'System',
     menu_user: 'User',
-    menu_role: 'Role'
+    menu_role: 'Role',
+    modify: 'Modify'
   },
   navbar: {
     logOut: 'Log Out',
     dashboard: 'Dashboard',
-    screenfull: 'screenfull'
+    screenfull: 'Screenfull'
   },
   login: {
     title: 'Login Form',
