@@ -51,6 +51,13 @@ npm run lint
 # auto fix
 npm run lint -- --fix
 ```
+## 效果图
+![image](src/assets/temp/1.png)
+![image](src/assets/temp/2.png)
+![image](src/assets/temp/3.png)
+![image](src/assets/temp/4.png)
+![image](src/assets/temp/5.png)
+![image](src/assets/temp/6.png)
 
 ## 感谢
 
