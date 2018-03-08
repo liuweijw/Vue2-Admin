@@ -37,3 +37,12 @@ export function updateUser(_from) {
     data: _from
   })
 }
+
+export function modifyUser(_from) {
+  return request({
+    url: '/admin/user/modifyUser',
+    method: 'post',
+    data: _from
+  })
+}
+
