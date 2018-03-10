@@ -24,11 +24,12 @@ import Layout from '../views/layout/Layout'
     roles: ['admin','editor']     will control the page roles (you can set multiple roles)
     title: 'title'               the name show in submenu and breadcrumb (recommend set)
     icon: 'svg-name'             the icon show in the sidebar,
-    noCache: true                if fasle ,the page will no be cached(default is false)
+    noCache: true                if true ,the page will no be cached(default is false)
   }
 **/
 export const constantRouterMap = [
   { path: '/login', component: _import('login/index'), hidden: true },
+  { path: '/authredirect', component: _import('login/authredirect'), hidden: true },
   { path: '/404', component: _import('errorPage/404'), hidden: true },
   { path: '/401', component: _import('errorPage/401'), hidden: true },
   {
@@ -65,7 +66,7 @@ export const asyncRouterMap = [
     component: Layout,
     name: 'menu_manage',
     hidden: false,
-    redirect: '/admin/user/index',
+    redirect: 'noredirect', // == /admin/user
     meta: {
       title: 'menu_manage',
       icon: 'people'
