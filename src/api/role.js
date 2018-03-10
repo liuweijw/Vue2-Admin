@@ -6,3 +6,10 @@ export function fetchRoleListByDeptId(deptId) {
     method: 'get'
   })
 }
+
+export function fetchRoleList() {
+  return request({
+    url: '/admin/role/list',
+    method: 'get'
+  })
+}

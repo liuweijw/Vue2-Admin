@@ -13,9 +13,9 @@
 
       <lang-select class="international right-menu-item"></lang-select>
 
-      <el-dropdown class="avatar-container right-menu-item" trigger="click">
-        <div class="avatar-wrapper">
-          <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
+      <el-dropdown class="picUrl-container right-menu-item" trigger="click">
+        <div class="picUrl-wrapper">
+          <img class="user-picUrl" :src="picUrl+'?imageView2/1/w/80/h/80'">
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -58,7 +58,7 @@ export default {
     ...mapGetters([
       'sidebar',
       'name',
-      'avatar'
+      'picUrl'
     ])
   },
   methods: {
@@ -115,14 +115,14 @@ export default {
     .theme-switch {
       vertical-align: 15px;
     }
-    .avatar-container {
+    .picUrl-container {
       height: 50px;
       margin-right: 30px;
-      .avatar-wrapper {
+      .picUrl-wrapper {
         cursor: pointer;
         margin-top: 5px;
         position: relative;
-        .user-avatar {
+        .user-picUrl {
           width: 40px;
           height: 40px;
           border-radius: 10px;

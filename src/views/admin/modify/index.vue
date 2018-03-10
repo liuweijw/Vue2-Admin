@@ -26,7 +26,7 @@
                          :headers="headers"
                          img-format="png">
               </my-upload>
-              <img :src="avatar">
+              <img :src="picUrl">
               <el-button type="primary" @click="updateShow" size="mini">选择<i class="el-icon-upload el-icon--right"></i></el-button>
             </el-form-item> -->
             <el-form-item>
@@ -72,7 +72,7 @@
           password: '',
           newpassword: '',
           newpassword1: '',
-          avatar: ''
+          picUrl: ''
         },
         editFormRules: {
           password: [{ required: true, message: '请输入密码', trigger: 'blur' }, { min: 5, max: 10, message: '长度在 5 到 10 个字符', trigger: 'blur' }],
@@ -83,7 +83,7 @@
     },
     computed: {
       ...mapGetters([
-        'name', 'avatar'
+        'name', 'picUrl'
       ])
     },
     created() {
@@ -113,7 +113,7 @@
         this.show = !this.show
       },
       formUpdateSuccess(data, field) {
-        this.$store.commit('SET_AVATAR', data.avatar)
+        this.$store.commit('SET_PICURL', data.picUrl)
       }
     }
   }

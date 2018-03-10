@@ -9,7 +9,7 @@ const user = {
     token: getToken(),
     refresh_token: '',
     name: '',
-    avatar: '',
+    picUrl: '',
     introduction: '',
     roles: [],
     permissions: []
@@ -37,8 +37,8 @@ const user = {
     SET_NAME: (state, name) => {
       state.name = name
     },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
+    SET_PICURL: (state, picUrl) => {
+      state.picUrl = picUrl
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
@@ -71,7 +71,7 @@ const user = {
           const data = response.data
           commit('SET_ROLES', data.roles)
           commit('SET_NAME', data.user.username)
-          commit('SET_AVATAR', data.user.avatar)
+          commit('SET_PICURL', data.user.picUrl)
           commit('SET_INTRODUCTION', data.user.introduction)
           const permissions = {}
           for (let i = 0; i < data.permissions.length; i++) {
@@ -119,7 +119,7 @@ const user = {
           const data = response.data
           commit('SET_ROLES', data.roles)
           commit('SET_NAME', data.user.username)
-          commit('SET_AVATAR', data.user.avatar)
+          commit('SET_PICURL', data.user.picUrl)
           commit('SET_INTRODUCTION', data.user.introduction)
           const permissions = {}
           for (let i = 0; i < data.permissions.length; i++) {

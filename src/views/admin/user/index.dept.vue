@@ -13,7 +13,7 @@
       <el-table-column align="center" label="用户名">
         <template slot-scope="scope">
           <span>
-            <img v-if="scope.row.picUrl" class="user-picUrl" style="width: 20px; height: 20px; border-radius: 50%;" :src="scope.row.picUrl">
+            <img v-if="scope.row.avatar" class="user-avatar" style="width: 20px; height: 20px; border-radius: 50%;" :src="scope.row.avatar">
             {{scope.row.username}}
           </span>
         </template>
@@ -62,6 +62,11 @@
           <el-input type="password" v-model="editForm.password" placeholder="请输入密码" ></el-input>
         </el-form-item>
 
+        <el-form-item label="所属部门" prop="deptId">
+          <el-input v-model="editForm.deptName" placeholder="选择部门" @focus="handleDept()" readonly></el-input>
+          <input type="hidden" v-model="editForm.deptId"/>
+        </el-form-item>
+
         <el-form-item label="角色" prop="roleId">
           <el-select class="filter-item" v-model="editForm.roleId" placeholder="请选择">
             <el-option v-for="item in editRolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId" :disabled="editIsDisabled[item.statu]">
@@ -83,12 +88,29 @@
         <el-button v-else type="primary" @click="formUpdate('editForm')">修 改</el-button>
       </div>
     </el-dialog>
+
+    <!-- // tree dialog -->
+    <el-dialog :title="dialogTitleMap[dialogStatus]" :visible.sync="treeDialogVisible">
+      <el-tree
+        class="filter-tree"
+        :data="treeDeptData"
+        :default-checked-keys="treeCheckedKeys"
+        check-strictly
+        node-key="id"
+        highlight-current
+        ref="deptTree"
+        :props="treeDefaultProps"
+        @node-click="getTreeNodeData"
+        default-expand-all>
+      </el-tree>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { fetchUserList, delByUserId, addUser, fetchUserByUserId, updateUser } from '@/api/user'
-import { fetchRoleList } from '@/api/role'
+import { fetchDeptTree } from '@/api/dept'
+import { fetchRoleListByDeptId } from '@/api/role'
 import { mapGetters } from 'vuex'
 import waves from '@/directive/waves/index.js' // 点击按钮时候显示水波纹动画
 export default {
@@ -117,11 +139,13 @@ export default {
         password: '',
         statu: '',
         deptName: '',
+        deptId: '',
         roleId: ''
       },
       editFormRules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }, { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }, { min: 5, max: 10, message: '长度在 5 到 10 个字符', trigger: 'blur' }],
+        deptId: [{ required: true, message: '请选择部门', trigger: 'blur' }],
         roleId: [{ required: true, message: '请选择角色', trigger: 'blur' }],
         statu: [{ required: true, message: '请选择状态', trigger: 'blur' }]
       },
@@ -129,12 +153,18 @@ export default {
       editIsDisabled: {
         0: false, 1: true
       },
-      statusOptions: [0, 1]
+      statusOptions: [0, 1],
+      treeDialogVisible: false, // 部门弹出选择
+      treeDeptData: [],
+      treeCheckedKeys: [],
+      treeDefaultProps: {
+        children: 'children',
+        label: 'name'
+      }
     }
   },
   created() {
     this.getUserList()
-    this.getRoleList()
     // 设置权限，后续将采用动态方式
     this.user_upd = this.permissions['user_upd']
     this.user_del = this.permissions['user_del']
@@ -147,11 +177,6 @@ export default {
         this.list = res.data.list
         this.total = res.data.total
         this.listLoading = false
-      })
-    },
-    getRoleList() {
-      fetchRoleList().then(res => {
-        this.editRolesOptions = res.data
       })
     },
     handleAdd() { // 添加
@@ -217,8 +242,8 @@ export default {
         this.editForm.username = res.data.username
         this.editForm.password = ''
         this.editForm.statu = res.data.statu
+        this.editForm.deptId = res.data.deptId
         this.editForm.userId = res.data.userId
-        this.editForm.roleId = res.data.roleList.length > 0 ? res.data.roleList[0].roleId : ''
       })
     },
     formUpdate(_from) {
@@ -242,8 +267,26 @@ export default {
         username: '',
         password: '',
         statu: '',
+        deptName: '',
+        deptId: '',
         roleId: ''
       }
+    },
+    handleDept() { // 加载部门信息
+      fetchDeptTree().then(res => {
+        this.treeDeptData = res.data
+        this.treeDialogVisible = true
+      })
+    },
+    getTreeNodeData(data) {
+      this.treeDialogVisible = false
+      this.editForm.deptId = data.id
+      this.editForm.deptName = data.name
+      this.editForm.roleId = ''
+      // 查询部门权限
+      fetchRoleListByDeptId(data.id).then(res => {
+        this.editRolesOptions = res.data
+      })
     }
   },
   computed: {

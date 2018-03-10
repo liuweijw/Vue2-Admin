@@ -27,6 +27,7 @@ Mock.mock(/\/admin\/role\/listByDeptId\/2/, 'get', roleAPI.listByDeptId)
 Mock.mock(/\/admin\/role\/listByDeptId\/3/, 'get', roleAPI.listByDeptId)
 Mock.mock(/\/admin\/role\/listByDeptId\/4/, 'get', roleAPI.listByDeptId)
 Mock.mock(/\/admin\/role\/listByDeptId\/5/, 'get', roleAPI.listByDeptId)
+Mock.mock(/\/admin\/role\/list/, 'get', roleAPI.fetchRoleList)
 
 // 部门相关
 Mock.mock(/\/admin\/dept\/tree/, 'get', deptAPI.deptTree)
