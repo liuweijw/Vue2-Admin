@@ -54,7 +54,7 @@ const permission = {
           if (roles.indexOf('ROLE_ADMIN') >= 0) {
             accessedRouters = asyncRouterMap
           } else {
-            accessedRouters = filterAsyncRouter(asyncRouterMap, res)
+            accessedRouters = filterAsyncRouter(asyncRouterMap, res.data)
           }
           commit('SET_ROUTERS', accessedRouters)
           resolve()

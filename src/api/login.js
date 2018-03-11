@@ -33,7 +33,7 @@ export function logout(accesstoken, refreshToken) {
 
 export function getUserInfo() {
   return request({
-    url: '/admin/user/info',
+    url: '/admin/api/info',
     method: 'get'
   })
 }
