@@ -25,7 +25,7 @@ export function loginByUsername(username, password) {
 
 export function logout(accesstoken, refreshToken) {
   return request({
-    url: '/auth/removeToken',
+    url: '/auth/auth/removeToken',
     method: 'post',
     params: { accesstoken, refreshToken }
   })
