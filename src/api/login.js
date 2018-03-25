@@ -23,11 +23,11 @@ export function loginByUsername(username, password) {
   })
 }
 
-export function logout(accesstoken, refreshToken) {
+export function logout(accesstoken) {
   return request({
     url: '/auth/auth/removeToken',
     method: 'post',
-    params: { accesstoken, refreshToken }
+    params: { accesstoken }
   })
 }
 
@@ -37,4 +37,3 @@ export function getUserInfo() {
     method: 'get'
   })
 }
-
