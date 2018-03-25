@@ -10,8 +10,8 @@ import deptAPI from './dept'
 // 登录相关
 Mock.mock(/\/auth\/oauth\/token/, 'post', loginAPI.loginByUsername)
 Mock.mock(/\/auth\/removeToken/, 'post', loginAPI.logout)
-Mock.mock(/\/admin\/user\/info\.*/, 'get', loginAPI.getUserInfo)
-Mock.mock(/\/admin\/menu\/userTree/, 'get', loginAPI.getUserTree)
+Mock.mock(/\/admin\/api\/info\.*/, 'get', loginAPI.getUserInfo)
+Mock.mock(/\/admin\/api\/userTree/, 'get', loginAPI.getUserTree)
 
 // 用户模块
 Mock.mock(/\/admin\/user\/list\.*/, 'get', userAPI.fetchUserList)
