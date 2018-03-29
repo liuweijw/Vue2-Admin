@@ -56,6 +56,7 @@ npm run lint -- --fix
 ![image](src/assets/temp/2.png)
 ![image](src/assets/temp/3.png)
 ![image](src/assets/temp/4.png)
+![image](src/assets/temp/7.png)
 ![image](src/assets/temp/5.png)
 ![image](src/assets/temp/6.png)
 
