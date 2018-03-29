@@ -13,7 +13,9 @@ export default {
     menu_manage: '系统管理',
     menu_user: '用户管理',
     menu_role: '系统角色',
-    modify: '修改'
+    modify: '修改',
+    menu_map: '地图',
+    menu_example: '嵌套组件'
   },
   navbar: {
     logOut: '退出登录',

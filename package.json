@@ -9,7 +9,7 @@
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build:prod": "cross-env NODE_ENV=production env_config=prod node build/build.js",
     "build:sit": "cross-env NODE_ENV=production env_config=sit node build/build.js",
-    "lint": "eslint --ext .js,.vue src",
+    "lint": "eslint --ext .js,.vue src --fix",
     "test": "npm run lint"
   },
   "dependencies": {
@@ -60,7 +60,7 @@
     "eslint": "4.13.1",
     "eslint-friendly-formatter": "3.0.0",
     "eslint-loader": "1.9.0",
-    "eslint-plugin-html": "4.0.1",
+    "eslint-plugin-html": "^4.0.2",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "friendly-errors-webpack-plugin": "1.6.1",

@@ -13,7 +13,9 @@ export default {
     menu_manage: 'System',
     menu_user: 'User',
     menu_role: 'Role',
-    modify: 'Modify'
+    modify: 'Modify',
+    menu_map: 'Map',
+    menu_example: 'Example'
   },
   navbar: {
     logOut: 'Log Out',

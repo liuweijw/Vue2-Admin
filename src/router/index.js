@@ -73,8 +73,52 @@ export const asyncRouterMap = [
       icon: 'people'
     },
     children: [
-      { menuId: 2, path: 'user', component: _import('admin/user/index'), name: 'menu_user', meta: { title: 'menu_user', icon: 'user' }},
+      {
+        menuId: 2,
+        path: 'user',
+        component: _import('admin/user/index'),
+        name: 'menu_user',
+        meta: {
+          title: 'menu_user',
+          icon: 'user'
+        }
+      },
       { menuId: 3, hidden: true, path: 'role', component: _import('admin/role/index'), name: 'menu_role', meta: { title: 'menu_role', icon: 'role' }}
+    ]
+  },
+  {
+    menuId: 4,
+    path: '/example',
+    component: Layout,
+    name: 'menu_example',
+    hidden: false,
+    redirect: 'noredirect', // == /admin/user
+    meta: {
+      title: 'menu_example',
+      icon: 'example'
+    },
+    children: [
+      {
+        menuId: 5,
+        path: 'map',
+        component: _import('example/map/index'),
+        name: 'menu_map',
+        meta: {
+          title: 'menu_map',
+          icon: 'table'
+        }
+      },
+      {
+        menuId: 6,
+        path: 'orther',
+        component: _import('example/orther/index'),
+        name: 'menu_map',
+        hidden: true,
+        meta: {
+          title: 'menu_map',
+          icon: 'example'
+        }
+      }
     ]
   },
   { path: '*', redirect: '/404', hidden: true }
