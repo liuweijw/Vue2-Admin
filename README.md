@@ -51,17 +51,11 @@ npm run lint
 # auto fix
 npm run lint -- --fix
 ```
-## 效果图
-![image](src/assets/temp/1.png)
-![image](src/assets/temp/2.png)
-![image](src/assets/temp/3.png)
-![image](src/assets/temp/4.png)
-![image](src/assets/temp/7.png)
-![image](src/assets/temp/5.png)
-![image](src/assets/temp/6.png)
 
 ## 感谢
 
 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
 
-[Vue2-All](https://github.com/liuweijw/Vue2-All)
+[Vue2-Admin](https://github.com/liuweijw/Vue2-Admin)
+
+[AVUE](https://gitee.com/smallweigit/avue.git)

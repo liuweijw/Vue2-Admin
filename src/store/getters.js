@@ -1,18 +1,20 @@
+
 const getters = {
-  sidebar: state => state.app.sidebar,
-  language: state => state.app.language,
-  visitedViews: state => state.tagsView.visitedViews,
-  cachedViews: state => state.tagsView.cachedViews,
+  tag: state => state.tags.tag,
+  userInfo: state => state.user.userInfo,
+  isCollapse: state => state.common.isCollapse,
+  isLock: state => state.common.isLock,
+  isFullScren: state => state.common.isFullScren,
+  lockPasswd: state => state.common.lockPasswd,
+  tagList: state => state.tags.tagList,
+  tagCurrent: state => state.tags.tagCurrent,
+  tagWel: state => state.tags.tagWel,
   token: state => state.user.token,
-  picUrl: state => state.user.picUrl,
-  name: state => state.user.name,
-  introduction: state => state.user.introduction,
-  status: state => state.user.status,
   roles: state => state.user.roles,
-  setting: state => state.user.setting,
-  permissions: state => state.user.permissions,
-  permission_routers: state => state.permission.routers,
-  addRouters: state => state.permission.addRouters,
-  errorLogs: state => state.errorLog.logs
+  permission: state => state.user.permission,
+  menu: state => state.user.menu,
+  menuIds: state => state.user.menuIds,
+  menuAll: state => state.user.menuAll,
+  errLog: state => state.errLog.errLog
 }
 export default getters

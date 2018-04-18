@@ -1,4 +1,4 @@
-import request from '@/utils/request'
+import request from '@/util/request'
 
 export function fetchRoleListByDeptId(deptId) {
   return request({

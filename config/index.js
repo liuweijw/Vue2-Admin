@@ -1,41 +1,51 @@
-'use strict'
-// Template version: 1.2.6
 // see http://vuejs-templates.github.io/webpack for documentation.
-
-const path = require('path')
+var path = require('path')
+var apiBaseURL = 'http://120.79.84.65:1003'
 
 module.exports = {
-  dev: {
-
-    // Paths
+  build: {
+    env: require('./prod.env'),
+    index: path.resolve(__dirname, '../dist/index.html'),
+    assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
+    assetsPublicPath: './',
+    productionSourceMap: false,
+    // Gzip off by default as many popular static hosts such as
+    // Surge or Netlify already gzip all static assets for you.
+    // Before setting to `true`, make sure to:
+    // npm install --save-dev compression-webpack-plugin
+    productionGzip: false,
+    productionGzipExtensions: ['js', 'css'],
+    // Run the build command with an extra argument to
+    // View the bundle analyzer report after build finishes:
+    // `npm run build --report`
+    // Set to `true` or `false` to always turn it on or off
+    bundleAnalyzerReport: process.env.npm_config_report
+  },
+  dev: {
+    env: require('./dev.env'),
+    port: 9527,
+    autoOpenBrowser: true,
+    assetsSubDirectory: 'static',
+    host: '127.0.0.1',
     assetsPublicPath: '/',
     proxyTable: {
       // 采用网关的方式进行访问接口数据请打开下面注释，否则将采用mock的方式进行获取本地数据
-      // '/auth': {
-      //   target: 'http://localhost:1003',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/auth': '/auth'
-      //   }
-      // },
-      // '/admin': {
-      //   target: 'http://localhost:1003',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/admin': '/admin'
-      //   }
-      // }
-      // 为方便调试其它业务，将网关、授权等模块关闭，基础登录数据采用mock方式获取，仅用于本地调试方便
-      '/admin': {
-        target: 'http://localhost:2002',
+      '/auth': {
+        target: apiBaseURL,
         changeOrigin: true,
         pathRewrite: {
-          '^/admin': ''
+          '^/auth': '/auth'
+        }
+      },
+      '/admin': {
+        target: apiBaseURL,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/admin': '/admin'
         }
       }
     },
-
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 9527, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
@@ -69,39 +79,6 @@ module.exports = {
     // (https://github.com/webpack/css-loader#sourcemaps)
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
-    cssSourceMap: false,
-  },
-
-  build: {
-    // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
-
-    // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-
-    // you can set by youself according to actual condition
-    assetsPublicPath: './',
-
-    /**
-     * Source Maps
-     */
-
-    productionSourceMap: false,
-    // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
-
-    // Gzip off by default as many popular static hosts such as
-    // Surge or Netlify already gzip all static assets for you.
-    // Before setting to `true`, make sure to:
-    // npm install --save-dev compression-webpack-plugin
-    productionGzip: false,
-    productionGzipExtensions: ['js', 'css'],
-
-    // Run the build command with an extra argument to
-    // View the bundle analyzer report after build finishes:
-    // `npm run build --report`
-    // Set to `true` or `false` to always turn it on or off
-    bundleAnalyzerReport: process.env.npm_config_report
+    cssSourceMap: false
   }
 }

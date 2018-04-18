@@ -22,7 +22,7 @@
 
 <script>
 import icons from './generateIconsView'
-import clipboard from '@/utils/clipboard'
+import clipboard from '@/directive/clipboard'
 
 export default {
   name: 'icons',
