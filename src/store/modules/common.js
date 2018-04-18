@@ -1,5 +1,4 @@
 import { setStore, getStore, removeStore } from '@/util/store'
-import { getDic } from '@/api/admin'
 const common = {
   state: {
     isCollapse: false,
@@ -7,22 +6,7 @@ const common = {
     isLock: getStore({ name: 'isLock' }) || false,
     lockPasswd: getStore({ name: 'lockPasswd' }) || ''
   },
-  actions: {
-    // 获取字典公用类
-    GetDic({ commit, state, dispatch }, dic) {
-      return new Promise((resolve, reject) => {
-        if (dic instanceof Array) {
-          Promise.all(dic.map(ele => getDic(ele))).then(data => {
-            const result = {}
-            dic.forEach((ele, index) => {
-              result[ele] = data[index].data
-            })
-            resolve(result)
-          })
-        }
-      })
-    }
-  },
+  actions: {},
   mutations: {
     SET_COLLAPSE: (state, action) => {
       state.isCollapse = !state.isCollapse

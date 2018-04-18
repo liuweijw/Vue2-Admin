@@ -42,9 +42,9 @@
         <el-row :gutter="20" :span="24">
           <template v-for="(column,index) in tableOption.column">
             <el-col :span="column.span||12" v-if="!column.visdiplay" :key="index">
-              <el-form-item :label="column.label" :prop="column.prop">
+              <el-form-item :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,tableOption.labelWidth || 80)">
                 <slot :value="tableForm[column.prop]" :column="column" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop+'Form'" v-if="column.formsolt"></slot>
-                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?(column.addDisabled!=undefined?column.addDisabled:column.disabled):column.disabled"></component>
+                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :size="column.size" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?(column.addDisabled!=undefined?column.addDisabled:column.disabled):column.disabled"></component>
               </el-form-item>
             </el-col>
           </template>
@@ -60,7 +60,6 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
 import crud from 'avue/mixins/crud.js'
 export default {
   name: 'AvueCrud',
@@ -138,7 +137,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['GetDic']),
     rulesInit() {
       this.tableFormRules = {}
       this.tableOption.column.forEach(ele => {

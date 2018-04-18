@@ -2,7 +2,7 @@ export const userOption = {
   border: true, // 表格是否显示边框 default:false
   index: true,  // 表格是否显示序号 default:false
   selection: false, // 表格是否显示可选select default:false
-  dic: ['STATU'],
+  dic: ['STATU', 'GRADE'],
   column: [
     {
       label: '用户名',
@@ -14,6 +14,7 @@ export const userOption = {
       label: '角色',
       prop: 'roleDesc',
       type: 'select',
+      dicData: 'GRADE',
       dataDetail: row => { // 对列表数据处理
         let rDesc = ''
         row.roleList.forEach(r => {
