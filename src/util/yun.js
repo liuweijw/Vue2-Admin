@@ -1,4 +1,6 @@
 import { Notification, Message } from 'element-ui'
+import { validatenull } from './validate'
+import { getStore } from '@/util/store'
 /**
  * 获取url参数
  */
@@ -13,8 +15,7 @@ export const parseParam = (param) => {
 
   if (param instanceof Object) {
     for (const o in param) {
-      // eslint-disable-next-line
-      if (!vaildUtil.ifnull(param[o])) {
+      if (!validatenull(param[o])) {
         paramStr = `${paramStr}${o}=${param[o]}&`
       }
     }
@@ -226,8 +227,7 @@ export const formatJson = function(json, options) {
  * 查找字符串是否存在
  */
 export const findStrArray = (dic, value) => {
-  // eslint-disable-next-line
-  if (!vaildUtil.ifnull(dic)) {
+  if (!validatenull(dic)) {
     for (let i = 0; i < dic.length; i++) {
       if (dic[i] === value) {
         return i
@@ -281,10 +281,8 @@ export const validObj = (olds, news) => {
  * 数据转换器
  */
 export const dataFormat = (data, type) => {
-  // eslint-disable-next-line
-  data = getSessionStore(data) || getStore(data) || null
-  // eslint-disable-next-line
-  if (vaildUtil.ifnull(data)) return undefined
+  data = getStore(data) || null
+  if (validatenull(data)) return undefined
   if (type === 1) {	// 转json对象
     return JSON.parse(data)
   } else if (type === 2) { // 转Boolean对象

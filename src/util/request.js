@@ -1,26 +1,18 @@
-/**
- *
- * http配置
- *
- */
-// 引入axios以及element ui中的loading和message组件
 import axios from 'axios'
 import store from '../store'
 import { getToken } from '@/util/auth'
-import { Loading, Message } from 'element-ui'
+import { Message } from 'element-ui'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css'// progress bar style
 // 超时时间
-if (store.online) axios.defaults.timeout = 30000
-else axios.defaults.timeout = 0
+axios.defaults.timeout = 10000
 // 跨域请求，允许保存cookie
 axios.defaults.withCredentials = true
-
-let loadinginstace
+NProgress.configure({ showSpinner: false })// NProgress Configuration
 
 // request interceptor
 axios.interceptors.request.use(config => {
-  loadinginstace = Loading.service({
-    fullscreen: true
-  })
+  NProgress.start() // start progress bar
   if (store.getters.token) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
   }
@@ -32,7 +24,7 @@ axios.interceptors.request.use(config => {
 
 // respone interceptor
 axios.interceptors.response.use(response => {
-  loadinginstace.close()
+  NProgress.done()
   const res = response.data
   if (res.code === -1) {
     message(res.msg, 'error')
@@ -40,8 +32,7 @@ axios.interceptors.response.use(response => {
   }
   return res
 }, error => {
-  loadinginstace.close()
-
+  NProgress.done()
   const res = error.response
   console.log(res.status)
   if (res.status === 401) {

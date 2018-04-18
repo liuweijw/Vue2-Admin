@@ -1,5 +1,5 @@
 import { userTableData, roleTableData } from '@/mock/admin'
-import { DIC } from '@/const/dic'
+import { DIC } from 'avue/const/dic'
 export const getUserData = (page) => {
   return new Promise((resolve, reject) => {
     resolve({ data: userTableData })

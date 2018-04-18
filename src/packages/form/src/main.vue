@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import crud from 'avue/mixins/crud'
 export default {
   name: 'AvueForm',
@@ -83,7 +82,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['GetDic']),
     rulesInit() {
       this.formRules = {}
       this.formOption.column.forEach(ele => {
@@ -112,9 +110,7 @@ export default {
       this.form = Object.assign({}, form)
     },
     formVal() {
-      for (const o in this.value) {
-        this.form[o] = this.value[o]
-      }
+      this.form = this.value
       this.$emit('input', this.form)
     },
     handleSubmit() {

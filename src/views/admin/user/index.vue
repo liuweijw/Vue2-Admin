@@ -7,7 +7,7 @@
     </div>
     <avue-crud :tableOption="tableOption" :tableData="tableData" :tableLoading="tableLoading" :page="page" ref="crud" width="290" @handleSave="handleSave" @handleUpdate="handleUpdate" @handleDel="handleDel" menu>
       <template slot-scope="scope" slot="statu">
-        <el-tag :type="scope.row.statu==0?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
+        <el-tag :type="scope.row.statu===0?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
       </template>
     </avue-crud>
   </div>
