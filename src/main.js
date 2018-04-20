@@ -15,7 +15,8 @@ import i18n from './lang' // Internationalization
 import './icons' // icon
 import './errorLog'// error log
 import './permission' // permission control
-import './mock' // simulation data
+// 采用mock方式请打开下面注释
+// import './mock' // simulation data
 
 import * as filters from './filters' // global filters
 
