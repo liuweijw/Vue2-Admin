@@ -3,8 +3,7 @@
 `Vue2-admin` 是基于 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 一个后台包含登录、权限管理的精简版本，可以在基础上进行业务开发
 
 ## 在线访问
-* [Vue2-Admin master分支](http://47.106.144.24/mall/index.html)
-* [Vue2-Admin master-avue分支，开发中](http://47.106.144.24/vue/index.html)
+* [Vue2-Admin 点击访问](http://47.106.144.24/mall/index.html)
 
 ## 前序准备
 
