@@ -1,12 +1,39 @@
 <template>
   <div class="table-container pull-height">
     <div class="table-header">
-      <el-input style="width: 200px;" size="medium" class="filter-item" placeholder="用户名" v-model="listPageParams.username" @keyup.enter.native="handleSearch"></el-input>
-      <el-button class="filter-item" size="small" type="primary" v-waves icon="search" @click="handleSearch()">搜索</el-button>
-      <el-button v-if="permission.user_add" class="filter-item" size="small" style="margin-left: 10px;" type="primary" icon="edit" v-waves @click="handleAdd()">新 增</el-button>
+      <el-input style="width: 200px;"
+                size="medium"
+                class="filter-item"
+                placeholder="用户名"
+                v-model="listPageParams.username"
+                @keyup.enter.native="handleSearch"></el-input>
+      <el-button class="filter-item"
+                 size="small"
+                 type="primary"
+                 v-waves
+                 icon="search"
+                 @click="handleSearch()">搜索</el-button>
+      <el-button v-if="permission.user_add"
+                 class="filter-item"
+                 size="small"
+                 style="margin-left: 10px;"
+                 type="primary"
+                 icon="edit"
+                 v-waves
+                 @click="handleAdd()">新 增</el-button>
     </div>
-    <avue-crud :tableOption="tableOption" :tableData="tableData" :tableLoading="tableLoading" :page="page" ref="crud" width="290" @handleSave="handleSave" @handleUpdate="handleUpdate" @handleDel="handleDel" menu>
-      <template slot-scope="scope" slot="statu">
+    <avue-crud :table-option="tableOption"
+               :table-data="tableData"
+               :table-loading="tableLoading"
+               :page="page"
+               ref="crud"
+               width="290"
+               @row-save="handleSave"
+               @row-update="handleUpdate"
+               @row-del="handleDel"
+               menu>
+      <template slot-scope="scope"
+                slot="statu">
         <el-tag :type="scope.row.statu===0?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
       </template>
     </avue-crud>
@@ -55,7 +82,7 @@ export default {
     this.user_add = this.permission['user_add']
   },
   watch: {},
-  mounted() {},
+  mounted() { },
   computed: {
     ...mapGetters(['permission'])
   },
@@ -82,6 +109,7 @@ export default {
      * @detail 调用crud的findByvalue方法即可
      **/
     findByvalue(dic, value) {
+      console.log('===========' + dic.label + '===' + value)
       return this.$refs.crud.findByvalue(dic, value)
     },
     /**

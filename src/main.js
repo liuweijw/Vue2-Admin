@@ -15,7 +15,7 @@ import './styles/common.scss'
 // eslint-disable-next-line
 import ELEMENT from 'element-ui'
 // eslint-disable-next-line
-import AVUE from '@/packages/index.js'
+import AVUE from '../packages/index.js';
 
 Vue.use(VueAxios, axios)
 

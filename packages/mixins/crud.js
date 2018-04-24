@@ -13,7 +13,7 @@ export default function() {
     props: {
       dicUrl: {
         type: String,
-        default: 'http://47.106.144.24:1003/admin/dict/type'
+        default: '/admin/dict/type'
       }
     },
     components: {
@@ -34,19 +34,21 @@ export default function() {
             return
           }
           list.forEach(ele => {
-            result.push(new Promise((resolve, reject) => {
-              if (!validatenull(DIC[ele])) {
-                resolve(DIC[ele])
-              } else {
-                if (validatenull(this.dicUrl)) {
-                  resolve([])
+            result.push(
+              new Promise((resolve, reject) => {
+                if (!validatenull(DIC[ele])) {
+                  resolve(DIC[ele])
                 } else {
-                  this.$http.get(`${this.dicUrl}/${ele}`).then(response => {
-                    resolve(validatenull(response.data.data) ? [] : response.data.data)
-                  })
+                  if (validatenull(this.dicUrl)) {
+                    resolve([])
+                  } else {
+                    this.$http.get(`${this.dicUrl}/${ele}`).then(response => {
+                      resolve(validatenull(response.data) ? [] : response.data)
+                    })
+                  }
                 }
-              }
-            }))
+              })
+            )
           })
           const value = {}
           Promise.all(result).then(data => {

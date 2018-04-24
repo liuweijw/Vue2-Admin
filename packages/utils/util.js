@@ -5,7 +5,7 @@ import { validatenull } from './validate'
 export const findByvalue = (dic, value) => {
   let result = ''
   if (validatenull(dic)) return value
-  if (typeof (value) === 'string' || typeof (value) === 'number') {
+  if (typeof value === 'string' || typeof value === 'number') {
     let index = 0
     index = findArray(dic, value)
     if (index !== -1) {
@@ -45,7 +45,7 @@ export const findByvalue = (dic, value) => {
  */
 export const findArray = (dic, value) => {
   for (let i = 0; i < dic.length; i++) {
-    if (dic[i].value === value) {
+    if (dic[i].value === value + '') {
       return i
     }
   }
@@ -55,7 +55,7 @@ export const findArray = (dic, value) => {
  * 获取字典
  */
 export const setDic = (dicData, DIC) => {
-  return (typeof (dicData) === 'string') ? DIC : dicData
+  return typeof dicData === 'string' ? DIC : dicData
 }
 /**
  * 设置px
@@ -73,7 +73,7 @@ export const setPx = (val, defval) => {
 /**
  * 动态获取组件
  */
-export const getComponent = (type) => {
+export const getComponent = type => {
   if (type === 'select') {
     return 'crudSelect'
   } else if (type === 'radio') {

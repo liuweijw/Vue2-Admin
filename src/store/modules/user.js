@@ -1,7 +1,15 @@
 import { setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
 import { validatenull } from '@/util/validate'
-import { loginByUsername, getUserInfo, getUserTree, getTableData, getMenu, logout, getMenuAll } from '@/api/user'
+import {
+  loginByUsername,
+  getUserInfo,
+  getUserTree,
+  getTableData,
+  getMenu,
+  logout,
+  getMenuAll
+} from '@/api/user'
 const user = {
   state: {
     userInfo: {},
@@ -13,16 +21,21 @@ const user = {
     menuIds: []
   },
   actions: {
-        // 根据用户名登录
+    // 根据用户名登录
     LoginByUsername({ commit, state, dispatch }, userInfo) {
-            // const user = encryption({
-            //     data: userInfo,
-            //     type: 'Aes',
-            //     key: 'avue',
-            //     param: ['useranme', 'password']
-            // });
+      // const user = encryption({
+      //     data: userInfo,
+      //     type: 'Aes',
+      //     key: 'avue',
+      //     param: ['useranme', 'password']
+      // });
       return new Promise((resolve, reject) => {
-        loginByUsername(userInfo.username, userInfo.password, userInfo.code, userInfo.redomStr).then(res => {
+        loginByUsername(
+          userInfo.username,
+          userInfo.password,
+          userInfo.code,
+          userInfo.redomStr
+        ).then(res => {
           commit('SET_TOKEN', res.access_token)
           commit('DEL_ALL_TAG')
           commit('CLEAR_LOCK')
@@ -31,7 +44,7 @@ const user = {
         })
       })
     },
-        // 根据手机号登录
+    // 根据手机号登录
     LoginByPhone({ commit, state, dispatch }, userInfo) {
       return new Promise((resolve, reject) => {
         loginByUsername(userInfo.phone, userInfo.code).then(res => {
@@ -53,7 +66,7 @@ const user = {
     },
     GetUserInfo({ commit, state, dispatch }) {
       return new Promise((resolve, reject) => {
-        getUserInfo().then((res) => {
+        getUserInfo().then(res => {
           const data = res.data
           const userInfo = {
             username: data.user.username,
@@ -69,28 +82,30 @@ const user = {
     },
     GetUserTree({ commit, state, dispatch }) {
       return new Promise((resolve, reject) => {
-        getUserTree().then((res) => {
+        getUserTree().then(res => {
           commit('SET_MENU_IDS', res.data)
           resolve()
         })
       })
     },
-        // 登出
+    // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          commit('DEL_ALL_TAG')
-          commit('CLEAR_LOCK')
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
+        logout(state.token)
+          .then(() => {
+            commit('SET_TOKEN', '')
+            commit('SET_ROLES', [])
+            commit('DEL_ALL_TAG')
+            commit('CLEAR_LOCK')
+            removeToken()
+            resolve()
+          })
+          .catch(error => {
+            reject(error)
+          })
       })
     },
-        // 注销session
+    // 注销session
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
@@ -100,27 +115,26 @@ const user = {
         resolve()
       })
     },
-        // 获取系统菜单
+    // 获取系统菜单
     GetMenu({ commit }, parentId) {
       return new Promise(resolve => {
-        getMenu(parentId).then((res) => {
+        getMenu(parentId).then(res => {
           const data = res.data
           commit('SET_MENU', data)
           resolve(data)
         })
       })
     },
-        // 获取全部菜单
+    // 获取全部菜单
     GetMenuAll({ commit }) {
       return new Promise(resolve => {
-        getMenuAll().then((res) => {
+        getMenuAll().then(res => {
           const data = res.data
           commit('SET_MENU_ALL', data)
           resolve(data)
         })
       })
     }
-
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -170,6 +184,5 @@ const user = {
       state.menuIds = menuIds
     }
   }
-
 }
 export default user

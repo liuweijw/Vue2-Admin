@@ -28,7 +28,7 @@ export default {
     },
     minRows: {
       type: Number,
-      default: -Infinity // Infinity 属性用于存放表示正无穷大的数值
+      default: -Infinity
     },
     maxRows: {
       type: Number,

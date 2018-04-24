@@ -4,7 +4,7 @@ import { validatenull } from './validate'
  * 获取字典
  */
 export const setDic = (dicData, DIC) => {
-  return (typeof (dicData) === 'string') ? DIC : dicData
+  return typeof dicData === 'string' ? DIC : dicData
 }
 /**
  * 设置px
@@ -22,7 +22,7 @@ export const setPx = (val, defval) => {
 /**
  * 动态获取组件
  */
-export const getComponent = (type) => {
+export const getComponent = type => {
   if (type === 'select') {
     return 'crudSelect'
   } else if (type === 'radio') {
@@ -38,7 +38,7 @@ export const getComponent = (type) => {
 /**
  * 加密处理
  */
-export const encryption = (params) => {
+export const encryption = params => {
   const { data, type, param, key } = params
   const result = JSON.parse(JSON.stringify(data))
   if (type === 'Base64') {
@@ -74,7 +74,7 @@ export const fullscreenToggel = () => {
 /**
  * esc监听全屏
  */
-export const listenfullscreen = (callback) => {
+export const listenfullscreen = callback => {
   function listen() {
     callback()
   }
@@ -95,10 +95,11 @@ export const listenfullscreen = (callback) => {
  * 浏览器判断是否全屏
  */
 export const fullscreenEnable = () => {
-  var isFullscreen = document.fullscreenEnabled ||
-        window.fullScreen ||
-        document.mozFullscreenEnabled ||
-        document.webkitIsFullScreen
+  var isFullscreen =
+    document.fullscreenEnabled ||
+    window.fullScreen ||
+    document.mozFullscreenEnabled ||
+    document.webkitIsFullScreen
   return isFullscreen
 }
 
@@ -161,7 +162,7 @@ export const resolveUrlPath = (url, name) => {
 /**
  * 总体路由设置器
  */
-export const setUrlPath = ($route) => {
+export const setUrlPath = $route => {
   let value = ''
   if ($route.query.src) {
     value = $route.query.src
@@ -182,52 +183,15 @@ export const loadStyle = url => {
   const head = document.getElementsByTagName('head')[0]
   head.appendChild(link)
 }
-/**
- * 根据字典的value显示label
- */
-export const findByvalue = (dic, value) => {
-  let result = ''
-  if (validatenull(dic)) return value
-  if (typeof (value) === 'string' || typeof (value) === 'number') {
-    let index = 0
-    index = findArray(dic, value)
-    if (index !== -1) {
-      result = dic[index].label
-    } else {
-      result = value
-    }
-  } else if (value instanceof Array) {
-    result = []
-    let index = 0
-    value.forEach(ele => {
-      index = findArray(dic, ele)
-      if (index !== -1) {
-        result.push(dic[index].label)
-      } else {
-        result.push(value)
-      }
-    })
-    result = result.toString()
-  }
-  return result
-}
-/**
- * 根据字典的value查找对应的index
- */
-export const findArray = (dic, value) => {
-  for (let i = 0; i < dic.length; i++) {
-    if (dic[i].value === value) {
-      return i
-    }
-  }
-  return -1
-}
+
 /**
  * 生成随机len位数字
  */
 export const randomLenNum = (len, date) => {
   let random = ''
-  random = Math.ceil(Math.random() * 100000000000000).toString().substr(0, len || 4)
+  random = Math.ceil(Math.random() * 100000000000000)
+    .toString()
+    .substr(0, len || 4)
   if (date) random = random + Date.now()
   return random
 }
