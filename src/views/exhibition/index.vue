@@ -1,20 +1,24 @@
 <template>
   <div class="exhibition-contailer  pull-chheight">
 
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="pull-auto"
+         style="margin-top:20px;">
       <h4>选项卡展示</h4>
       <boxData :option="easyDataOption"></boxData>
     </div>
 
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="pull-auto"
+         style="margin-top:20px;">
       <h4>卡片的展示</h4>
       <cardData :option="easyDataOption0"></cardData>
     </div>
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="pull-auto"
+         style="margin-top:20px;">
       <h4>带数字的展示</h4>
       <easyData :option="easyDataOption1"></easyData>
     </div>
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="pull-auto"
+         style="margin-top:20px;">
       <h4>简易展示</h4>
       <easyData :option="easyDataOption2"></easyData>
     </div>
@@ -81,22 +85,22 @@ export default {
         data: [
           {
             name: '姓名1',
-            src: 'static/img/mock/card/card-1.jpg',
+            src: './static/img/mock/card/card-1.jpg',
             text: '介绍1'
           },
           {
             name: '姓名2',
-            src: 'static/img/mock/card/card-2.jpg',
+            src: './static/img/mock/card/card-2.jpg',
             text: '介绍2'
           },
           {
             name: '姓名3',
-            src: 'static/img/mock/card/card-3.jpg',
+            src: './static/img/mock/card/card-3.jpg',
             text: '介绍3'
           },
           {
             name: '姓名4',
-            src: 'static/img/mock/card/card-4.jpg',
+            src: './static/img/mock/card/card-4.jpg',
             text: '介绍4'
           }
         ]
@@ -170,9 +174,9 @@ export default {
       }
     }
   },
-  created() {},
+  created() { },
   watch: {},
-  mounted() {},
+  mounted() { },
   computed: {}
 }
 </script>

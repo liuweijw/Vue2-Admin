@@ -1,6 +1,12 @@
 <template>
-  <iframe v-if="$route.query.src" :src='$route.query.src' class="iframe" ref="iframe"></iframe>
-  <iframe v-else :src="urlPath" class="iframe" ref="iframe"></iframe>
+  <iframe v-if="$route.query.src"
+          :src='$route.query.src'
+          class="iframe"
+          ref="iframe"></iframe>
+  <iframe v-else
+          :src="urlPath"
+          class="iframe"
+          ref="iframe"></iframe>
 </template>
 
 <script>

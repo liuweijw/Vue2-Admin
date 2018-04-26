@@ -2,9 +2,12 @@
   <div class="pull-auto easyData-contailer">
     <el-row :span="24">
       <template v-for="(item,index) in data">
-        <el-col :span="span" :key="index">
-          <div class="item" :class="[{'item--easy':discount}]">
-            <div class="item-icon" :style="{color:color}">
+        <el-col :span="span"
+                :key="index">
+          <div class="item"
+               :class="[{'item--easy':discount}]">
+            <div class="item-icon"
+                 :style="{color:color}">
               <i :class="item.icon"></i>
             </div>
             <div class="item-info">

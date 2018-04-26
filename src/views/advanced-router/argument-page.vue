@@ -1,12 +1,17 @@
 <template>
   <div class="pull-chheight">
-    <avue-crud :table-option="tableOption" :table-data="tableData">
-      <template slot-scope="scope" slot="git">
-        <a :href="scope.row.git" target="_blank">{{scope.row.git}}</a>
+    <avue-crud :table-option="tableOption"
+               :table-data="tableData">
+      <template slot-scope="scope"
+                slot="git">
+        <a :href="scope.row.git"
+           target="_blank">{{scope.row.git}}</a>
       </template>
-      <template slot-scope="scope" slot="menu">
+      <template slot-scope="scope"
+                slot="menu">
         <router-link :to="{path:'/advanced-router/argument-detail',query:{id:scope.row.id,name:`${scope.row.name}的参数路由详情`}}">
-          <el-button icon="el-icon-check" size="small">
+          <el-button icon="el-icon-check"
+                     size="small">
             详情
           </el-button>
         </router-link>
@@ -27,7 +32,7 @@ export default {
       tableOption: tableOption
     }
   },
-  created() {},
+  created() { },
   computed: {},
   methods: {}
 }

@@ -1,19 +1,34 @@
 <template>
   <div class="generator-container  pull-chheight">
-    <avue-form :form-option="formOption" v-model="tableForm">
-      <template slot-scope="scope" slot="dic">
+    <avue-form :form-option="formOption"
+               v-model="tableForm">
+      <template slot-scope="scope"
+                slot="dic">
         <el-button @click.native="dicData.box=true">
           字典选择
         </el-button>
       </template>
     </avue-form>
-    <el-button type="primary" @click="handleAddColumn" size="small">新增</el-button>
-    <avue-crud ref="crud" :table-option="tableOption" :table-data="form.column" @row-update="handleUpdate" @row-del="handleDel" @row-save="handleSave"></avue-crud>
-    <el-input type="textarea" v-model="result" :autosize="{ minRows: 10}"></el-input>
-    <el-dialog title="字典选择" :visible.sync="dicData.box">
-      <avue-crud-checkbox v-model="dicData.check" :dic="DIC.DATALIST"></avue-crud-checkbox>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleDicSbumit">确 定</el-button>
+    <el-button type="primary"
+               @click="handleAddColumn"
+               size="small">新增</el-button>
+    <avue-crud ref="crud"
+               :table-option="tableOption"
+               :table-data="form.column"
+               @row-update="handleUpdate"
+               @row-del="handleDel"
+               @row-save="handleSave"></avue-crud>
+    <el-input type="textarea"
+              v-model="result"
+              :autosize="{ minRows: 10}"></el-input>
+    <el-dialog title="字典选择"
+               :visible.sync="dicData.box">
+      <avue-crud-checkbox v-model="dicData.check"
+                          :dic="DIC.DATALIST"></avue-crud-checkbox>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button type="primary"
+                   @click="handleDicSbumit">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -68,7 +83,7 @@ export default {
       deep: true
     }
   },
-  mounted() {},
+  mounted() { },
   computed: {},
   props: [],
   methods: {
@@ -85,12 +100,6 @@ export default {
           }
         }
       })
-      // 删除表格没有填写的字段
-      for (const o in form) {
-        if (validatenull(form[o])) {
-          delete form[o]
-        }
-      }
       const result = JSON.stringify(form, null, 2)
       this.result = result
     },
@@ -135,14 +144,15 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        this.form.column.splice(index, 1)
-        this.$message({
-          showClose: true,
-          message: '删除成功',
-          type: 'success'
-        })
       })
+        .then(() => {
+          this.form.column.splice(index, 1)
+          this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'success'
+          })
+        })
     }
   }
 }

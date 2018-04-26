@@ -30,11 +30,14 @@
                width="290"
                @row-save="handleSave"
                @row-update="handleUpdate"
-               @row-del="handleDel"
-               menu>
+               @row-del="handleDel">
       <template slot-scope="scope"
                 slot="statu">
         <el-tag :type="scope.row.statu===0?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
+      </template>
+      <template slot-scope="scope"
+                slot="roleDesc">
+        {{roleDescValue(scope.row)}}
       </template>
     </avue-crud>
   </div>
@@ -60,10 +63,6 @@ export default {
         total: 0, // 总页数
         currentPage: 0, // 当前页数
         pageSize: 10 // 每页显示多少条
-      },
-      grade: {
-        box: false,
-        check: []
       },
       listPageParams: {
         pageNo: 0,
@@ -104,27 +103,20 @@ export default {
       this.listPageParams.pageNo = 0
       this.getUserList()
     },
-    /**
-     * @title 获取字典
-     * @detail 调用crud的findByvalue方法即可
-     **/
     findByvalue(dic, value) {
-      console.log('===========' + dic.label + '===' + value)
       return this.$refs.crud.findByvalue(dic, value)
     },
-    /**
-     * @title 打开新增窗口
-     * @detail 调用crud的handleadd方法即可
-     **/
-    handleAdd() {
-      this.$refs.crud.handleAdd()
+    roleDescValue(row) {
+      // 对列表数据处理
+      let rDesc = ''
+      row.roleList.forEach(r => {
+        rDesc += r.roleDesc
+      })
+      return rDesc
     },
-    /**
-     * @title 数据添加
-     * @param row 为当前的数据
-     * @param done 为表单关闭函数
-     *
-     **/
+    handleAdd() {
+      this.$refs.crud.rowAdd()
+    },
     handleSave(row, done) {
       this.tableData.push(row)
       this.$message({
@@ -134,11 +126,6 @@ export default {
       })
       done()
     },
-    /**
-     * @title 数据删除
-     * @param row 为当前的数据
-     * @param index 为当前更新数据的行数
-     **/
     handleDel(row, index) {
       this.$confirm('此操作将永久删除该用户(用户名:' + row.username + '), 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -157,12 +144,6 @@ export default {
         this.$message({ type: 'info', message: '已取消删除' })
       })
     },
-    /**
-     * @title 数据更新
-     * @param row 为当前的数据
-     * @param index 为当前更新数据的行数
-     * @param done 为表单关闭函数
-     **/
     handleUpdate(row, index, done) {
       this.tableData.splice(index, 1, row)
       this.$message({

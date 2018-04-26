@@ -13,7 +13,9 @@ export function validatenull(val) {
       val === 'undefined' ||
       val === undefined ||
       val === ''
-    ) { return true }
+    ) {
+      return true
+    }
     return false
   }
   return false

@@ -4,7 +4,7 @@ import { validatenull } from './validate'
  * 获取字典
  */
 export const setDic = (dicData, DIC) => {
-  return typeof dicData === 'string' ? DIC : dicData
+  return (typeof (dicData) === 'string') ? DIC : dicData
 }
 /**
  * 设置px
@@ -22,7 +22,7 @@ export const setPx = (val, defval) => {
 /**
  * 动态获取组件
  */
-export const getComponent = type => {
+export const getComponent = (type) => {
   if (type === 'select') {
     return 'crudSelect'
   } else if (type === 'radio') {
@@ -38,7 +38,7 @@ export const getComponent = type => {
 /**
  * 加密处理
  */
-export const encryption = params => {
+export const encryption = (params) => {
   const { data, type, param, key } = params
   const result = JSON.parse(JSON.stringify(data))
   if (type === 'Base64') {
@@ -74,7 +74,7 @@ export const fullscreenToggel = () => {
 /**
  * esc监听全屏
  */
-export const listenfullscreen = callback => {
+export const listenfullscreen = (callback) => {
   function listen() {
     callback()
   }

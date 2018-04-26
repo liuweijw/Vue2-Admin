@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Vue2-Admin",
   "author": "liuweijw <liuweijw.github@foxmail.com>",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev":
@@ -26,7 +27,7 @@
     "axios": "^0.16.2",
     "clipboard": "1.7.1",
     "compression": "^1.6.2",
-    "element-ui": "^2.0.5",
+    "element-ui": "^2.3.6",
     "es6-promise": "^4.1.1",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^2.1.2",
@@ -119,5 +120,9 @@
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }

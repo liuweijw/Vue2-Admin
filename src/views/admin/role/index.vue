@@ -92,7 +92,7 @@ export default {
      *
      **/
     handleAdd() {
-      this.$refs.crud.handleAdd()
+      this.$refs.crud.rowAdd()
     },
     /**
      * @title 获取数据

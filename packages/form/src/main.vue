@@ -7,7 +7,8 @@
       <el-row :gutter="20"
               :span="24">
         <template v-for="(column,index) in formOption.column">
-          <el-col :span="column.span||12">
+          <el-col :span="column.span||12"
+                  :key="index">
             <el-form-item :label="column.label"
                           :prop="column.prop"
                           :label-width="setPx(column.labelWidth,formOption.labelWidth || 80)">

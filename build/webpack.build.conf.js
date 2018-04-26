@@ -19,7 +19,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      avue: path.resolve('packages')
+      'avue': path.resolve('packages')
     }
   },
   // 模块：例如解读CSS,图片如何转换，压缩

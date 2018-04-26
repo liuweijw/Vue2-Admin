@@ -2,8 +2,10 @@
   <div class="pull-auto">
     <el-row :span="24">
       <template v-for="(item,index) in data">
-        <el-col :span="span" :key="index">
-          <div class="item" :style="{background:item.color}">
+        <el-col :span="span"
+                :key="index">
+          <div class="item"
+               :style="{background:item.color}">
             <div class="item-header">
               <p>{{item.title}}</p>
               <span>{{item.subtitle}}</span>
