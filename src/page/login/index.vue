@@ -83,7 +83,6 @@ export default {
           this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm).then(res => {
             this.loading = false
-            this.$store.commit('ADD_TAG', this.tagWel)
             this.$router.push({ path: this.tagWel.value })
           }).catch(() => {
             this.loading = false

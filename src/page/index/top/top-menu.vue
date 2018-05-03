@@ -43,7 +43,6 @@ export default {
       if (_items.length === 0) {
         _items = []
         this.activeIndex = '-1'
-        console.log(this.activeIndex)
         return _items
       }
       this.activeIndex = _items[0].parentId + ''
@@ -52,8 +51,8 @@ export default {
     }
   },
   watch: {
-    initItem(curVal, oldVal) {
-      this.openMenu(curVal)
+    initItem(curTtem, oldTtem) {
+      this.openMenu(curTtem)
     }
   },
   methods: {

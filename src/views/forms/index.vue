@@ -1,22 +1,13 @@
 <template>
   <div class="from-container pull-chheight">
-    <avue-form :form-option="formOption"
-               v-model="formData"
-               @submit="handleSubmit">
-      <template slot-scope="scope"
-                slot="name">
-        <avue-crud-input @click.native="tip"
-                         :disabled="scope.column.disabled"
-                         v-model="scope.value">
+    <avue-form :form-option="formOption" v-model="formData" @submit="handleSubmit">
+      <template slot-scope="scope" slot="name">
+        <avue-crud-input @click.native="tip" :disabled="scope.column.disabled" v-model="scope.value">
         </avue-crud-input>
       </template>
     </avue-form>
-    <el-button @click.native="formate"
-               style="margin: 8px 0">格式化</el-button>
-    <el-input type="textarea"
-              :autosize="{ minRows: 2, maxRows: 15}"
-              placeholder="请输入内容"
-              v-model="formJson">
+    <el-button @click.native="formate" style="margin: 8px 0">格式化</el-button>
+    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 15}" placeholder="请输入内容" v-model="formJson">
     </el-input>
   </div>
 </template>

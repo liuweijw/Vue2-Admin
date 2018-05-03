@@ -6,22 +6,17 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev":
-      "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production node build/build.js",
     "build:test": "cross-env NODE_ENV=test node build/build.js",
     "start": "npm run build:client && npm run build:server && node server",
-    "build:avue":
-      "webpack --config build/webpack.build.conf.js --progress --hide-modules",
-    "build:client":
-      "webpack --config build/webpack.client.conf.js --progress --hide-modules",
-    "build:server":
-      "webpack --config build/webpack.server.conf.js --progress --hide-modules",
+    "build:avue": "webpack --config build/webpack.build.conf.js --progress --hide-modules",
+    "build:client": "webpack --config build/webpack.client.conf.js --progress --hide-modules",
+    "build:server": "webpack --config build/webpack.server.conf.js --progress --hide-modules",
     "lint": "npm run lint:src && npm run lint:avue",
     "lint:src": "eslint --ext .js,.vue src --fix",
     "lint:avue": "eslint --ext .js,.vue packages --fix",
-    "karma":
-      "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
+    "karma": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
   },
   "dependencies": {
     "axios": "^0.16.2",

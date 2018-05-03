@@ -1,14 +1,20 @@
 <template>
   <div class="pull-height animated" :class="{'zoomOutUp': isLock}">
-    <top></top>
     <div class="index">
-      <sidebar class="left pull-chheight"></sidebar>
+      <sidebar class="left"></sidebar>
       <div class="right">
-        <tags ref="nav" class="nav"></tags>
-        <keep-alive>
-          <router-view v-if="$route.meta.keepAlive" class="main"></router-view>
-        </keep-alive>
-        <router-view v-if="!$route.meta.keepAlive" class="main"></router-view>
+        <div class="nav">
+          <top class="top"></top>
+          <tags></tags>
+        </div>
+        <div class="main">
+          <div class="router">
+            <keep-alive>
+              <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,24 +46,32 @@ export default {
 <style lang="scss" scoped>
 .index {
   display: flex;
-  height: calc(100% - 60px);
-  padding: 0 0 20px 0;
   position: relative;
-  min-height: 100%;
+  height: 100%;
   background: #fff;
   overflow: hidden;
-  .left:not(.el-menu--collapse) {
-    width: 200px;
+  .left {
+    width: 230px;
     overflow-y: auto;
   }
   .right {
-    padding-top: 42px;
+    padding-top: 107px;
     position: relative;
     flex: 1;
-    box-sizing: border-box;
   }
   .main {
+    height: 100%;
+    background: #f1f4f5;
+    padding: 15px;
+    box-sizing: border-box;
     overflow-y: scroll;
+    .router {
+      padding: 15px 8px;
+      background: #fff;
+      height: auto;
+      overflow: hidden;
+      border-radius: 5px;
+    }
   }
   .nav {
     position: absolute;
@@ -65,6 +79,9 @@ export default {
     left: 0;
     width: 100%;
     z-index: 999;
+  }
+  .top {
+    margin-bottom: 2px;
   }
 }
 </style>

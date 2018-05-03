@@ -1,12 +1,6 @@
 <template>
-  <iframe v-if="$route.query.src"
-          :src='$route.query.src'
-          class="iframe"
-          ref="iframe"></iframe>
-  <iframe v-else
-          :src="urlPath"
-          class="iframe"
-          ref="iframe"></iframe>
+  <iframe v-if="$route.query.src" :src='$route.query.src' class="iframe" ref="iframe"></iframe>
+  <iframe v-else :src="urlPath" class="iframe" ref="iframe"></iframe>
 </template>
 
 <script>
@@ -78,7 +72,7 @@ export default {
     // iframe窗口初始化
     iframeInit() {
       const iframe = this.$refs.iframe
-      const clientHeight = document.documentElement.clientHeight - 120
+      const clientHeight = document.documentElement.clientHeight - 110
       iframe.style.height = `${clientHeight}px`
       if (iframe.attachEvent) {
         iframe.attachEvent('onload', () => {

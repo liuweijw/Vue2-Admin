@@ -1,156 +1,64 @@
 <template>
   <div class="crud-container pull-auto">
-    <el-table :data="tableData"
-              :stripe="tableOption.stripe"
-              :show-header="tableOption.showHeader"
-              :default-sort="tableOption.defaultSort"
-              @row-click="rowClick"
-              @row-dblclick="rowDblclick"
-              max-height="tableOption.maxHeight"
-              :height="tableOption.height"
-              ref="table"
-              :width="setPx(tableOption.width,'100%')"
-              :border="tableOption.border"
-              v-loading="tableLoading"
-              @selection-change="selectionChange">
+    <el-table :data="tableData" :stripe="tableOption.stripe" :show-header="tableOption.showHeader" :default-sort="tableOption.defaultSort" @row-click="rowClick" @row-dblclick="rowDblclick" max-height="tableOption.maxHeight" :height="tableOption.height" ref="table" :width="setPx(tableOption.width,'100%')" :border="tableOption.border" v-loading="tableLoading" @selection-change="selectionChange" @sort-change="sortChange">
       <!-- 下拉弹出框  -->
       <template v-if="tableOption.expand">
-        <el-table-column type="expand"
-                         width="50"
-                         fixed="left"
-                         align="center">
+        <el-table-column type="expand" width="50" fixed="left" align="center">
           <template slot-scope="props">
-            <slot :row="props.row"
-                  name="expand"></slot>
+            <slot :row="props.row" name="expand"></slot>
           </template>
         </el-table-column>
       </template>
       <!-- 选择框 -->
       <template v-if="tableOption.selection">
-        <el-table-column type="selection"
-                         width="50"
-                         fixed="left"
-                         align="center">
+        <el-table-column type="selection" width="50" fixed="left" align="center">
         </el-table-column>
       </template>
 
       <!-- 序号 -->
       <template v-if="tableOption.index">
-        <el-table-column type="index"
-                         width="50"
-                         fixed="left"
-                         align="center">
+        <el-table-column type="index" width="50" fixed="left" align="center">
         </el-table-column>
       </template>
       <!-- 循环列 -->
-      <el-table-column v-for="(column, index) in tableOption.column"
-                       :prop="column.prop"
-                       :key="index"
-                       v-if="!column.hide"
-                       :show-overflow-tooltip="column.overHidden"
-                       :formatter="column.formatter"
-                       :min-width="column.minWidth"
-                       :sortable="column.sortable"
-                       :align="vaildData(column.align,tableOption.align)"
-                       :header-align="vaildData(column.headerAlign,tableOption.headerAlign)"
-                       :width="column.width"
-                       :label="column.label"
-                       :fixed="column.fixed">
+      <el-table-column v-for="(column,index) in tableOption.column" :prop="column.prop" :key="index" v-if="!column.hide" :show-overflow-tooltip="column.overHidden" :formatter="column.formatter" :min-width="column.minWidth" :sortable="column.sortable" :align="vaildData(column.align,tableOption.align)" :header-align="vaildData(column.headerAlign,tableOption.headerAlign)" :width="column.width" :label="column.label" :fixed="column.fixed">
         <template slot-scope="scope">
-          <slot :row="scope.row"
-                :dic="setDic(column.dicData,DIC[column.dicData])"
-                :name="column.prop"
-                v-if="column.solt"></slot>
+          <slot :row="scope.row" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop" v-if="column.solt"></slot>
           <template v-else>
-            <span v-html="detail(scope.row,column)"
-                  v-if="column.type"></span>
+            <span v-html="detail(scope.row,column)" v-if="column.type"></span>
             <span v-else>{{scope.row[column.prop]}}</span>
           </template>
         </template>
       </el-table-column>
-      <el-table-column fixed="right"
-                       v-if="vaildData(tableOption.menu,true)"
-                       label="操作"
-                       :align="tableOption.menuAlign"
-                       :header-align="tableOption.menuHeaderAlign"
-                       :width="vaildData(tableOption.menuWidth,240)">
+      <el-table-column fixed="right" v-if="vaildData(tableOption.menu,true)" label="操作" :align="tableOption.menuAlign" :header-align="tableOption.menuHeaderAlign" :width="vaildData(tableOption.menuWidth,240)">
         <template slot-scope="scope">
           <template v-if="vaildData(tableOption.menu,true)">
-            <el-button type="primary"
-                       icon="el-icon-edit"
-                       size="small"
-                       @click="rowEdit(scope.row,scope.$index)"
-                       v-if="vaildData(tableOption.editBtn,true)">编 辑</el-button>
-            <el-button type="danger"
-                       icon="el-icon-delete"
-                       size="small"
-                       @click="rowDel(scope.row,scope.$index)"
-                       v-if="vaildData(tableOption.delBtn,true)">删 除</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="small" @click="rowEdit(scope.row,scope.$index)" v-if="vaildData(tableOption.editBtn,true)">编 辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="small" @click="rowDel(scope.row,scope.$index)" v-if="vaildData(tableOption.delBtn,true)">删 除</el-button>
           </template>
-          <slot :row="scope.row"
-                name="menu"
-                :index="scope.$index"></slot>
+          <slot :row="scope.row" name="menu" :index="scope.$index"></slot>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-pagination v-if="vaildData(tableOption.page,true)"
-                   class="crud-pagination pull-right"
-                   :current-page.sync="page.currentPage"
-                   :background="page.background?page.background:true"
-                   :page-size="page.pageSize"
-                   @current-change="currentChange"
-                   layout="total, sizes, prev, pager, next, jumper"
-                   :total="page.total"></el-pagination>
+    <el-pagination v-if="vaildData(tableOption.page,true)" class="crud-pagination pull-right" :current-page.sync="page.currentPage" :background="page.background?page.background:true" :page-size="page.pageSize" @size-change="sizeChange" @current-change="currentChange" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
     <!-- 表单 -->
-    <el-dialog :modal-append-to-body="false"
-               :append-to-body="true"
-               :title="boxType==0?'新增':'编辑'"
-               :visible.sync="boxVisible"
-               width="50%"
-               :before-close="boxhandleClose">
-      <el-form ref="tableForm"
-               :model="tableForm"
-               label-width="80px"
-               :rules="tableFormRules">
-        <el-row :gutter="20"
-                :span="24">
+    <el-dialog :modal-append-to-body="false" :append-to-body="true" :title="boxType==0?'新增':'编辑'" :visible.sync="boxVisible" width="50%" :before-close="boxhandleClose">
+      <el-form ref="tableForm" :model="tableForm" label-width="80px" :rules="tableFormRules">
+        <el-row :gutter="20" :span="24">
           <template v-for="(column,index) in tableOption.column">
-            <el-col :span="column.span || 12"
-                    :key="index"
-                    v-if="boxType==0?vaildData(column.addVisdiplay,true):vaildData(column.editVisdiplay,true)">
-              <el-form-item :label="column.label"
-                            :prop="column.prop"
-                            :label-width="setPx(column.labelWidth,tableOption.labelWidth || 80)">
-                <slot :value="tableForm[column.prop]"
-                      :column="column"
-                      :dic="setDic(column.dicData,DIC[column.dicData])"
-                      :name="column.prop+'Form'"
-                      v-if="column.formsolt"></slot>
-                <component :is="getComponent(column.type)"
-                           v-else
-                           v-model="tableForm[column.prop]"
-                           :size="column.size"
-                           :clearable="column.clearable"
-                           :type="column.type"
-                           :minRows="column.minRows"
-                           :maxRows="column.maxRows"
-                           :placeholder="column.label"
-                           :dic="setDic(column.dicData,DIC[column.dicData])"
-                           :disabled="boxType==0?vaildData(column.addDisabled,false):vaildData(column.editDisabled,false)"></component>
+            <el-col :key="index" :span="column.span || 12" v-if="boxType==0?vaildData(column.addVisdiplay,true):vaildData(column.editVisdiplay,true)">
+              <el-form-item :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,tableOption.labelWidth || 80)">
+                <slot :value="tableForm[column.prop]" :column="column" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop+'Form'" v-if="column.formsolt"></slot>
+                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :size="column.size" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?vaildData(column.addDisabled,false):vaildData(column.editDisabled,false)"></component>
               </el-form-item>
             </el-col>
           </template>
         </el-row>
       </el-form>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button type="primary"
-                   @click="rowUpdate"
-                   v-if="boxType==1">修 改</el-button>
-        <el-button type="primary"
-                   @click="rowSave"
-                   v-else>新 增</el-button>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="rowUpdate" v-if="boxType==1">修 改</el-button>
+        <el-button type="primary" @click="rowSave" v-else>新 增</el-button>
         <el-button @click="boxVisible = false">取 消</el-button>
       </span>
     </el-dialog>
@@ -158,8 +66,8 @@
   </div>
 </template>
 <script>
-import crud from 'avue/mixins/crud.js'
-import { validatenull } from 'avue/utils/validate.js'
+import crud from '../../mixins/crud.js'
+import { validatenull } from '../../utils/validate.js'
 export default {
   name: 'AvueCrud',
   mixins: [crud()],
@@ -196,7 +104,7 @@ export default {
     }
   },
   computed: {},
-  mounted() { },
+  mounted() {},
   props: {
     value: {
       type: Object,
@@ -275,7 +183,11 @@ export default {
       })
       this.tableForm = Object.assign({}, from)
     },
-    // 页码回掉
+    // 页大小回调
+    sizeChange(val) {
+      this.$emit('size-change', val)
+    },
+    // 页码回调
     currentChange(val) {
       this.$emit('current-change', val)
     },
@@ -294,6 +206,10 @@ export default {
     selectionChange(val) {
       this.tableSelect = val
       this.$emit('selection-change', val)
+    },
+    // 排序回调
+    sortChange(val) {
+      this.$emit('sort-change', val)
     },
     // 行双击
     rowDblclick(row, event) {
@@ -343,7 +259,7 @@ export default {
     rowSave() {
       this.$refs['tableForm'].validate(valid => {
         if (valid) {
-          this.$emit('row-save', this.tableForm, this.hide)
+          this.$emit('row-save', Object.assign({}, this.tableForm), this.hide)
         }
       })
     },
@@ -352,7 +268,7 @@ export default {
       this.$refs['tableForm'].validate(valid => {
         if (valid) {
           const index = this.tableIndex
-          this.$emit('row-update', this.tableForm, index, this.hide)
+          this.$emit('row-update', Object.assign({}, this.tableForm), index, this.hide)
         }
       })
     },

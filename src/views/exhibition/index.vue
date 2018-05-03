@@ -1,24 +1,20 @@
 <template>
   <div class="exhibition-contailer  pull-chheight">
 
-    <div class="pull-auto"
-         style="margin-top:20px;">
+    <div class="pull-auto" style="margin-top:20px;">
       <h4>选项卡展示</h4>
       <boxData :option="easyDataOption"></boxData>
     </div>
 
-    <div class="pull-auto"
-         style="margin-top:20px;">
+    <div class="pull-auto" style="margin-top:20px;">
       <h4>卡片的展示</h4>
       <cardData :option="easyDataOption0"></cardData>
     </div>
-    <div class="pull-auto"
-         style="margin-top:20px;">
+    <div class="pull-auto" style="margin-top:20px;">
       <h4>带数字的展示</h4>
       <easyData :option="easyDataOption1"></easyData>
     </div>
-    <div class="pull-auto"
-         style="margin-top:20px;">
+    <div class="pull-auto" style="margin-top:20px;">
       <h4>简易展示</h4>
       <easyData :option="easyDataOption2"></easyData>
     </div>

@@ -11,7 +11,7 @@
  */
 
 let baseUrl = ''
-const iconfontVersion = ['567566_sch40o867ogk3xr']
+const iconfontVersion = ['567566_r22zi6t8noas8aor']
 const iconfontUrl = `//at.alicdn.com/t/font_$key.css`
 const codeUrl = `${baseUrl}/code`
 
@@ -23,4 +23,9 @@ if (process.env.NODE_ENV === 'development') {
   baseUrl = `http://localhost`// 测试环境地址
 }
 
-export { baseUrl, iconfontUrl, iconfontVersion, codeUrl }
+export {
+  baseUrl,
+  iconfontUrl,
+  iconfontVersion,
+  codeUrl
+}

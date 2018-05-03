@@ -1,34 +1,19 @@
 <template>
   <div class="generator-container  pull-chheight">
-    <avue-form :form-option="formOption"
-               v-model="tableForm">
-      <template slot-scope="scope"
-                slot="dic">
+    <avue-form :form-option="formOption" v-model="tableForm">
+      <template slot-scope="scope" slot="dic">
         <el-button @click.native="dicData.box=true">
           字典选择
         </el-button>
       </template>
     </avue-form>
-    <el-button type="primary"
-               @click="handleAddColumn"
-               size="small">新增</el-button>
-    <avue-crud ref="crud"
-               :table-option="tableOption"
-               :table-data="form.column"
-               @row-update="handleUpdate"
-               @row-del="handleDel"
-               @row-save="handleSave"></avue-crud>
-    <el-input type="textarea"
-              v-model="result"
-              :autosize="{ minRows: 10}"></el-input>
-    <el-dialog title="字典选择"
-               :visible.sync="dicData.box">
-      <avue-crud-checkbox v-model="dicData.check"
-                          :dic="DIC.DATALIST"></avue-crud-checkbox>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button type="primary"
-                   @click="handleDicSbumit">确 定</el-button>
+    <el-button type="primary" @click="handleAddColumn" size="small">新增</el-button>
+    <avue-crud ref="crud" :table-option="tableOption" :table-data="form.column" @row-update="handleUpdate" @row-del="handleDel" @row-save="handleSave"></avue-crud>
+    <el-input type="textarea" v-model="result" :autosize="{ minRows: 10}"></el-input>
+    <el-dialog title="字典选择" :visible.sync="dicData.box">
+      <avue-crud-checkbox v-model="dicData.check" :dic="DIC.DATALIST"></avue-crud-checkbox>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleDicSbumit">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -36,7 +21,7 @@
 </template>
 
 <script>
-import { DIC } from 'avue/const/dic'
+import { DIC } from '../../../packages/const/dic'
 import { validatenull } from '@/util/validate'
 import tableOption from '@/const/table/tableGenerator'
 import formOption from '@/const/table/formGenerator'

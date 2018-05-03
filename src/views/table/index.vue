@@ -1,56 +1,22 @@
 <template>
   <div class="table-container pull-chheight">
     <div class="table-header">
-      <el-button type="primary"
-                 @click="handleAdd"
-                 size="small"
-                 v-if="permission.user_add">新 增</el-button>
-      <el-button type="primary"
-                 @click="handleRowEdit"
-                 size="small">编 辑</el-button>
-      <el-button type="primary"
-                 @click="handleRowDel"
-                 size="small">删 除</el-button>
-      <el-button type="info"
-                 @click="handleExport"
-                 size="small"
-                 v-if="permission.user_export">导出excel</el-button>
-      <el-button type="warning"
-                 @click="handleJpeg"
-                 size="small">导出图片</el-button>
-      <el-button type="danger"
-                 @click="toggleSelection([tableData[1]])"
-                 size="small">切换第二选中状态</el-button>
-      <el-button @click="toggleSelection()"
-                 size="small">取消选择</el-button>
-      <el-button type="success"
-                 size="small"
-                 v-if="permission.user_add">
+      <el-button type="primary" @click="handleAdd" size="small" v-if="permission.user_view">新 增</el-button>
+      <el-button type="primary" @click="handleRowEdit" size="small">编 辑</el-button>
+      <el-button type="primary" @click="handleRowDel" size="small">删 除</el-button>
+      <el-button type="info" @click="handleExport" size="small" v-if="permission.user_view">导出excel</el-button>
+      <el-button type="warning" @click="handleJpeg" size="small">导出图片</el-button>
+      <el-button type="danger" @click="toggleSelection([tableData[1]])" size="small">切换第二选中状态</el-button>
+      <el-button @click="toggleSelection()" size="small">取消选择</el-button>
+      <el-button type="success" size="small" v-if="permission.user_view">
         <router-link :to="{path:'/forms/index'}">
           表单CRUD
         </router-link>
       </el-button>
     </div>
-    <avue-crud :table-option="tableOption"
-               v-model="user"
-               :table-data="tableData"
-               :table-loading="tableLoading"
-               :before-open="boxhandleOpen"
-               :before-close="boxhandleClose"
-               @row-dblClick="handleRowDBLClick"
-               @row-click="handleRowClick"
-               :page="page"
-               ref="crud"
-               @row-save="handleSave"
-               @row-update="handleUpdate"
-               @row-del="handleDel"
-               @current-change="handleCurrentChange"
-               @selection-change="handleSelectionChange">
-      <template slot-scope="props"
-                slot="expand">
-        <el-form label-position="left"
-                 inline
-                 class="demo-table-expand">
+    <avue-crud :table-option="tableOption" v-model="user" :table-data="tableData" :table-loading="tableLoading" :before-open="boxhandleOpen" :before-close="boxhandleClose" @row-dblClick="handleRowDBLClick" @row-click="handleRowClick" :page="page" ref="crud" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel" @current-change="handleCurrentChange" @selection-change="handleSelectionChange">
+      <template slot-scope="props" slot="expand">
+        <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="姓名">
             <span>{{ props.row.name }}</span>
           </el-form-item>
@@ -68,48 +34,26 @@
           </el-form-item>
         </el-form>
       </template>
-      <template slot-scope="scope"
-                slot="username">
+      <template slot-scope="scope" slot="username">
         <el-tag>{{scope.row.username}}</el-tag>
       </template>
-      <template slot-scope="scope"
-                slot="nameForm">
-        <avue-crud-input @click.native="tip"
-                         v-model="user.name">
+      <template slot-scope="scope" slot="nameForm">
+        <avue-crud-input @click.native="tip" v-model="user.name">
         </avue-crud-input>
       </template>
-      <template slot-scope="scope"
-                slot="menu">
-        <el-button type="primary"
-                   icon="el-icon-check"
-                   size="small"
-                   plain
-                   @click="handleEdit(scope.row,scope.index)">编辑</el-button>
-        <el-button icon="el-icon-check"
-                   size="small"
-                   @click="handleGrade(scope.row,scope.index)">权限</el-button>
+      <template slot-scope="scope" slot="menu">
+        <el-button type="primary" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编辑</el-button>
+        <el-button icon="el-icon-check" size="small" @click="handleGrade(scope.row,scope.index)">权限</el-button>
       </template>
     </avue-crud>
-    <el-button @click.native="formate"
-               style="margin: 8px 0">格式化</el-button>
-    <el-input type="textarea"
-              :autosize="{ minRows: 2, maxRows: 15}"
-              placeholder="请输入内容"
-              v-model="formJson">
+    <el-button @click.native="formate" style="margin: 8px 0">格式化</el-button>
+    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 15}" placeholder="请输入内容" v-model="formJson">
     </el-input>
-    <el-dialog title="菜单"
-               :visible.sync="grade.box"
-               width="40%">
-      <el-tree :data="menuAll"
-               :default-checked-keys="grade.check"
-               :default-expanded-keys="grade.check"
-               show-checkbox
-               node-key="id">
+    <el-dialog title="菜单" :visible.sync="grade.box" width="40%">
+      <el-tree :data="menuAll" :default-checked-keys="grade.check" :default-expanded-keys="grade.check" show-checkbox node-key="id">
       </el-tree>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button type="primary"
-                   @click="handleGradeUpdate">更新</el-button>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleGradeUpdate">更新</el-button>
       </span>
     </el-dialog>
 
@@ -324,8 +268,8 @@ export default {
      * @param done 为表单关闭函数
      *
      **/
-    handleSave (row, done) {
-      this.tableData.push(row)
+    handleSave(row, done) {
+      this.tableData.push(Object.assign({}, row));
       this.$message({
         showClose: true,
         message: '添加成功',
@@ -396,8 +340,8 @@ export default {
      * @param done 为表单关闭函数
      *
      **/
-    handleUpdate (row, index, done) {
-      this.tableData.splice(index, 1, row)
+    handleUpdate(row, index, done) {
+      this.tableData.splice(index, 1, Object.assign({}, row));
       this.$message({
         showClose: true,
         message: '修改成功',

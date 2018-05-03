@@ -6,8 +6,8 @@ export const userOption = {
   stripe: true,
   expand: false,
   align: 'center',
-  menuWidth: 300,
   menuAlign: 'center',
+  // menuWidth: 300,
   dic: ['STATU', 'GRADE'],
   defaultSort: { prop: 'username', order: 'descending' },
   column: [
@@ -16,6 +16,7 @@ export const userOption = {
       prop: 'username',
       sortable: true,
       width: '150',
+      overHidden: true,
       rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
     },
     {
@@ -23,6 +24,7 @@ export const userOption = {
       prop: 'roleDesc',
       type: 'select',
       dicData: 'GRADE',
+      overHidden: true,
       solt: true
       // dataDetail: row => { // 目前新版本已经不再支持
       //   // 对列表数据处理
@@ -36,7 +38,8 @@ export const userOption = {
     {
       label: '创建时间',
       prop: 'createTime',
-      type: 'date'
+      type: 'date',
+      visdiplay: true
     },
     {
       label: '状态',
@@ -44,7 +47,7 @@ export const userOption = {
       sortable: true,
       solt: true, // 支持自定义dom default:false,
       type: 'radio',
-      visdiplay: true, // 最后一列需要设置这个属性，否则操作栏border不显示
+      visdiplay: true,
       dicData: 'STATU' // type的数据字典,当type为：select | radio | checkbox 加载
     }
   ]

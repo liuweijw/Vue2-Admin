@@ -1,14 +1,11 @@
 <template>
   <div class="pull-auto">
     <el-row :span="24">
-      <template v-for="(item,index) in data">
-        <el-col :span="span"
-                :key="index">
+      <template v-for="item,index in data">
+        <el-col :span="span">
           <div class="item">
-            <img :src="item.src"
-                 class="item-img" />
-            <div class="item-text"
-                 :style="{color:colorText,backgroundColor:bgText}">
+            <img :src="item.src" class="item-img" />
+            <div class="item-text" :style="{color:colorText,backgroundColor:bgText}">
               <h3>{{item.name}}</h3>
               <p>{{item.text}}</p>
             </div>
@@ -37,8 +34,8 @@ export default {
       default: {}
     }
   },
-  created() { },
-  mounted() { },
+  created() {},
+  mounted() {},
   watch: {},
   computed: {},
   methods: {}

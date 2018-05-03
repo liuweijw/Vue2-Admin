@@ -3,8 +3,8 @@
     <!-- tag盒子 -->
     <div class="tags-box" ref="tagBox">
       <div class="tags-list" ref="tagsList" @mousewheel="hadelMousewheel" @mouseup="hadelMouseUp" @mousemove="hadelMouse" @mousedown="hadelMousestart" @touchup="hadelMouseUp" @touchmove="hadelMouse" @touchstart="hadelMousestart">
-        <div ref="tagsPageOpened" class="tag-item" :name="item.value" @contextmenu.prevent="openMenu(item,$event)" v-for="(item,index) in tagList" :key="index" @click="openUrl(item)">
-          <span class="icon-yuan tag-item-icon" :class="{'is-active':nowTagValue==item.value}"></span>
+        <div ref="tagsPageOpened" class="tag-item" :class="{'is-active':nowTagValue==item.value}" :name="item.value" @contextmenu.prevent="openMenu(item,$event)" v-for="(item,index) in tagList" :key="index" @click="openUrl(item)">
+          <span class="icon-yuan tag-item-icon"></span>
           <span class="tag-text">{{item.label}}</span>
           <i class="el-icon-close tag-close" @click.stop="closeTag(item)" v-if="item.close"></i>
         </div>
@@ -46,7 +46,7 @@ export default {
       selectedTag: {}
     }
   },
-  created() {},
+  created() { },
   mounted() {
     this.init()
   },
@@ -101,7 +101,8 @@ export default {
     },
     hadelMouse(e) {
       const boundarystart = 0
-      const boundaryend = this.$refs.tagsList.offsetWidth - this.$refs.tagBox.offsetWidth + 100
+      const boundaryend =
+        this.$refs.tagsList.offsetWidth - this.$refs.tagBox.offsetWidth + 100
       if (!this.lock) {
         return
       }
@@ -116,9 +117,9 @@ export default {
         this.endY = e.changedTouches[0].pageY
       }
       // 获取滑动距离
-      const distanceX = this.endX - this.startX
+      let distanceX = this.endX - this.startX
       // 判断滑动方向——向右滑动
-      // const distanceY = parseInt(this.endY - this.startY) * 0.8
+      distanceX = parseInt(distanceX * 0.8)
       if (distanceX > 0 && this.tagBodyLeft < boundarystart) {
         this.tagBodyLeft = this.tagBodyLeft + distanceX
         // 判断滑动方向——向左滑动
@@ -129,7 +130,8 @@ export default {
     hadelMousewheel(e) {
       const step = 0.8 * 90 // 一个tag长度
       const boundarystart = 0
-      const boundaryend = this.$refs.tagsList.offsetWidth - this.$refs.tagBox.offsetWidth + 100
+      const boundaryend =
+        this.$refs.tagsList.offsetWidth - this.$refs.tagBox.offsetWidth + 100
       // Y>0向左滑动
       if (e.deltaY > 0 && this.tagBodyLeft >= -boundaryend) {
         this.tagBodyLeft = this.tagBodyLeft - step
@@ -167,7 +169,7 @@ export default {
       } else if (
         tag.offsetLeft + 10 > -this.tagBodyLeft &&
         tag.offsetLeft + tag.offsetWidth <
-          -this.tagBodyLeft + this.$refs.tagBox.offsetWidth
+        -this.tagBodyLeft + this.$refs.tagBox.offsetWidth
       ) {
         // 标签在可视区域
       } else {

@@ -2,8 +2,13 @@
   font-size: 12px;
   line-height: 28px;
 }
-.el-menu--horizontal{
-  border-bottom: none;
+
+.el-menu--horizontal {
+  border-bottom: none !important;
+}
+
+.el-menu {
+  border-right: none !important;
 }
 .el-menu--display,
 .el-menu--display + .el-submenu__icon-arrow {
