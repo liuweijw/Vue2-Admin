@@ -2,38 +2,53 @@
   <div class="exhibition-contailer  pull-chheight">
 
     <div class="pull-auto" style="margin-top:20px;">
-      <h4>选项卡展示</h4>
-      <boxData :option="easyDataOption"></boxData>
+      <h4>数据展示</h4>
+      <avue-data-display :option="option"></avue-data-display>
     </div>
-
+    <div class="pull-auto" style="margin-top:20px;">
+      <h4>选项卡展示</h4>
+      <avue-data-tabs :option="easyDataOption"></avue-data-tabs>
+    </div>
     <div class="pull-auto" style="margin-top:20px;">
       <h4>卡片的展示</h4>
-      <cardData :option="easyDataOption0"></cardData>
+      <avue-data-card :option="easyDataOption0"></avue-data-card>
     </div>
     <div class="pull-auto" style="margin-top:20px;">
       <h4>带数字的展示</h4>
-      <easyData :option="easyDataOption1"></easyData>
+      <avue-data-icons :option="easyDataOption1"></avue-data-icons>
     </div>
     <div class="pull-auto" style="margin-top:20px;">
       <h4>简易展示</h4>
-      <easyData :option="easyDataOption2"></easyData>
+      <avue-data-icons :option="easyDataOption2"></avue-data-icons>
     </div>
   </div>
 </template>
 
 <script>
-import boxData from '@/components/datashow/boxData'
-import easyData from '@/components/datashow/easyData'
-import cardData from '@/components/datashow/cardData'
 export default {
   name: 'exhibition',
   components: {
-    boxData,
-    easyData,
-    cardData
   },
   data() {
     return {
+      option: {
+        span: 8,
+        color: '#15A0FF',
+        data: [
+          {
+            count: 100,
+            title: '日活跃数'
+          },
+          {
+            count: '3,000',
+            title: '月活跃数'
+          },
+          {
+            count: '20,000',
+            title: '年活跃数'
+          }
+        ]
+      },
       easyDataOption: {
         span: 6,
         data: [

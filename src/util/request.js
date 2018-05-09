@@ -34,19 +34,25 @@ axios.interceptors.response.use(response => {
 }, error => {
   NProgress.done()
   const res = error.response
-  console.log(res.status)
-  if (res.status === 401) {
-    store.dispatch('FedLogOut').then(() => { location.reload() })
-  } else if (res.status === 403) {
-    message(res.status + '： ' + res.data.msg, 'error')
-  } else if (res.status === 400) {
-    message(res.status + '： ' + res.data.error_description, 'error')
-  } else if (res.status === 202) {
-    this.$router.push({ path: '/' })
-  } else if (res.status === 503) { // 服务异常
-    message(res.status + '： ' + res.data, 'error')
-  } else {
-    message(res.status + '： ' + res.data.message, 'error')
+  if (res.status) {
+    console.log(res.status)
+    if (res.status === 401) {
+      store.dispatch('FedLogOut').then(() => {
+        location.reload()
+      })
+    } else if (res.status === 403) {
+      message(res.status + '： ' + res.data.msg, 'error')
+    } else if (res.status === 400) {
+      message(res.status + '： ' + res.data.error_description, 'error')
+    } else if (res.status === 202) {
+      this.$router.push({
+        path: '/'
+      })
+    } else if (res.status === 503) { // 服务异常
+      message(res.status + '： ' + res.data, 'error')
+    } else {
+      message(res.status + '： ' + res.data.message, 'error')
+    }
   }
   return Promise.reject(new Error(res.data.message))
 })

@@ -16,7 +16,7 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input name="password" :type="passwordType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码" />
-        <span class="show-pwd" @click="showPwd">
+        <span class="show-pwd" @click="showPwd()">
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
@@ -30,6 +30,7 @@
 import { isvalidUsername } from '@/util/validate'
 import { mapGetters } from 'vuex'
 export default {
+  name: 'userlogin',
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
@@ -68,8 +69,6 @@ export default {
   },
   props: [],
   methods: {
-    refreshCode() {
-    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''

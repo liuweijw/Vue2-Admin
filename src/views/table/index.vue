@@ -42,8 +42,8 @@
         </avue-crud-input>
       </template>
       <template slot-scope="scope" slot="menu">
-        <el-button type="primary" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编辑</el-button>
-        <el-button icon="el-icon-check" size="small" @click="handleGrade(scope.row,scope.index)">权限</el-button>
+        <el-button type="primary" icon="el-icon-check" size="small" plain @click.stop.safe="handleEdit(scope.row,scope.index)">编辑</el-button>
+        <el-button icon="el-icon-check" size="small" @click.stop.safe="handleGrade(scope.row,scope.index)">权限</el-button>
       </template>
     </avue-crud>
     <el-button @click.native="formate" style="margin: 8px 0">格式化</el-button>
@@ -99,7 +99,7 @@ export default {
   props: [],
   methods: {
     tip() {
-      this.$message({
+      this.$notify({
         message: '点击事件'
       })
     },
@@ -111,13 +111,13 @@ export default {
         .then(data => {
           this.tableOption = data
           this.formJson = JSON.stringify(data, null, 2)
-          this.$message({
+          this.$notify({
             message: '数据加载成功',
             type: 'success'
           })
         })
         .catch(err => {
-          this.$message({
+          this.$notify({
             center: true,
             dangerouslyUseHTMLString: true,
             message: `JSON格式错误<br \>\n${err}`,
@@ -254,13 +254,13 @@ export default {
      * @param val 选中的值
      *
      **/
-    handleSelectionChange (val) {
-      this.tableRow = val[0]
-      this.$message({
+    handleSelectionChange(val) {
+      this.tableRow = val[0];
+      this.$notify({
         showClose: true,
         message: JSON.stringify(val),
-        type: 'success'
-      })
+        type: "success"
+      });
     },
     /**
      * @title 数据添加
@@ -270,12 +270,12 @@ export default {
      **/
     handleSave(row, done) {
       this.tableData.push(Object.assign({}, row));
-      this.$message({
+      this.$notify({
         showClose: true,
-        message: '添加成功',
-        type: 'success'
-      })
-      done()
+        message: "添加成功",
+        type: "success"
+      });
+      done();
     },
     /**
      * @title 行双击
@@ -283,12 +283,12 @@ export default {
      * @param event 事件
      *
      **/
-    handleRowDBLClick (row, event) {
-      this.$message({
+    handleRowDBLClick(row, event) {
+      this.$notify({
         showClose: true,
-        message: '双击',
-        type: 'success'
-      })
+        message: "双击",
+        type: "success"
+      });
     },
 
     /**
@@ -298,19 +298,19 @@ export default {
      * @param column 列
      *
      **/
-    handleRowClick (row, event, column) {
-      this.$message({
+    handleRowClick(row, event, column) {
+      this.$notify({
         showClose: true,
-        message: '单机',
-        type: 'success'
-      })
+        message: "单机",
+        type: "success"
+      });
     },
-    handleRowDel () {
-      this.$message({
+    handleRowDel() {
+      this.$notify({
         showClose: true,
         message: this.tableRow,
-        type: 'success'
-      })
+        type: "success"
+      });
     },
     /**
      * @title 数据删除
@@ -325,12 +325,12 @@ export default {
         type: 'warning'
       })
         .then(() => {
-          this.tableData.splice(index, 1)
-          this.$message({
+          this.tableData.splice(index, 1);
+          this.$notify({
             showClose: true,
-            message: '删除成功',
-            type: 'success'
-          })
+            message: "删除成功",
+            type: "success"
+          });
         })
     },
     /**
@@ -342,33 +342,33 @@ export default {
      **/
     handleUpdate(row, index, done) {
       this.tableData.splice(index, 1, Object.assign({}, row));
-      this.$message({
+      this.$notify({
         showClose: true,
-        message: '修改成功',
-        type: 'success'
-      })
-      done()
+        message: "修改成功",
+        type: "success"
+      });
+      done();
     },
     /**
      * @title 表单关闭前处理
      * @param done
      *
      **/
-    boxhandleClose (done) {
-      this.$message({
+    boxhandleClose(done) {
+      this.$notify({
         showClose: true,
-        message: '表单关闭前处理事件',
-        type: 'success'
-      })
-      done()
+        message: "表单关闭前处理事件",
+        type: "success"
+      });
+      done();
     },
-    boxhandleOpen (show) {
-      this.$message({
+    boxhandleOpen(show) {
+      this.$notify({
         showClose: true,
-        message: '表单打开前处理事件',
-        type: 'success'
-      })
-      show()
+        message: "表单打开前处理事件",
+        type: "success"
+      });
+      show();
     }
   }
 }
