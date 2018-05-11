@@ -26,12 +26,10 @@ export default {
   props: {
     option: {
       type: Object,
-      default: () => {
-        return {}
-      }
+      default: () => {}
     }
   },
   created() {},
-  methods() {}
+  methods: {}
 }
 </script>

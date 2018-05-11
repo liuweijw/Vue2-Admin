@@ -1,15 +1,15 @@
 <template>
   <div class="data-card">
     <el-row :span="24">
-        <el-col :span="span" v-for="(item,index) in data" :key="index">
-          <div class="item">
-            <img :src="item.src" class="item-img" />
-            <div class="item-text" :style="{color:colorText,backgroundColor:bgText}">
-              <h3>{{item.name}}</h3>
-              <p>{{item.text}}</p>
-            </div>
+      <el-col :span="span" v-for="(item,index) in data" :key="index">
+        <div class="item">
+          <img :src="item.src" class="item-img" />
+          <div class="item-text" :style="{color:colorText,backgroundColor:bgText}">
+            <h3>{{item.name}}</h3>
+            <p>{{item.text}}</p>
           </div>
-        </el-col>
+        </div>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
   props: {
     option: {
       type: Object,
-      default: {}
+      default: () => {}
     }
   },
   created() {},

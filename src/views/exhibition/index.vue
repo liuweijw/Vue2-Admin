@@ -1,23 +1,22 @@
 <template>
-  <div class="exhibition-contailer  pull-chheight">
-
-    <div class="pull-auto" style="margin-top:20px;">
+  <div class="exhibition-contailer">
+    <div class="item">
       <h4>数据展示</h4>
       <avue-data-display :option="option"></avue-data-display>
     </div>
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="item">
       <h4>选项卡展示</h4>
       <avue-data-tabs :option="easyDataOption"></avue-data-tabs>
     </div>
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="item">
       <h4>卡片的展示</h4>
       <avue-data-card :option="easyDataOption0"></avue-data-card>
     </div>
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="item">
       <h4>带数字的展示</h4>
       <avue-data-icons :option="easyDataOption1"></avue-data-icons>
     </div>
-    <div class="pull-auto" style="margin-top:20px;">
+    <div class="item">
       <h4>简易展示</h4>
       <avue-data-icons :option="easyDataOption2"></avue-data-icons>
     </div>
@@ -27,8 +26,7 @@
 <script>
 export default {
   name: 'exhibition',
-  components: {
-  },
+  components: {},
   data() {
     return {
       option: {
@@ -193,7 +191,7 @@ export default {
 </script>
 
 <style scoped>
-.exhibition-contailer {
-  padding: 0 20px;
+.item {
+  margin-bottom: 10px;
 }
 </style>

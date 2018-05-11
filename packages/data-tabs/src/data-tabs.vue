@@ -33,7 +33,7 @@ export default {
   props: {
     option: {
       type: Object,
-      default: {}
+      default: () => {}
     }
   }
 }

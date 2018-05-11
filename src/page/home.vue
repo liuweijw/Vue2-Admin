@@ -1,31 +1,22 @@
 <template>
-	<div class="pull-chheight wel-contailer">
-			<div class="banner-text">
-				<h2>Vue2-Admin 管理系统</h2>
-			</div>
-	</div>
+  <div class="wel-contailer">
+    <div class="banner-text">
+      <h2>Vue2 管理系统</h2>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'home',
   data() {
-    return {
-      text: '',
-      actor: '',
-      count: 0,
-      isText: false
-    }
-  },
-  created() {
-  },
-  methods: {
+    return {}
   }
 }
 </script>
 
 <style scoped="scoped" lang="scss">
-.wel-contailer{
+.wel-contailer {
   position: relative;
 }
 .banner-text {
@@ -35,6 +26,15 @@ export default {
   text-align: center;
   color: #333;
 }
+.banner-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  display: none;
+}
 .actor {
   height: 250px;
   overflow: hidden;
@@ -43,7 +43,7 @@ export default {
 }
 
 .actor:after {
-  content: "";
+  content: '';
   width: 3px;
   height: 25px;
   vertical-align: -5px;
@@ -55,5 +55,11 @@ export default {
 
 .typeing:after {
   animation: none;
+}
+
+@keyframes blink {
+  to {
+    opacity: 0;
+  }
 }
 </style>

@@ -33,8 +33,8 @@
       <el-table-column fixed="right" v-if="vaildData(tableOption.menu,true)" label="操作" :align="tableOption.menuAlign" :header-align="tableOption.menuHeaderAlign" :width="vaildData(tableOption.menuWidth,240)">
         <template slot-scope="scope">
           <template v-if="vaildData(tableOption.menu,true)">
-            <el-button type="primary" icon="el-icon-edit" size="small" @click.stop.safe="rowEdit(scope.row,scope.$index)" v-if="vaildData(tableOption.editBtn,true)">编 辑</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small" @click.stop.safe="rowDel(scope.row,scope.$index)" v-if="vaildData(tableOption.delBtn,true)">删 除</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="small" @click.stop="rowEdit(scope.row,scope.$index)" v-if="vaildData(tableOption.editBtn,true)">编 辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="small" @click.stop="rowDel(scope.row,scope.$index)" v-if="vaildData(tableOption.delBtn,true)">删 除</el-button>
           </template>
           <slot :row="scope.row" name="menu" :index="scope.$index"></slot>
         </template>
@@ -43,7 +43,7 @@
     <!-- 分页 -->
     <el-pagination v-if="vaildData(tableOption.page,true)" class="crud-pagination pull-right" :current-page.sync="page.currentPage" :background="vaildData(tableOption.pageBackground,true)" :page-size="page.pageSize" @size-change="sizeChange" @current-change="currentChange" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
     <!-- 表单 -->
-    <el-dialog :modal-append-to-body="false" :append-to-body="true" :title="boxType==0?'新增':'编辑'" :visible.sync="boxVisible" width="50%" :before-close="boxhandleClose">
+    <el-dialog :modal-append-to-body="false" :append-to-body="true" :title="boxType==0?'新增':'编辑'" :visible.sync="boxVisible" width="50%" :before-close="hide">
       <el-form ref="tableForm" :model="tableForm" label-width="80px" :rules="tableFormRules">
         <el-row :gutter="20" :span="24">
           <template v-for="(column,index) in tableOption.column">
@@ -59,7 +59,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="rowUpdate" v-if="boxType==1">修 改</el-button>
         <el-button type="primary" @click="rowSave" v-else>新 增</el-button>
-        <el-button @click="boxVisible = false">取 消</el-button>
+        <el-button @click="hide">取 消</el-button>
       </span>
     </el-dialog>
 
@@ -191,7 +191,6 @@ export default {
     currentChange(val) {
       this.$emit('current-change', val)
     },
-
     // 选中实例
     toggleSelection(rows) {
       if (rows) {
@@ -237,19 +236,16 @@ export default {
     },
     // 新增
     rowAdd() {
-      // form表单初始化
       this.formInit()
       this.boxType = 0
-      if (typeof this.beforeOpen === 'function') this.beforeOpen(this.show)
-      else this.show()
+      this.show()
     },
     // 编辑
     rowEdit(row, index) {
       this.tableForm = Object.assign({}, row)
       this.tableIndex = index
       this.boxType = 1
-      if (typeof this.beforeOpen === 'function') this.beforeOpen(this.show)
-      else this.show()
+      this.show()
     },
     // 删除
     rowDel(row, index) {
@@ -279,24 +275,28 @@ export default {
     },
     // 显示表单
     show(cancel) {
-      if (cancel !== true) {
-        this.boxVisible = true
-        this.$nextTick(() => {})
-        this.$refs['tableForm'].resetFields()
+      const callack = () => {
+        if (cancel !== true) {
+          this.boxVisible = true
+        }
       }
+      if (typeof this.beforeOpen === 'function') this.beforeOpen(callack)
+      else callack()
     },
     // 隐藏表单
     hide(cancel) {
-      if (cancel !== false) {
-        this.boxVisible = false
+      const callack = () => {
+        if (cancel !== false) {
+          // 释放form表单
+          this.tableForm = {}
+          this.$nextTick(() => {
+            this.$refs['tableForm'].resetFields()
+          })
+          this.boxVisible = false
+        }
       }
-    },
-    // 窗口关闭处理事件
-    boxhandleClose() {
-      // 释放form表单
-      this.tableForm = {}
-      if (typeof this.beforeClose === 'function') this.beforeClose(this.hide)
-      else this.hide()
+      if (typeof this.beforeClose === 'function') this.beforeClose(callack)
+      else callack()
     }
   }
 }

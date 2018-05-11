@@ -68,9 +68,11 @@ export default {
     .router {
       padding: 15px 8px;
       background: #fff;
+      min-height: 100%;
       height: auto;
       overflow: hidden;
       border-radius: 5px;
+      box-sizing: border-box;
     }
   }
   .nav {

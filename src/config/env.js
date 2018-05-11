@@ -14,13 +14,13 @@ let baseUrl = ''
 const iconfontVersion = ['567566_r22zi6t8noas8aor']
 const iconfontUrl = `//at.alicdn.com/t/font_$key.css`
 const codeUrl = `${baseUrl}/code`
-
-if (process.env.NODE_ENV === 'development') {
-  baseUrl = `http://localhost`// 开发环境地址
-} else if (process.env.NODE_ENV === 'production') {
-  baseUrl = `http://localhost`// 生产环境地址
-} else if (process.env.NODE_ENV === 'test') {
-  baseUrl = `http://localhost`// 测试环境地址
+const env = process.env.NODE_ENV
+if (env === 'development') {
+  baseUrl = `` // 开发环境地址
+} else if (env === 'production') {
+  baseUrl = `` // 生产环境地址
+} else if (env === 'test') {
+  baseUrl = `` // 测试环境地址
 }
 
 export {
