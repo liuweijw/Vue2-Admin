@@ -42,8 +42,8 @@
         </avue-crud-input>
       </template>
       <template slot-scope="scope" slot="menu">
-        <el-button type="primary" icon="el-icon-check" size="small" plain @click.stop.safe="handleEdit(scope.row,scope.index)">编辑</el-button>
-        <el-button icon="el-icon-check" size="small" @click.stop.safe="handleGrade(scope.row,scope.index)">权限</el-button>
+        <el-button type="primary" icon="el-icon-check" size="small" plain @click.stop="handleEdit(scope.row,scope.index)">编辑</el-button>
+        <el-button icon="el-icon-check" size="small" @click.stop="handleGrade(scope.row,scope.index)">权限</el-button>
       </template>
     </avue-crud>
     <el-button @click.native="formate" style="margin: 8px 0">格式化</el-button>

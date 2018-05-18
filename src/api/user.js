@@ -82,14 +82,14 @@ export function fetchUserByUserId(userId) {
   })
 }
 
-export function delByUserId(userId) {
+export function del(userId) {
   return request({
     url: '/admin/user/del/' + userId,
     method: 'post'
   })
 }
 
-export function addUser(_from) {
+export function add(_from) {
   return request({
     url: '/admin/user/addUser',
     method: 'post',
@@ -97,7 +97,7 @@ export function addUser(_from) {
   })
 }
 
-export function updateUser(_from) {
+export function update(_from) {
   return request({
     url: '/admin/user/updateUser',
     method: 'post',

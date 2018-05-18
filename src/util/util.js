@@ -153,12 +153,32 @@ export const findParent = (menu, id) => {
 export const resolveUrlPath = (url, name) => {
   let reqUrl = url
   if (url.indexOf('http') !== -1 || url.indexOf('https') !== -1) {
+    if (url.indexOf('websiteIp') !== -1) {
+      // console.log('======' + urlRegEx(location.href)[0]) // http://127.0.0.1:9527/#/admin/user
+      // console.log('======' + urlRegEx(location.href)[1]) // http
+      // console.log('======' + urlRegEx(location.href)[2]) // 127.0.0.1
+      // console.log('======' + urlRegEx(location.href)[3]) // :9527
+      // console.log('======' + urlRegEx(location.href)[4]) // /#/admin/
+      reqUrl = reqUrl.replace(/websiteIp/, urlRegEx(location.href)[2])
+    }
     reqUrl = `/myiframe/urlPath?src=${reqUrl}&name=${name}`
   } else {
     reqUrl = `${reqUrl}`
   }
   return reqUrl
 }
+
+/**
+ * 获取URL各个部分
+ */
+export const urlRegEx = url => {
+  // 如果加上/g参数，那么只返回$0匹配。也就是说arr.length = 0
+  var re = /(\w+):\/\/([^\:|\/]+)(\:\d*)?(.*\/)([^#|\?|\n]+)?(#.*)?(\?.*)?/i
+  // re.exec(url)
+  var arr = url.match(re)
+  return arr
+}
+
 /**
  * 总体路由设置器
  */

@@ -245,6 +245,7 @@ export default {
       this.tableForm = Object.assign({}, row)
       this.tableIndex = index
       this.boxType = 1
+      this.$emit('row-edit', row, index)
       this.show()
     },
     // 删除

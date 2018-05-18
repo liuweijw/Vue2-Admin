@@ -13,7 +13,7 @@ export default function() {
     props: {
       dicUrl: {
         type: String,
-        default: '/admin/dict/type'
+        default: '/admin/api/dictType'
       }
     },
     components: {

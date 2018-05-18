@@ -8,7 +8,7 @@ export const userOption = {
   align: 'center',
   menuAlign: 'center',
   // menuWidth: 300,
-  dic: ['STATU', 'GRADE'],
+  dic: ['DEL_FLAG'],
   defaultSort: { prop: 'username', order: 'descending' },
   column: [
     {
@@ -22,9 +22,9 @@ export const userOption = {
     {
       label: '角色',
       prop: 'roleDesc',
-      type: 'select',
-      dicData: 'GRADE',
       overHidden: true,
+      addVisdiplay: false,
+      editVisdiplay: false,
       solt: true
       // dataDetail: row => { // 目前新版本已经不再支持
       //   // 对列表数据处理
@@ -36,10 +36,27 @@ export const userOption = {
       // }
     },
     {
+      label: '角色',
+      prop: 'roleId',
+      formsolt: true,
+      editDisabled: true,
+      addDisabled: false,
+      hide: true
+    },
+    {
       label: '创建时间',
       prop: 'createTime',
       type: 'date',
-      visdiplay: true
+      addVisdiplay: false,
+      editVisdiplay: false
+    },
+    {
+      label: '密码',
+      prop: 'password',
+      editDisabled: true,
+      editVisdiplay: true,
+      hide: true,
+      rules: [{ required: true, message: '请输入登录密码', trigger: 'blur' }]
     },
     {
       label: '状态',
@@ -47,28 +64,9 @@ export const userOption = {
       sortable: true,
       solt: true, // 支持自定义dom default:false,
       type: 'radio',
-      visdiplay: true,
-      dicData: 'STATU' // type的数据字典,当type为：select | radio | checkbox 加载
-    }
-  ]
-}
-export const roleOption = {
-  border: true,
-  index: true,
-  selection: false,
-  menuWidth: 300,
-  column: [
-    {
-      label: '角色名称',
-      prop: 'name',
-      width: '150',
-      rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
-    },
-    {
-      label: '创建时间',
-      prop: 'date',
-      visdiplay: true,
-      type: 'date'
+      addVisdiplay: false,
+      rules: [{ required: true, message: '请选择状态', trigger: 'blur' }],
+      dicData: 'DEL_FLAG' // type的数据字典,当type为：select | radio | checkbox 加载
     }
   ]
 }

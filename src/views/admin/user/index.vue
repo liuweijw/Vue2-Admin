@@ -5,7 +5,7 @@
                 size="medium"
                 class="filter-item"
                 placeholder="用户名"
-                v-model="listPageParams.username"
+                v-model="page.username"
                 @keyup.enter.native="handleSearch"></el-input>
       <el-button class="filter-item"
                  size="small"
@@ -28,57 +28,69 @@
                :page="page"
                ref="crud"
                width="290"
+               @row-edit='handleRowEdit'
+               @row-click="handleRowClick"
+               @size-change="handleSizeChange"
+               @current-change="handleCurrentChange"
                @row-save="handleSave"
                @row-update="handleUpdate"
                @row-del="handleDel">
       <template slot-scope="scope"
                 slot="statu">
-        <el-tag :type="scope.row.statu===0?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
+        <el-tag :type="scope.row.statu==='0'?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
       </template>
-      <template slot-scope="scope"
-                slot="roleDesc">
+      <template slot-scope="scope" slot="roleDesc">
         {{roleDescValue(scope.row)}}
+      </template>
+      <template slot-scope="scope" slot="roleIdForm">
+        <el-select v-model="roleEditRoleId" :placeholder="'请选择角色'" @change="handleChange">
+          <el-option v-for="(item,index) in roleEditData" :key="index" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
       </template>
     </avue-crud>
   </div>
 </template>
 
 <script>
-import { fetchUserList, delByUserId } from '@/api/user'
+import { fetchUserList, add, update, del } from '@/api/user'
+import { fetchListAll } from '@/api/role'
 import { mapGetters } from 'vuex'
 import { userOption } from '@/const/admin/adminTabelOption.js'
-import waves from '@/directive/waves/index.js' // 点击按钮时候显示水波纹动画
+import { validatenull } from '@/util/validate'
+import waves from '@/directive/waves/index.js'
 export default {
   directives: { waves },
   name: 'user',
   components: {},
   data() {
     return {
-      tableOption: {}, // 表格设置属性
-      tableData: [], // 表格的数据
+      tableOption: {},
+      tableData: [],
       tablePage: 1,
       tableLoading: false,
       tabelObj: {},
       page: {
-        total: 0, // 总页数
-        currentPage: 0, // 当前页数
-        pageSize: 10 // 每页显示多少条
-      },
-      listPageParams: {
-        pageNo: 0,
-        pageNum: 20,
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
         username: ''
+      },
+      roleEditData: [],
+      roleEditRoleId: '',
+      userObj: {
+        username: '',
+        password: '',
+        statu: 0,
+        roleId: '',
+        userId: ''
       }
     }
   },
   created() {
-    // 初始化数据格式
     this.tableOption = userOption
-    this.getUserList()
-    // 设置权限，后续将采用动态方式
-    this.user_upd = this.permission['user_upd']
-    this.user_del = this.permission['user_del']
-    this.user_add = this.permission['user_add']
+    this.handleList()
+    this.handleRoleList()
   },
   watch: {},
   mounted() { },
@@ -87,21 +99,40 @@ export default {
   },
   props: [],
   methods: {
-    getUserList() {
+    handleList() {
       this.tableLoading = true
-      fetchUserList(this.listPageParams).then(res => {
+      fetchUserList(this.page).then(res => {
         this.tableData = res.data.list
-        this.page = {
-          total: res.data.total,
-          currentPage: res.data.pageNo,
-          pageSize: res.data.pageNum
-        }
+        this.tableData.forEach(row => {
+          row.statu = row.statu + ''
+          row.password = '******'
+        })
+        this.page.total = res.data.total
+        this.page.currentPage = res.data.currentPage
+        this.page.pageSize = res.data.pageSize
         this.tableLoading = false
       })
     },
-    handleSearch() { // 搜索
-      this.listPageParams.pageNo = 0
-      this.getUserList()
+    handleRowClick(row, event, column) {
+      this.$notify({
+        showClose: true,
+        message: row.roleList[0].roleCode,
+        type: 'success'
+      })
+    },
+    handleChange(val) {
+      this.roleEditRoleId = val
+    },
+    handleSizeChange(val) {
+      this.page.pageSize = val
+      this.handleList()
+    },
+    handleCurrentChange(val) {
+      this.page.currentPage = val
+    },
+    handleSearch() {
+      this.page.currentPage = 1
+      this.handleList()
     },
     findByvalue(dic, value) {
       return this.$refs.crud.findByvalue(dic, value)
@@ -110,21 +141,52 @@ export default {
       // 对列表数据处理
       let rDesc = ''
       row.roleList.forEach(r => {
-        rDesc += r.roleDesc
+        rDesc += r.roleName
       })
       return rDesc
     },
     handleAdd() {
+      this.roleEditRoleId = this.roleEditData[0].value
       this.$refs.crud.rowAdd()
     },
+    handleRowEdit(row, index) {
+      if (validatenull(row.roleList)) {
+        this.roleEditRoleId = ''
+        return
+      }
+      this.roleEditRoleId = row.roleList[0].roleId
+    },
     handleSave(row, done) {
-      this.tableData.push(row)
-      this.$message({
-        showClose: true,
-        message: '添加成功',
-        type: 'success'
+      this.userObj.username = row.username
+      this.userObj.password = row.password
+      this.userObj.statu = 0
+      this.userObj.roleId = this.roleEditRoleId
+      this.userObj.userId = ''
+      add(this.userObj).then(res => {
+        if (res.data) {
+          this.handleList()
+          this.$notify({ title: '成功', message: '添加成功', type: 'success', duration: 2000 })
+        } else {
+          this.$notify({ title: '失败', message: '添加失败', type: 'error', duration: 2000 })
+        }
+        done()
       })
-      done()
+    },
+    handleUpdate(row, index, done) {
+      this.userObj.username = row.username
+      this.userObj.password = ''
+      this.userObj.statu = row.statu
+      this.userObj.roleId = this.roleEditRoleId
+      this.userObj.userId = row.userId
+      update(this.userObj).then(res => {
+        if (res.data) {
+          this.handleList()
+          this.$notify({ title: '成功', message: '修改成功', type: 'success', duration: 2000 })
+        } else {
+          this.$notify({ title: '失败', message: '修改失败', type: 'error', duration: 2000 })
+        }
+        done()
+      })
     },
     handleDel(row, index) {
       this.$confirm('此操作将永久删除该用户(用户名:' + row.username + '), 是否继续?', '提示', {
@@ -132,9 +194,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delByUserId(row.userId).then(res => {
+        del(row.userId).then(res => {
           if (res.data) {
-            this.getUserList()
+            this.handleList()
             this.$notify({ title: '成功', message: '删除成功', type: 'success', duration: 2000 })
           } else {
             this.$notify({ title: '失败', message: '删除失败', type: 'error', duration: 2000 })
@@ -144,14 +206,16 @@ export default {
         this.$message({ type: 'info', message: '已取消删除' })
       })
     },
-    handleUpdate(row, index, done) {
-      this.tableData.splice(index, 1, row)
-      this.$message({
-        showClose: true,
-        message: '修改成功',
-        type: 'success'
+    handleRoleList() {
+      fetchListAll().then(res => {
+        res.data.forEach(r => {
+          const role = {
+            label: r.roleName,
+            value: r.roleId
+          }
+          this.roleEditData.push(role)
+        })
       })
-      done()
     }
   }
 }

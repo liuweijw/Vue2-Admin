@@ -1,18 +1,70 @@
 <template>
   <div class="table-container pull-height">
     <div class="table-header">
-      <el-button type="primary" @click="handleAdd" size="small" v-if="permission.sys_crud_btn_add">新 增</el-button>
+      <el-input style="width: 200px;"
+                size="medium"
+                class="filter-item"
+                placeholder="角色名称"
+                v-model="page.roleName"
+                @keyup.enter.native="handleSearch"></el-input>
+      <el-input style="width: 200px;"
+                size="medium"
+                class="filter-item"
+                placeholder="角色编码"
+                v-model="page.roleCode"
+                @keyup.enter.native="handleSearch"></el-input>
+      <el-button class="filter-item"
+                 size="small"
+                 type="primary"
+                 v-waves
+                 icon="search"
+                 @click="handleSearch()">搜索</el-button>
+      <el-button v-if="permission.role_add"
+                 class="filter-item"
+                 size="small"
+                 style="margin-left: 10px;"
+                 type="primary"
+                 icon="edit"
+                 v-waves
+                 @click="handleAdd()">新 增</el-button>
     </div>
-    <avue-crud :table-option="tableOption" :table-data="tableData" :table-loading="tableLoading" :page="page" ref="crud" width="290" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel">
-      <template slot-scope="scope" slot="menu">
-        <el-button icon="el-icon-check" size="small" @click="handleGrade(scope.row,scope.$index)">权限</el-button>
+    <avue-crud :table-option="tableOption"
+               :table-data="tableData"
+               :table-loading="tableLoading"
+               :page="page"
+               ref="crud"
+               width="290"
+               @size-change="handleSizeChange"
+               @current-change="handleCurrentChange"
+               @row-save="handleSave"
+               @row-update="handleUpdate"
+               @row-del="handleDel">
+      <template slot-scope="scope"
+                slot="menu">
+        <el-button icon="el-icon-check"
+                   size="small"
+                   @click="handleRoleMenu(scope.row,scope.$index)">权限</el-button>
+      </template>
+      <template slot-scope="scope"
+                slot="statu">
+        <el-tag :type="scope.row.statu==='0'?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
       </template>
     </avue-crud>
-    <el-dialog title="菜单" :visible.sync="grade.box" width="40%">
-      <el-tree :data="menuAll" :default-checked-keys="grade.check" :default-expanded-keys="grade.check" show-checkbox node-key="id" @check-change="handleGradeCheckChange">
+    <el-dialog title="菜单"
+               :visible.sync="menuTree.box"
+               width="40%">
+      <el-tree :data="menuAll"
+               :default-checked-keys="menuTree.check"
+               :default-expanded-keys="menuTree.check"
+               show-checkbox
+               node-key="id"
+               ref="menuTreeRef"
+               @check-change="handleMenuCheckChange">
       </el-tree>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleGradeUpdate">更新</el-button>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button type="primary"
+                   @click="handleMenuUpdate">更新</el-button>
       </span>
     </el-dialog>
 
@@ -21,7 +73,9 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { roleOption } from '@/const/admin/adminTabelOption.js'
+import { roleTableOption } from '@/const/role/roleTableOption'
+import { fetchList, del, add, update, updRoleMenuPermission } from '@/api/role'
+import { fetchMenuTreeList } from '@/api/menu'
 export default {
   name: 'role',
   components: {},
@@ -33,138 +87,139 @@ export default {
       tableLoading: false,
       tabelObj: {},
       page: {
-        total: 0, // 总页数
-        currentPage: 1, // 当前页数
-        pageSize: 10 // 每页显示多少条
+        total: 0,
+        currentPage: 1,
+        pageSize: 20,
+        roleName: '',
+        roleCode: ''
       },
-      grade: {
+      menuTree: {
         box: false,
         check: []
-      }
+      },
+      menuAll: []
     }
   },
   created() {
-    // 初始化数据格式
-    this.tableOption = roleOption
+    this.tableOption = roleTableOption
     this.handleList()
   },
   watch: {},
-  mounted() {},
+  mounted() { },
   computed: {
-    ...mapGetters(['permission', 'menuAll'])
+    ...mapGetters(['permission'])
   },
   props: [],
   methods: {
-    /**
-     * @title 权限更新
-     *
-     **/
-    handleGradeUpdate() {
-      this.tabelObj.check = [].concat(this.grade.check)
-      this.tabelObj = {}
-      this.grade.check = []
-      this.grade.box = false
-    },
-    /**
-     * @title 权限选择
-     *
-     **/
-    handleGradeCheckChange(data, checked, indeterminate) {
-      if (checked) {
-        this.grade.check.push(data.id)
-      } else {
-        this.grade.check.splice(this.grade.check.indexOf(data.id), 1)
-      }
-    },
-    /**
-     * @title 打开权限
-     */
-    handleGrade(row, index) {
-      this.$store.dispatch('GetMenuAll').then(data => {
-        this.grade.box = true
-        this.tabelObj = row
-        this.grade.check = this.tabelObj.check
+    handleList() {
+      this.tableLoading = true
+      fetchList(this.page).then(res => {
+        this.tableData = res.data.list
+        // 由于statu是int 和前台字典值为字符串不匹配，这里处理下。
+        this.tableData.forEach(row => { row.statu = row.statu + '' })
+        this.page.total = res.data.total
+        this.page.currentPage = res.data.currentPage
+        this.page.pageSize = res.data.pageSize
+        this.tableLoading = false
       })
     },
-    /**
-     * @title 打开新增窗口
-     * @detail 调用crud的handleadd方法即可
-     *
-     **/
+    handleSizeChange(val) {
+      this.page.pageSize = val
+      this.handleList()
+    },
+    handleCurrentChange(val) {
+      this.page.currentPage = val
+    },
+    handleSearch() { // 搜索
+      this.page.currentPage = 1
+      this.handleList()
+    },
     handleAdd() {
       this.$refs.crud.rowAdd()
     },
-    /**
-     * @title 获取数据
-     * @detail 赋值为tableData表格即可
-     *
-     **/
-    handleList() {
-      this.tableLoading = true
-      this.$store
-        .dispatch('GetRoleData', { page: `${this.tablePage}` })
-        .then(data => {
-          setTimeout(() => {
-            this.tableData = data.tableData
-            this.page = {
-              total: data.total,
-              pageSize: data.pageSize
-            }
-            this.tableLoading = false
-          }, 1000)
-        })
-    },
-    /**
-     * @title 数据添加
-     * @param row 为当前的数据
-     * @param done 为表单关闭函数
-     *
-     **/
     handleSave(row, done) {
-      this.tableData.push(row)
-      this.$message({
-        showClose: true,
-        message: '添加成功',
-        type: 'success'
+      row.statu = 0
+      add(row).then(res => {
+        if (res.data) {
+          this.handleList()
+          this.$notify({ title: '成功', message: '添加成功', type: 'success', duration: 2000 })
+        } else {
+          this.$notify({ title: '失败', message: '添加失败', type: 'error', duration: 2000 })
+        }
+        done()
       })
-      done()
     },
-    /**
-     * @title 数据删除
-     * @param row 为当前的数据
-     * @param index 为当前更新数据的行数
-     *
-     **/
+    handleUpdate(row, index, done) {
+      update(row).then(res => {
+        if (res.data) {
+          this.handleList()
+          this.$notify({ title: '成功', message: '修改成功', type: 'success', duration: 2000 })
+        } else {
+          this.$notify({ title: '失败', message: '修改失败', type: 'error', duration: 2000 })
+        }
+        done()
+      })
+    },
     handleDel(row, index) {
-      this.$confirm(`是否确认删除序号为${row.name}`, '提示', {
+      this.$confirm('此操作将删除该角色(' + row.roleName + '), 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(() => {
-          this.tableData.splice(index, 1)
-          this.$message({
-            showClose: true,
-            message: '删除成功',
-            type: 'success'
-          })
+      }).then(() => {
+        del(row.roleId).then(res => {
+          if (res.data) {
+            this.handleList()
+            this.$notify({ title: '成功', message: '删除成功', type: 'success', duration: 2000 })
+          } else {
+            this.$notify({ title: '失败', message: '删除失败', type: 'error', duration: 2000 })
+          }
         })
-    },
-    /**
-     * @title 数据更新
-     * @param row 为当前的数据
-     * @param index 为当前更新数据的行数
-     * @param done 为表单关闭函数
-     *
-     **/
-    handleUpdate(row, index, done) {
-      this.tableData.splice(index, 1, row)
-      this.$message({
-        showClose: true,
-        message: '修改成功',
-        type: 'success'
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除' })
       })
-      done()
+    },
+    findByvalue(dic, value) {
+      return this.$refs.crud.findByvalue(dic, value)
+    },
+    handleMenuUpdate() {
+      const checkedNodes = this.$refs.menuTreeRef.getCheckedNodes()
+      // const permissions = this.$refs.menuTreeRef.getCheckedKeys() + ''
+      let permissions = ''
+      checkedNodes.forEach(n => {
+        if (n.pid !== '0') permissions += n.pid + '|' + n.id + ','
+      })
+      const _from = {
+        roleCode: this.tabelObj.roleCode,
+        permissions: permissions
+      }
+      updRoleMenuPermission(_from).then(res => {
+        if (res.data) {
+          this.tabelObj = {}
+          this.menuAll = []
+          this.menuTree.check = []
+          this.menuTree.box = false
+          // this.$refs.menuTreeRef.setCheckedKeys([])
+          // this.tabelObj.check = [].concat(this.menuTree.check)
+          this.$notify({ title: '成功', message: '权限更新成功', type: 'success', duration: 2000 })
+        } else {
+          this.$notify({ title: '失败', message: '权限更新失败', type: 'error', duration: 2000 })
+        }
+      })
+    },
+    handleMenuCheckChange(data, checked, indeterminate) {
+      // if (checked) {
+      //   this.menuTree.check.push(data.id)
+      // } else {
+      //   this.menuTree.check.splice(this.menuTree.check.indexOf(data.id), 1)
+      // }
+    },
+    handleRoleMenu(row, index) {
+      this.tabelObj = row
+      fetchMenuTreeList(row.roleCode).then(res => {
+        this.menuAll = res.data.menuList
+        this.menuTree.check = res.data.permissions
+        this.menuTree.box = true
+      })
     }
   }
 }

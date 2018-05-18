@@ -15,7 +15,7 @@ export default {
   name: 'top-menu',
   data() {
     return {
-      activeIndex: '',
+      activeIndex: '-1',
       items: [
         {
           label: '开发实例',

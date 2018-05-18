@@ -135,35 +135,35 @@ const second = [
         id: 3,
         label: '菜单管理',
         href: '/admin/menu',
-        icon: 'icon-caidanguanli',
+        icon: 'el-icon-menu',
         children: []
       },
       {
         id: 4,
         label: '角色管理',
         href: '/admin/role',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-menu',
         children: []
       },
       {
         id: 5,
         label: '日志管理',
         href: '/admin/logs',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-menu',
         children: []
       },
       {
         id: 6,
         label: '字典管理',
         href: '/admin/dict',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-menu',
         children: []
       },
       {
         id: 7,
         label: '部门管理',
         href: '/admin/dept',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-menu',
         children: []
       }
     ]
@@ -171,7 +171,7 @@ const second = [
   {
     id: 8,
     label: '系统监控',
-    icon: 'icon-liuliangyunpingtaitubiao08',
+    icon: 'el-icon-view',
     href: '',
     meta: {},
     children: [
@@ -179,42 +179,42 @@ const second = [
         id: 9,
         label: '服务监控',
         href: '/monitor/server',
-        icon: 'icon-yonghuguanli',
+        icon: 'el-icon-document',
         children: []
       },
       {
         id: 10,
         label: 'zipkin监控',
         href: '/monitor/zipkin',
-        icon: 'icon-caidanguanli',
+        icon: 'el-icon-document',
         children: []
       },
       {
         id: 11,
         label: 'pinpoint监控',
         href: '/monitor/pinpoint',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-document',
         children: []
       },
       {
         id: 12,
         label: '缓存状态',
         href: '/monitor/cache',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-document',
         children: []
       },
       {
         id: 13,
         label: 'ELK状态',
         href: '/monitor/elk',
-        icon: 'icon-jiaoseguanli',
+        icon: 'el-icon-document',
         children: []
       },
       {
         id: 14,
         label: '接口文档',
-        href: '/monitor/swagger',
-        icon: 'icon-jiaoseguanli',
+        href: 'http://websiteIp:1003/swagger-ui.html',
+        icon: 'el-icon-document',
         children: []
       }
     ]

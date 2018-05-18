@@ -43,21 +43,21 @@ export default {
     addVisdiplay: false,
     editDisabled: true,
     type: 'number',
-    hide: true
+    hide: false
   },
   {
     label: '类型',
     prop: 'type',
     type: 'cascader',
     dicData: 'TYPE',
-    hide: true
+    hide: false
   },
   {
     label: '权限',
     prop: 'grade',
     type: 'checkbox',
     dicData: 'GRADE',
-    hide: true
+    hide: false
   },
   {
     label: '地址',

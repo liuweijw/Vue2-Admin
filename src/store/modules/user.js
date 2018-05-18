@@ -1,15 +1,7 @@
 import { setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
 import { validatenull } from '@/util/validate'
-import {
-  loginByUsername,
-  getUserInfo,
-  getUserTree,
-  getTableData,
-  getMenu,
-  logout,
-  getMenuAll
-} from '@/api/user'
+import { loginByUsername, getUserInfo, getUserTree, getTableData, getMenu, logout, getMenuAll } from '@/api/user'
 const user = {
   state: {
     userInfo: {},
