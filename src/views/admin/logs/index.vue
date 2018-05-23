@@ -1,3 +1,135 @@
 <template>
-  <div>--------------------logs---------------</div>
+  <div class="table-container pull-height">
+    <div class="table-header">
+      <el-input style="width: 200px;"
+                size="medium"
+                class="filter-item"
+                placeholder="服务ID"
+                v-model="page.serviceId"
+                @keyup.enter.native="handleSearch"></el-input>
+      <el-button class="filter-item"
+                 size="small"
+                 type="primary"
+                 v-waves
+                 icon="search"
+                 @click="handleSearch()">搜索</el-button>
+    </div>
+    <avue-crud :table-option="tableOption"
+               :table-data="tableData"
+               :table-loading="tableLoading"
+               :page="page"
+               ref="crud"
+               width="290"
+               @size-change="handleSizeChange"
+               @current-change="handleCurrentChange"
+               @row-del="handleDel">
+      <template slot-scope="scope" slot="serialIndex">
+        <span>{{ getSerialIndex(scope.row.index) }}</span>
+      </template>
+      <template slot-scope="scope" slot="statu">
+        <el-tag :type="scope.row.statu==='0'?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
+      </template>
+    </avue-crud>
+  </div>
 </template>
+
+<script>
+import { fetchList, del } from '@/api/log'
+import { mapGetters } from 'vuex'
+import { tableOption } from '@/const/log/logTableOption'
+import waves from '@/directive/waves/index'
+export default {
+  directives: { waves },
+  name: 'logs',
+  components: {},
+  data() {
+    return {
+      tableOption: {},
+      tableData: [],
+      tableLoading: false,
+      tablePage: 1,
+      tabelObj: {},
+      page: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 20,
+        serviceId: ''
+      }
+    }
+  },
+  created() {
+    this.tableOption = tableOption
+    this.handleList()
+  },
+  watch: {},
+  mounted() {},
+  computed: {
+    ...mapGetters(['permission'])
+  },
+  props: [],
+  methods: {
+    handleList() {
+      this.tableLoading = true
+      fetchList(this.page).then(res => {
+        this.tableData = res.data.list
+        this.tableData.forEach((row, index) => {
+          row.statu = row.statu + ''
+          row.index = index
+        })
+        this.page.total = res.data.total
+        this.page.currentPage = res.data.currentPage
+        this.page.pageSize = res.data.pageSize
+        this.tableLoading = false
+      })
+    },
+    handleSizeChange(val) {
+      this.page.pageSize = val
+      this.handleList()
+    },
+    handleCurrentChange(val) {
+      this.page.currentPage = val
+      this.handleList()
+    },
+    handleSearch() {
+      this.page.currentPage = 1
+      this.handleList()
+    },
+    getSerialIndex(index) {
+      return index + 1 + (this.page.currentPage - 1) * this.page.pageSize
+    },
+    handleDel(row, index) {
+      this.$confirm('此操作将永久删除该日志, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        del(row.idView).then(res => {
+          if (res.data) {
+            this.handleList()
+            this.$notify({ title: '成功', message: '删除成功', type: 'success', duration: 2000 })
+          } else {
+            this.$notify({ title: '失败', message: '删除失败', type: 'error', duration: 2000 })
+          }
+        })
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除' })
+      })
+    },
+    findByvalue(dic, value) {
+      return this.$refs.crud.findByvalue(dic, value)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.table-container {
+  padding: 8px 10px;
+}
+.table-header {
+  margin-bottom: 10px;
+  & > .el-button {
+    padding: 12px 25px;
+  }
+}
+</style>
