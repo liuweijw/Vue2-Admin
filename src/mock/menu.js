@@ -178,7 +178,7 @@ const second = [
       {
         id: 9,
         label: '服务监控',
-        href: '/monitor/server',
+        href: 'http://websiteIp:1010',
         icon: 'el-icon-document',
         children: []
       },
