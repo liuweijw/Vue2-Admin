@@ -215,7 +215,7 @@ export default {
       this.$emit('row-dblclick', row, event)
     },
 
-    // 行单机
+    // 行单击
     rowClick(row, event, column) {
       this.$emit('row-click', row, event, column)
     },

@@ -301,7 +301,7 @@ export default {
     handleRowClick(row, event, column) {
       this.$notify({
         showClose: true,
-        message: "单机",
+        message: "行单击",
         type: "success"
       });
     },
