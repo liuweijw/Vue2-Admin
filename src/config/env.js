@@ -3,7 +3,6 @@
  *
  * baseUrl: 老项目域名地址
  * khglUrl: 客户管理域名地址
- * dicUrl : 字典服务器地址
  * routerMode: 路由模式
  * imgBaseUrl: 图片所在域名地址
  * welUrl :默认欢迎页
