@@ -1,10 +1,16 @@
 <template>
-  <el-input :size="size" :clearable="clearable" v-model="text" :type="type=='textarea'?'textarea':'text'" :autosize="{ minRows: minRows, maxRows: maxRows}" :placeholder="'请输入'+placeholder" @change="handleChange" :disabled="disabled"></el-input>
+  <div>
+    <quill-editor v-model="text" @change="handleChange" ref="myQuillEditor" :options="options" :style="{height:`calc(${height} - 80px)`}">
+    </quill-editor>
+  </div>
 </template>
-
 <script>
+import { quillEditor } from 'vue-quill-editor'
 export default {
-  name: 'AvueCrudInput',
+  name: 'AvueCrudUeditor',
+  components: {
+    quillEditor
+  },
   data() {
     return {
       text: ''
@@ -13,6 +19,12 @@ export default {
   props: {
     value: {
       default: ''
+    },
+    height: {
+      default: ''
+    },
+    options: {
+      default: () => {}
     },
     clearable: {
       type: Boolean,
@@ -54,12 +66,12 @@ export default {
   mounted() {},
   methods: {
     handleChange(value) {
-      this.$emit('input', value)
+      this.$emit('input', value.html)
     }
   }
 }
 </script>
 
-<style>
 
+<style scoped>
 </style>

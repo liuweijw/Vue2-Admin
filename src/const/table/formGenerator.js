@@ -1,6 +1,6 @@
 export default {
   labelWidth: 120,
-  dic: ['VAILDATA'],
+  dic: ['VAILDATA', 'POSTIONDATA'],
   submitBtn: false,
   column: [
     {
@@ -28,6 +28,24 @@ export default {
     }, {
       label: '表格边框',
       prop: 'border',
+      type: 'radio',
+      dicData: 'VAILDATA',
+      span: 6
+    }, {
+      label: '对齐方式',
+      prop: 'align',
+      type: 'select',
+      dicData: 'POSTIONDATA',
+      span: 6
+    }, {
+      label: '斑马条纹',
+      prop: 'stripe',
+      type: 'radio',
+      dicData: 'VAILDATA',
+      span: 6
+    }, {
+      label: '是否显示表头',
+      prop: 'showHeader',
       type: 'radio',
       dicData: 'VAILDATA',
       span: 6

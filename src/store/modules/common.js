@@ -3,7 +3,7 @@ import {
   getStore,
   removeStore
 } from '@/util/store'
-
+import website from '@/const/website'
 const common = {
   state: {
     isCollapse: false,
@@ -16,7 +16,8 @@ const common = {
     }) || '#409EFF',
     lockPasswd: getStore({
       name: 'lockPasswd'
-    }) || ''
+    }) || '',
+    website: website
   },
   actions: {},
   mutations: {

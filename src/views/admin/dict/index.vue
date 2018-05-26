@@ -28,8 +28,8 @@
                  v-waves
                  @click="handleAdd()">新 增</el-button>
     </div>
-    <avue-crud :table-option="tableOption"
-               :table-data="tableData"
+    <avue-crud :option="tableOption"
+               :data="tableData"
                :table-loading="tableLoading"
                :page="page"
                ref="crud"
@@ -73,6 +73,9 @@ export default {
   },
   created() {
     this.tableOption = tableOption
+    this.tableOption.delBtn = (this.permission.dict_del !== undefined && this.permission.dict_del)
+    this.tableOption.editBtn = (this.permission.dict_upd !== undefined && this.permission.dict_upd)
+    this.tableOption.menu = this.tableOption.delBtn || this.tableOption.editBtn
     this.handleList()
   },
   watch: {},

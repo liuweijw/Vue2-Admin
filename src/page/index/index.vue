@@ -57,6 +57,9 @@ export default {
   .right {
     padding-top: 107px;
     position: relative;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     flex: 1;
   }
   .main {

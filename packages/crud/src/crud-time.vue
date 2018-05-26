@@ -1,10 +1,10 @@
 <template>
-  <el-date-picker :type="type" v-model="text" :format="format" :value-format="valueFormat" :placeholder="'请输入'+placeholder" @change="handleChange" :disabled="disabled"> </el-date-picker>
+  <el-time-picker v-model="text" type="date" :format="format" :value-format="valueFormat" :placeholder="'请输入'+placeholder" @change="handleChange" :disabled="disabled"> </el-time-picker>
 </template>
 
 <script>
 export default {
-  name: 'AvueCrudDate',
+  name: 'AvueCrudTime',
   data() {
     return {
       text: ''
@@ -13,9 +13,6 @@ export default {
   props: {
     value: {
       default: ''
-    },
-    type: {
-      default: 'date'
     },
     valueFormat: {
       default: ''
@@ -49,6 +46,6 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>
+

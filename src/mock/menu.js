@@ -158,14 +158,14 @@ const second = [
         href: '/admin/dict',
         icon: 'el-icon-menu',
         children: []
-      },
-      {
-        id: 7,
-        label: '部门管理',
-        href: '/admin/dept',
-        icon: 'el-icon-menu',
-        children: []
       }
+      // {
+      //   id: 7,
+      //   label: '部门管理',
+      //   href: '/admin/dept',
+      //   icon: 'el-icon-menu',
+      //   children: []
+      // }
     ]
   },
   {
@@ -185,7 +185,7 @@ const second = [
       {
         id: 10,
         label: 'zipkin监控',
-        href: '/monitor/zipkin',
+        href: 'http://websiteIp:1011',
         icon: 'el-icon-document',
         children: []
       },
@@ -203,13 +203,13 @@ const second = [
         icon: 'el-icon-document',
         children: []
       },
-      {
-        id: 13,
-        label: 'ELK状态',
-        href: '/monitor/elk',
-        icon: 'el-icon-document',
-        children: []
-      },
+      // {
+      //   id: 13,
+      //   label: 'ELK状态',
+      //   href: '/monitor/elk',
+      //   icon: 'el-icon-document',
+      //   children: []
+      // },
       {
         id: 14,
         label: '接口文档',

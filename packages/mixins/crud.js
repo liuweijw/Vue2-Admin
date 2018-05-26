@@ -1,12 +1,21 @@
-import { findByvalue, getComponent, setDic, setPx } from '../utils/util.js'
-import { validatenull } from '../utils/validate.js'
+import {
+  findByvalue,
+  getComponent,
+  setDic,
+  setPx
+} from '../utils/util.js'
+import {
+  validatenull
+} from '../utils/validate.js'
 import crudInput from '../crud/src/crud-input'
 import crudSelect from '../crud/src/crud-select'
 import crudRadio from '../crud/src/crud-radio'
 import crudCheckbox from '../crud/src/crud-checkbox'
 import crudCascader from '../crud/src/crud-cascader'
 import crudDate from '../crud/src/crud-date'
+import crudTime from '../crud/src/crud-time'
 import crudInputNumber from '../crud/src/crud-input-number'
+import crudUeditor from '../crud/src/crud-ueditor'
 import { DIC } from '../const/dic'
 export default function() {
   return {
@@ -22,8 +31,10 @@ export default function() {
       crudRadio,
       crudCheckbox,
       crudDate,
+      crudTime,
       crudCascader,
-      crudInputNumber
+      crudInputNumber,
+      crudUeditor
     },
     methods: {
       GetDic: function(list) {

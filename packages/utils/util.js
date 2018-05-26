@@ -5,7 +5,7 @@ import { validatenull } from './validate'
 export const findByvalue = (dic, value) => {
   let result = ''
   if (validatenull(dic)) return value
-  if (typeof value === 'string' || typeof value === 'number') {
+  if (typeof (value) === 'string' || typeof (value) === 'number' || typeof (value) === 'boolean') {
     let index = 0
     index = findArray(dic, value)
     if (index !== -1) {
@@ -73,19 +73,23 @@ export const setPx = (val, defval) => {
 /**
  * 动态获取组件
  */
-export const getComponent = type => {
+export const getComponent = (type) => {
   if (type === 'select') {
     return 'crudSelect'
   } else if (type === 'radio') {
     return 'crudRadio'
   } else if (type === 'checkbox') {
     return 'crudCheckbox'
-  } else if (type === 'date') {
+  } else if (type === 'time') {
+    return 'crudTime'
+  } else if (type === 'date' || type === 'datetime') {
     return 'crudDate'
   } else if (type === 'cascader') {
     return 'crudCascader'
   } else if (type === 'number') {
     return 'crudInputNumber'
+  } else if (type === 'ueditor') {
+    return 'crudUeditor'
   } else {
     return 'crudInput'
   }

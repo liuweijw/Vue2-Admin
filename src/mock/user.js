@@ -29,7 +29,7 @@ for (let i = 0; i < 5; i++) {
     type: [0, 2],
     'number|0-100': 0,
     'sex|0-1': 0,
-    grade: [0, 1],
+    'grade|1-2': true,
     address: Mock.mock('@cparagraph(1, 3)'),
     check: [1, 3, 4]
   }))

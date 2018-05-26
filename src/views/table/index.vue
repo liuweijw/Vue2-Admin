@@ -1,20 +1,20 @@
 <template>
   <div class="table-container pull-chheight">
     <div class="table-header">
-      <el-button type="primary" @click="handleAdd" size="small" v-if="permission.user_view">新 增</el-button>
+      <el-button type="primary" @click="handleAdd" size="small" v-if="permission.sys_crud_btn_add">新 增</el-button>
       <el-button type="primary" @click="handleRowEdit" size="small">编 辑</el-button>
       <el-button type="primary" @click="handleRowDel" size="small">删 除</el-button>
-      <el-button type="info" @click="handleExport" size="small" v-if="permission.user_view">导出excel</el-button>
+      <el-button type="info" @click="handleExport" size="small" v-if="permission.sys_crud_btn_export">导出excel</el-button>
       <el-button type="warning" @click="handleJpeg" size="small">导出图片</el-button>
       <el-button type="danger" @click="toggleSelection([tableData[1]])" size="small">切换第二选中状态</el-button>
       <el-button @click="toggleSelection()" size="small">取消选择</el-button>
-      <el-button type="success" size="small" v-if="permission.user_view">
+      <el-button type="success" size="small" v-if="permission.sys_crud_btn_add">
         <router-link :to="{path:'/forms/index'}">
           表单CRUD
         </router-link>
       </el-button>
     </div>
-    <avue-crud :table-option="tableOption" v-model="user" :table-data="tableData" :table-loading="tableLoading" :before-open="boxhandleOpen" :before-close="boxhandleClose" @row-dblClick="handleRowDBLClick" @row-click="handleRowClick" :page="page" ref="crud" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel" @current-change="handleCurrentChange" @selection-change="handleSelectionChange">
+    <avue-crud :option="tableOption" v-model="user" :data="tableData" :table-loading="tableLoading" :before-open="boxhandleOpen" :before-close="boxhandleClose" @row-dblclick="handleRowDBLClick" @row-click="handleRowClick" :page="page" ref="crud" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel" @current-change="handleCurrentChange" @selection-change="handleSelectionChange">
       <template slot-scope="props" slot="expand">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="姓名">
@@ -64,6 +64,7 @@
 import { mapGetters } from 'vuex'
 import html2canvas from 'html2canvas'
 import tableOption from '@/const/table/tableOption'
+
 export default {
   name: 'table',
   data() {
@@ -92,7 +93,7 @@ export default {
     this.handleList()
   },
   watch: {},
-  mounted() { },
+  mounted() {},
   computed: {
     ...mapGetters(['permission', 'menuAll'])
   },
@@ -108,7 +109,7 @@ export default {
         resolve(JSON.parse(this.formJson))
       })
       p
-        .then(data => {
+        .then((data) => {
           this.tableOption = data
           this.formJson = JSON.stringify(data, null, 2)
           this.$notify({
@@ -116,7 +117,7 @@ export default {
             type: 'success'
           })
         })
-        .catch(err => {
+        .catch((err) => {
           this.$notify({
             center: true,
             dangerouslyUseHTMLString: true,
@@ -156,7 +157,7 @@ export default {
      * @title 打开权限
      */
     handleGrade(row, index) {
-      this.$store.dispatch('GetMenuAll').then(data => {
+      this.$store.dispatch('GetMenuAll').then((data) => {
         this.grade.box = true
         this.tabelObj = row
         this.grade.check = this.tabelObj.check
@@ -167,7 +168,7 @@ export default {
      *
      **/
     handleExport() {
-      import('@/vendor/Export2Excel').then(excel => {
+      import('@/vendor/Export2Excel').then((excel) => {
         const tHeader = ['username', 'name']
         const filterVal = ['username', 'name']
         const list = this.tableData
@@ -181,8 +182,8 @@ export default {
      **/
     handleJpeg() {
       const table = this.$refs.crud.$el
-      html2canvas(table).then(canvas => {
-        var url = canvas.toDataURL()
+      html2canvas(table).then((canvas) => {
+        const url = canvas.toDataURL()
         const a = document.createElement('a')
         a.href = url
         a.download = '未命名'
@@ -193,7 +194,7 @@ export default {
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v =>
-        filterVal.map(j => {
+        filterVal.map((j) => {
           if (j === 'timestamp') {
             /* eslint-disable */
             return parseTime(v[j])
@@ -207,7 +208,7 @@ export default {
      * @title 页面改变值
      *
      **/
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.tablePage = val
       this.handleList()
     },
@@ -216,7 +217,7 @@ export default {
      * @detail 调用crud的handleadd方法即可
      *
      **/
-    handleAdd () {
+    handleAdd() {
       this.$refs.crud.rowAdd()
     },
     /**
@@ -225,7 +226,7 @@ export default {
      * @detail 调用crud的toggleSelection方法即可
      *
      **/
-    toggleSelection (row) {
+    toggleSelection(row) {
       this.$refs.crud.toggleSelection(row)
     },
     /**
@@ -233,11 +234,11 @@ export default {
      * @detail 赋值为tableData表格即可
      *
      **/
-    handleList () {
+    handleList() {
       this.tableLoading = true
       this.$store
         .dispatch('GetTableData', { page: `${this.tablePage}` })
-        .then(data => {
+        .then((data) => {
           setTimeout(() => {
             this.tableData = data.tableData
             this.page = {
@@ -255,12 +256,12 @@ export default {
      *
      **/
     handleSelectionChange(val) {
-      this.tableRow = val[0];
+      this.tableRow = val[0]
       this.$notify({
         showClose: true,
         message: JSON.stringify(val),
-        type: "success"
-      });
+        type: 'success'
+      })
     },
     /**
      * @title 数据添加
@@ -269,13 +270,15 @@ export default {
      *
      **/
     handleSave(row, done) {
-      this.tableData.push(Object.assign({}, row));
-      this.$notify({
-        showClose: true,
-        message: "添加成功",
-        type: "success"
-      });
-      done();
+      this.tableData.push(Object.assign({}, row))
+      done()
+      setTimeout(() => {
+        this.$notify({
+          showClose: true,
+          message: '添加成功',
+          type: 'success'
+        })
+      })
     },
     /**
      * @title 行双击
@@ -286,13 +289,13 @@ export default {
     handleRowDBLClick(row, event) {
       this.$notify({
         showClose: true,
-        message: "双击",
-        type: "success"
-      });
+        message: '双击',
+        type: 'success'
+      })
     },
 
     /**
-     * @title 行单机
+     * @title 行单击
      * @param row 为当前的数据
      * @param event 事件
      * @param column 列
@@ -301,16 +304,16 @@ export default {
     handleRowClick(row, event, column) {
       this.$notify({
         showClose: true,
-        message: "行单击",
-        type: "success"
-      });
+        message: '单击',
+        type: 'success'
+      })
     },
     handleRowDel() {
       this.$notify({
         showClose: true,
         message: this.tableRow,
-        type: "success"
-      });
+        type: 'success'
+      })
     },
     /**
      * @title 数据删除
@@ -318,20 +321,21 @@ export default {
      * @param index 为当前更新数据的行数
      *
      **/
-    handleDel (row, index) {
+    handleDel(row, index) {
       this.$confirm(`是否确认删除序号为${row.name}`, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          this.tableData.splice(index, 1);
+          this.tableData.splice(index, 1)
           this.$notify({
             showClose: true,
-            message: "删除成功",
-            type: "success"
-          });
+            message: '删除成功',
+            type: 'success'
+          })
         })
+        .catch((err) => {})
     },
     /**
      * @title 数据更新
@@ -341,13 +345,15 @@ export default {
      *
      **/
     handleUpdate(row, index, done) {
-      this.tableData.splice(index, 1, Object.assign({}, row));
-      this.$notify({
-        showClose: true,
-        message: "修改成功",
-        type: "success"
-      });
-      done();
+      this.tableData.splice(index, 1, Object.assign({}, row))
+      done()
+      setTimeout(() => {
+        this.$notify({
+          showClose: true,
+          message: '修改成功',
+          type: 'success'
+        })
+      })
     },
     /**
      * @title 表单关闭前处理
@@ -357,18 +363,18 @@ export default {
     boxhandleClose(done) {
       this.$notify({
         showClose: true,
-        message: "表单关闭前处理事件",
-        type: "success"
-      });
-      done();
+        message: '表单关闭前处理事件',
+        type: 'success'
+      })
+      done()
     },
     boxhandleOpen(show) {
       this.$notify({
         showClose: true,
-        message: "表单打开前处理事件",
-        type: "success"
-      });
-      show();
+        message: '表单打开前处理事件',
+        type: 'success'
+      })
+      show()
     }
   }
 }

@@ -1,6 +1,7 @@
 
 const getters = {
   tag: state => state.tags.tag,
+  website: state => state.common.website,
   userInfo: state => state.user.userInfo,
   theme: state => state.common.theme,
   isCollapse: state => state.common.isCollapse,

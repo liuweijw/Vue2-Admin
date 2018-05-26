@@ -1,8 +1,8 @@
 <template>
   <div class="crud-container pull-auto">
-    <el-table :data="tableData" :stripe="tableOption.stripe" :show-header="tableOption.showHeader" :default-sort="tableOption.defaultSort" @row-click="rowClick" @row-dblclick="rowDblclick" max-height="tableOption.maxHeight" :height="tableOption.height" ref="table" :width="setPx(tableOption.width,'100%')" :border="tableOption.border" v-loading="tableLoading" @selection-change="selectionChange" @sort-change="sortChange">
+    <el-table :data="data" :stripe="option.stripe" :show-header="option.showHeader" :default-sort="option.defaultSort" @row-click="rowClick" @row-dblclick="rowDblclick" max-height="option.maxHeight" :height="option.height=='auto'?($AVUE.clientHeight - vaildData(option.calcHeight,275)):option.height" ref="table" :width="setPx(option.width,'100%')" :border="option.border" v-loading="tableLoading" @selection-change="selectionChange" @sort-change="sortChange">
       <!-- 下拉弹出框  -->
-      <template v-if="tableOption.expand">
+      <template v-if="option.expand">
         <el-table-column type="expand" width="50" fixed="left" align="center">
           <template slot-scope="props">
             <slot :row="props.row" name="expand"></slot>
@@ -10,18 +10,18 @@
         </el-table-column>
       </template>
       <!-- 选择框 -->
-      <template v-if="tableOption.selection">
+      <template v-if="option.selection">
         <el-table-column type="selection" width="50" fixed="left" align="center">
         </el-table-column>
       </template>
 
       <!-- 序号 -->
-      <template v-if="tableOption.index">
-        <el-table-column type="index" width="50" fixed="left" align="center">
+      <template v-if="option.index">
+        <el-table-column :label="vaildData(option.indexLabel,'#')" type="index" width="50" fixed="left" align="center">
         </el-table-column>
       </template>
       <!-- 循环列 -->
-      <el-table-column v-for="(column,index) in tableOption.column" :prop="column.prop" :key="index" v-if="!column.hide" :show-overflow-tooltip="column.overHidden" :formatter="column.formatter" :min-width="column.minWidth" :sortable="column.sortable" :align="vaildData(column.align,tableOption.align)" :header-align="vaildData(column.headerAlign,tableOption.headerAlign)" :width="column.width" :label="column.label" :fixed="column.fixed">
+      <el-table-column v-for="(column,index) in option.column" :prop="column.prop" :key="index" v-if="!column.hide" :show-overflow-tooltip="column.overHidden" :min-width="column.minWidth" :sortable="column.sortable" :align="vaildData(column.align,option.align)" :header-align="vaildData(column.headerAlign,option.headerAlign)" :width="column.width" :label="column.label" :fixed="column.fixed">
         <template slot-scope="scope">
           <slot :row="scope.row" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop" v-if="column.solt"></slot>
           <template v-else>
@@ -30,27 +30,27 @@
           </template>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" v-if="vaildData(tableOption.menu,true)" label="操作" :align="tableOption.menuAlign" :header-align="tableOption.menuHeaderAlign" :width="vaildData(tableOption.menuWidth,240)">
+      <el-table-column fixed="right" v-if="vaildData(option.menu,true)" label="操作" :align="option.menuAlign" :header-align="option.menuHeaderAlign" :width="vaildData(option.menuWidth,240)">
         <template slot-scope="scope">
-          <template v-if="vaildData(tableOption.menu,true)">
-            <el-button type="primary" icon="el-icon-edit" size="small" @click.stop="rowEdit(scope.row,scope.$index)" v-if="vaildData(tableOption.editBtn,true)">编 辑</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small" @click.stop="rowDel(scope.row,scope.$index)" v-if="vaildData(tableOption.delBtn,true)">删 除</el-button>
+          <template v-if="vaildData(option.menu,true)">
+            <el-button type="primary" icon="el-icon-edit" size="small" @click.stop="rowEdit(scope.row,scope.$index)" v-if="vaildData(option.editBtn,true)">编 辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="small" @click.stop="rowDel(scope.row,scope.$index)" v-if="vaildData(option.delBtn,true)">删 除</el-button>
           </template>
           <slot :row="scope.row" name="menu" :index="scope.$index"></slot>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-pagination v-if="vaildData(tableOption.page,true)" class="crud-pagination pull-right" :current-page.sync="page.currentPage" :background="vaildData(tableOption.pageBackground,true)" :page-size="page.pageSize" @size-change="sizeChange" @current-change="currentChange" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
+    <el-pagination v-if="vaildData(option.page,true)" class="crud-pagination pull-right" :current-page.sync="page.currentPage" :background="vaildData(option.pageBackground,true)" :page-size="page.pageSize" @size-change="sizeChange" @current-change="currentChange" layout="total, sizes, prev, pager, next, jumper" :total="page.total"></el-pagination>
     <!-- 表单 -->
-    <el-dialog :modal-append-to-body="false" :append-to-body="true" :title="boxType==0?'新增':'编辑'" :visible.sync="boxVisible" width="50%" :before-close="hide">
-      <el-form ref="tableForm" :model="tableForm" label-width="80px" :rules="tableFormRules">
+    <el-dialog lock-scroll :fullscreen="vaildData(option.formFullscreen,false)" :modal-append-to-body="false" :append-to-body="true" :title="boxType==0?'新增':'编辑'" :visible.sync="boxVisible" :width="vaildData(option.formWidth,'50%')" :before-close="hide">
+      <el-form ref="tableForm" class="crud-form" :model="tableForm" :label-width="setPx(option.labelWidth,80)" :rules="tableFormRules">
         <el-row :gutter="20" :span="24">
-          <template v-for="(column,index) in tableOption.column">
-            <el-col :key="index" :span="column.span || 12" v-if="boxType==0?vaildData(column.addVisdiplay,true):vaildData(column.editVisdiplay,true)">
-              <el-form-item :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,tableOption.labelWidth || 80)">
+          <template v-for="(column,index) in option.column">
+            <el-col :span="column.span || 12" v-if="boxType==0?vaildData(column.addVisdiplay,true):vaildData(column.editVisdiplay,true)" :key="index">
+              <el-form-item :style="{height:setPx(column.formHeight,'auto')}" :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,option.labelWidth || 80)">
                 <slot :value="tableForm[column.prop]" :column="column" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop+'Form'" v-if="column.formsolt"></slot>
-                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :size="column.size" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?vaildData(column.addDisabled,false):vaildData(column.editDisabled,false)"></component>
+                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :height="setPx(column.formHeight,'auto')" :size="column.size" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?vaildData(column.addDisabled,false):vaildData(column.editDisabled,false)" :format="column.format" :value-format="column.valueFormat"></component>
               </el-form-item>
             </el-col>
           </template>
@@ -68,6 +68,7 @@
 <script>
 import crud from '../../mixins/crud.js'
 import { validatenull } from '../../utils/validate.js'
+import moment from 'moment'
 export default {
   name: 'AvueCrud',
   mixins: [crud()],
@@ -90,7 +91,7 @@ export default {
     this.dicInit()
   },
   watch: {
-    tableOption: {
+    option: {
       handler(n, o) {
         this.rulesInit()
       },
@@ -129,14 +130,14 @@ export default {
       type: Boolean,
       default: false
     },
-    tableData: {
+    data: {
       type: Array,
       required: true,
       default: () => {
         return []
       }
     },
-    tableOption: {
+    option: {
       type: Object,
       required: true,
       default: () => {
@@ -153,12 +154,12 @@ export default {
     },
     rulesInit() {
       this.tableFormRules = {}
-      this.tableOption.column.forEach(ele => {
+      this.option.column.forEach(ele => {
         if (ele.rules) this.tableFormRules[ele.prop] = ele.rules
       })
     },
     dicInit() {
-      this.GetDic(this.tableOption.dic).then(data => {
+      this.GetDic(this.option.dic).then(data => {
         this.DIC = data
       })
     },
@@ -166,7 +167,7 @@ export default {
       this.$emit('input', this.tableForm)
     },
     formInit() {
-      const list = this.tableOption.column
+      const list = this.option.column
       const from = {}
       list.forEach(ele => {
         if (
@@ -180,6 +181,7 @@ export default {
         } else {
           from[ele.prop] = ''
         }
+        if (!validatenull(ele.valueDefault)) from[ele.prop] = ele.valueDefault
       })
       this.tableForm = Object.assign({}, from)
     },
@@ -222,15 +224,29 @@ export default {
     // 处理数据
     detail(row, column) {
       let result = ''
+      if (column.formatter && typeof column.formatter === 'function') {
+        result = column.formatter(row)
+      } else {
+        result = row[column.prop]
+      }
       if (column.type) {
+        if (
+          (column.type === 'date' ||
+            column.type === 'time' ||
+            column.type === 'datetime') &&
+          column.format
+        ) {
+          const format = column.format
+            .replace('dd', 'DD')
+            .replace('yyyy', 'YYYY')
+          result = moment(result).format(format)
+        }
         result = this.findByvalue(
           typeof column.dicData === 'string'
             ? this.DIC[column.dicData]
             : column.dicData,
-          row[column.prop]
+          result
         )
-      } else {
-        result = row[column.prop]
       }
       return result
     },
@@ -311,6 +327,9 @@ export default {
 .crud-pagination {
   margin-top: 15px;
   padding: 10px 20px;
+}
+.crud-form {
+  padding: 0 8px;
 }
 .crud-header {
   margin-bottom: 10px;

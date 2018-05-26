@@ -22,8 +22,8 @@
                  v-waves
                  @click="handleAdd()">新 增</el-button>
     </div>
-    <avue-crud :table-option="tableOption"
-               :table-data="tableData"
+    <avue-crud :option="tableOption"
+               :data="tableData"
                :table-loading="tableLoading"
                :page="page"
                ref="crud"
@@ -56,7 +56,7 @@
 import { fetchUserList, add, update, del } from '@/api/user'
 import { fetchListAll } from '@/api/role'
 import { mapGetters } from 'vuex'
-import { userOption } from '@/const/admin/adminTabelOption.js'
+import { userOption } from '@/const/admin/userTabelOption.js'
 import { validatenull } from '@/util/validate'
 import waves from '@/directive/waves/index.js'
 export default {
@@ -89,6 +89,9 @@ export default {
   },
   created() {
     this.tableOption = userOption
+    this.tableOption.delBtn = (this.permission.user_del !== undefined && this.permission.user_del)
+    this.tableOption.editBtn = (this.permission.user_upd !== undefined && this.permission.user_upd)
+    this.tableOption.menu = this.tableOption.delBtn || this.tableOption.editBtn
     this.handleList()
     this.handleRoleList()
   },
@@ -114,11 +117,11 @@ export default {
       })
     },
     handleRowClick(row, event, column) {
-      this.$notify({
-        showClose: true,
-        message: row.roleList[0].roleCode,
-        type: 'success'
-      })
+      // this.$notify({
+      //   showClose: true,
+      //   message: row.roleList[0].roleCode,
+      //   type: 'success'
+      // })
     },
     handleChange(val) {
       this.roleEditRoleId = val

@@ -14,8 +14,8 @@
                  icon="search"
                  @click="handleSearch()">搜索</el-button>
     </div>
-    <avue-crud :table-option="tableOption"
-               :table-data="tableData"
+    <avue-crud :option="tableOption"
+               :data="tableData"
                :table-loading="tableLoading"
                :page="page"
                ref="crud"
@@ -59,6 +59,8 @@ export default {
   },
   created() {
     this.tableOption = tableOption
+    this.tableOption.delBtn = (this.permission.logs_del !== undefined && this.permission.logs_del)
+    this.tableOption.menu = this.tableOption.delBtn || this.tableOption.editBtn
     this.handleList()
   },
   watch: {},

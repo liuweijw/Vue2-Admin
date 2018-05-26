@@ -1,19 +1,19 @@
 <template>
   <div class="from-container pull-auto">
-    <el-form ref="form" :model="form" :label-width="setPx(formOption.labelWidth,80)" :rules="formRules">
+    <el-form ref="form" :model="form" :label-width="setPx(option.labelWidth,80)" :rules="formRules">
       <el-row :gutter="20" :span="24">
-        <template v-for="(column,index) in formOption.column">
+        <template v-for="(column,index) in option.column">
           <el-col :span="column.span||12" :key="index">
-            <el-form-item :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,formOption.labelWidth || 80)">
+            <el-form-item :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,option.labelWidth || 80)">
               <slot :value="form[column.prop]" :column="column" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop" v-if="column.formsolt"></slot>
-              <component :is="getComponent(column.type)" v-else v-model="form[column.prop]" :placeholder="column.label" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="column.disabled"></component>
+              <component :is="getComponent(column.type)" v-else v-model="form[column.prop]" :placeholder="column.label" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="column.disabled" :format="column.format" :value-format="column.valueFormat"></component>
             </el-form-item>
           </el-col>
         </template>
-        <el-col :span="24" v-if="formOption.submitBtn!=undefined?formOption.submitBtn:true">
+        <el-col :span="24" v-if="option.submitBtn!=undefined?option.submitBtn:true">
           <el-form-item label-width="0">
             <div class="form-menu" :class="menuPostion">
-              <el-button type="primary" @click="submit">{{formOption.submitText?formOption.submitText:'提交'}}</el-button>
+              <el-button type="primary" @click="submit">{{option.submitText?option.submitText:'提交'}}</el-button>
             </div>
           </el-form-item>
         </el-col>
@@ -24,6 +24,7 @@
 
 <script>
 import crud from '../../mixins/crud'
+import { validatenull } from '../../utils/validate.js'
 export default {
   name: 'AvueForm',
   mixins: [crud()],
@@ -46,7 +47,7 @@ export default {
     this.formVal()
   },
   watch: {
-    formOption: {
+    option: {
       handler(n, o) {
         this.rulesInit()
       },
@@ -62,15 +63,15 @@ export default {
   mounted() {},
   computed: {
     menuPostion: function() {
-      if (this.formOption.submitPostion) {
-        return 'is-' + this.formOption.submitPostion
+      if (this.option.submitPostion) {
+        return 'is-' + this.option.submitPostion
       } else {
         return 'is-center'
       }
     }
   },
   props: {
-    formOption: {
+    option: {
       type: Object,
       required: true,
       default: {}
@@ -84,17 +85,17 @@ export default {
   methods: {
     rulesInit() {
       this.formRules = {}
-      this.formOption.column.forEach(ele => {
+      this.option.column.forEach(ele => {
         if (ele.rules) this.formRules[ele.prop] = ele.rules
       })
     },
     dicInit() {
-      this.GetDic(this.formOption.dic).then(data => {
+      this.GetDic(this.option.dic).then(data => {
         this.DIC = data
       })
     },
     formInit() {
-      const list = this.formOption.column
+      const list = this.option.column
       const form = {}
       list.forEach(ele => {
         if (
@@ -106,6 +107,7 @@ export default {
         } else {
           form[ele.prop] = ''
         }
+        if (!validatenull(ele.valueDefault)) form[ele.prop] = ele.valueDefault
       })
       this.form = Object.assign({}, form)
     },

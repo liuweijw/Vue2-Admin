@@ -9,11 +9,11 @@ export default {
   menuAlign: 'center',
   editBtn: false,
   align: 'center',
-  defaultSort: {
-    prop: 'name',
-    order: 'descending'
-  },
-  dic: ['GRADE', 'SEX', 'TYPE'],
+  // defaultSort: {
+  //   prop: 'name',
+  //   order: 'descending'
+  // },
+  dic: ['VAILDATA', 'SEX', 'TYPE'],
   column: [{
     label: '用户名',
     prop: 'username',
@@ -31,9 +31,6 @@ export default {
     prop: 'name',
     sortable: true,
     addDisabled: false,
-    formatter: (row, column) => {
-      return row.name + '1'
-    },
     formsolt: true
   },
   {
@@ -43,21 +40,24 @@ export default {
     addVisdiplay: false,
     editDisabled: true,
     type: 'number',
-    hide: false
+    hide: true
   },
   {
     label: '类型',
     prop: 'type',
     type: 'cascader',
     dicData: 'TYPE',
-    hide: false
+    hide: true
   },
   {
     label: '权限',
     prop: 'grade',
-    type: 'checkbox',
-    dicData: 'GRADE',
-    hide: false
+    type: 'radio',
+    dicData: 'VAILDATA',
+    valueDefault: true,
+    formatter: (row) => {
+      return row.grade
+    }
   },
   {
     label: '地址',

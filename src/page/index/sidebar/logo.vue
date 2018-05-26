@@ -1,26 +1,39 @@
 <template>
   <div class="logo">
     <transition name="fade">
-      <span v-if="isCollapse" class="logo_title  is-bold is-active" key="0">A</span>
+      <span v-if="isCollapse" class="logo_title is-bold " key="0" :class="{'is-text':!type,'is-img':type}">
+        <template v-if="type">
+          <img :src="website.logo" width="40" height="40" />
+        </template>
+        <template v-else>
+          {{website.logo}}
+        </template>
+      </span>
     </transition>
     <transition-group name="fade">
       <template v-if="!isCollapse">
-        <span class="logo_title is-bold" key="1">Vue2-Admin</span>
-        <span class="logo_subtitle" key="2"></span>
+        <span class="logo_title is-bold" key="1">{{website.title}} </span>
+        <span class="logo_subtitle" key="2">{{website.author}}</span>
       </template>
     </transition-group>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'logo',
   data() {
     return {}
   },
   props: ['isCollapse'],
-  computed: {},
   created() {},
+  computed: {
+    ...mapGetters(['website']),
+    type: function(val) {
+      return this.website.logo.indexOf('static') !== -1
+    }
+  },
   methods: {}
 }
 </script>
@@ -60,10 +73,15 @@ export default {
     font-weight: 700;
   }
 }
-.is-active {
+.is-text {
   position: absolute;
   top: 0;
-  left: 23px;
+  left: 20px;
+}
+.is-img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 .logo_subtitle {
   font-size: 16px;

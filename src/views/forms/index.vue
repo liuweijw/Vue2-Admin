@@ -1,6 +1,6 @@
 <template>
   <div class="from-container pull-chheight">
-    <avue-form :form-option="formOption" v-model="formData" @submit="handleSubmit">
+    <avue-form :option="formOption" v-model="formData" @submit="handleSubmit">
       <template slot-scope="scope" slot="name">
         <avue-crud-input @click.native="tip" :disabled="scope.column.disabled" v-model="scope.value">
         </avue-crud-input>
@@ -35,7 +35,7 @@ export default {
     this.formJson = JSON.stringify(formOption, null, 2)
   },
   watch: {},
-  mounted() { },
+  mounted() {},
   computed: {
     ...mapGetters(['permission'])
   },
