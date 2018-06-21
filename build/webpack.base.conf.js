@@ -60,7 +60,12 @@ module.exports = {
 			{
 				test: /\.js$/,
 				loader: 'babel-loader?cacheDirectory',
-				include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
+				include: [
+					resolve('src'),
+					resolve('test'),
+          resolve('packages'),
+					resolve('node_modules/webpack-dev-server/client')
+				]
 			},
 			{
 				test: /\.svg$/,
@@ -99,7 +104,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify(env.NODE_ENV)
+      'process.env': JSON.stringify(env)
 		}),
 	],
 	// externals: { //html  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Tm7h1NrKLoNYpLEfcOZDqw2OxrkkGizX"></script>

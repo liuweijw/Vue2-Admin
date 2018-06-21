@@ -5,6 +5,9 @@ export const roleTableOption = {
   showHeader: true,
   stripe: true,
   expand: false,
+  showClomnuBtn: false,
+  refreshBtn: false,
+  searchSize: 'small',
   align: 'center',
   menuAlign: 'center',
   menuWidth: 300,
@@ -16,6 +19,7 @@ export const roleTableOption = {
       prop: 'roleName',
       sortable: true,
       overHidden: true,
+      search: true,
       rules: [{ required: true, message: '请输入角色名称', trigger: 'blur' }]
     },
     {
@@ -23,6 +27,7 @@ export const roleTableOption = {
       prop: 'roleCode',
       sortable: true,
       editDisabled: true,
+      search: true,
       rules: [{ required: true, message: '请输入角色编码', trigger: 'blur' }]
     },
     {

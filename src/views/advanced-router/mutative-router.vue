@@ -27,7 +27,7 @@ export default {
       tableOption: tableOption
     }
   },
-  created() { },
+  created() {},
   computed: {},
   methods: {}
 }

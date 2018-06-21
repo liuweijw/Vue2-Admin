@@ -1,5 +1,5 @@
 <template>
-  <el-cascader :options="dic" v-model="text" :placeholder="'请选择'+placeholder" :disabled="disabled" @change="handleChange">
+  <el-cascader :options="dic" v-model="text" :placeholder="placeholder?placeholder:`请选择${label}`" :disabled="disabled" @change="handleChange">
   </el-cascader>
 </template>
 
@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       default: false
     },
+    label: {
+      type: String,
+      default: ''
+    },
     dic: {
       default: () => {
         return []
@@ -49,5 +53,4 @@ export default {
 </script>
 
 <style>
-
 </style>

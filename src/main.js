@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import axios from './util/request'
 import VueAxios from 'vue-axios'
+import VueClipboard from 'vue-clipboard2'
 import App from './App'
 import './permission' // 权限
 import './errorLog' // 错误日志
+import 'babel-polyfill'
 import router from './router/router'
 import store from './store'
 import './icons' // icon
@@ -17,6 +19,8 @@ import ELEMENT from 'element-ui'
 // eslint-disable-next-line
 import AVUE from '../packages/index.js';
 
+Vue.use(VueClipboard)
+
 Vue.use(VueAxios, axios)
 
 Object.keys(urls).forEach(key => {
@@ -24,7 +28,7 @@ Object.keys(urls).forEach(key => {
 })
 
 Vue.use(ELEMENT, {
-  size: 'medium' // set element-ui default size
+  size: 'medium' // set element-ui default size medium
 })
 
 Object.keys(filters).forEach(key => {

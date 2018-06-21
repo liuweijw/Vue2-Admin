@@ -6,19 +6,11 @@ import { setTitle } from '@/util/util'
 import { asyncRouterMap } from '@/router/router'
 NProgress.configure({ showSpinner: false })// NProgress Configuration
 
-const lockPage = '/lock'
+const lockPage = store.getters.website.lockPage
 router.addRoutes(asyncRouterMap) // 动态添加可访问路由表
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
-  const value = to.query.src ? to.query.src : to.path
-  const label = to.query.name ? to.query.name : to.name
-  if (store.getters.website.whiteList.indexOf(value) === -1) {
-    store.commit('ADD_TAG', {
-      label: label,
-      value: value,
-      query: to.query
-    })
-  }
+
   if (store.getters.token) { // determine if there has token
         /* has token*/
     if (store.getters.isLock && to.path !== lockPage) {
@@ -40,12 +32,37 @@ router.beforeEach((to, from, next) => {
           })
         })
       } else {
+        let flag = true
+        const whiteList = store.getters.website.whiteList
+        for (let i = 0; i < whiteList.length; i++) {
+          if (new RegExp('^' + whiteList[i].toString() + '.*', 'g').test(to.path)) {
+            flag = false
+            break
+          }
+        }
+        if (flag) {
+          const value = to.query.src ? to.query.src : to.path
+          const label = to.query.name ? to.query.name : to.name
+          store.commit('ADD_TAG', {
+            label: label,
+            value: value,
+            query: to.query
+          })
+        }
         next()
       }
     }
   } else {
-        /* has no token*/
-    if (store.getters.website.whiteList.indexOf(to.path) !== -1) {
+    /* has no token*/
+    let flag = true
+    const whiteList = store.getters.website.whiteList
+    for (let i = 0; i < whiteList.length; i++) {
+      if (new RegExp('^' + whiteList[i].toString() + '.*', 'g').test(to.path)) {
+        flag = false
+        break
+      }
+    }
+    if (!flag) {
       next()
     } else {
       next('/login')
@@ -98,5 +115,24 @@ router.afterEach((to, from) => {
     const tag = store.getters.tag
     setTitle(tag.label)
     store.commit('SET_TAG_CURRENT', findMenuParent(tag))
+    // 百度统计代码
+    // var _hmt = _hmt || [];
+    // (function() {
+    //   // 每次执行前，先移除上次插入的代码
+    //   document.getElementById('baidu_tj') && document.getElementById('baidu_tj').remove()
+    //   var hm = document.createElement('script')
+    //   hm.src = 'https://hm.baidu.com/hm.js?xxxxxxxxxxxx'
+    //   hm.id = 'baidu_tj'
+    //   var s = document.getElementsByTagName('script')[0]
+    //   s.parentNode.insertBefore(hm, s)
+    // })()
+
+    // window.dataLayer = window.dataLayer || []
+    // function gtag() {
+    //   // eslint-disable-next-line
+    //   dataLayer.push(arguments)
+    // }
+    // gtag('js', new Date())
+    // gtag('config', 'UA-xxxxx')
   }, 0)
 })

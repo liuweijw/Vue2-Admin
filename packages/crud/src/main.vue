@@ -1,5 +1,26 @@
 <template>
   <div class="crud-container pull-auto">
+    <div class="crud-header">
+      <slot name="headerBefore"></slot>
+      <el-form :model="searchForm" :inline="true" ref="searchForm" v-if="searchFlag">
+        <!-- 循环列搜索框 -->
+        <el-form-item :label="column.label" :prop="column.prop" v-for="(column,index) in option.column" :key="index" v-if="column.search">
+          <component :size="option.searchSize" :is="getSearchType(column.type)" v-model="searchForm[column.prop]" clearable:type="column.type" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])"></component>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="searchChnage" icon="el-icon-search" :size="option.searchSize">搜索</el-button>
+          <el-button @click="searchReset" icon="el-icon-delete" :size="option.searchSize">清空</el-button>
+          <slot name="headerMiddle"></slot>
+        </el-form-item>
+      </el-form>
+      <slot name="headerAfter"></slot>
+    </div>
+    <!-- 表格功能列 -->
+    <div class="crud-menu" v-if="vaildData(option.refreshBtn,true) && vaildData(option.showClomnuBtn,true)">
+      <slot name="headerMenu"></slot>
+      <el-button icon="el-icon-refresh" circle size="small" @click="refreshChange" v-if="vaildData(option.refreshBtn,true)"></el-button>
+      <el-button icon="el-icon-menu" circle size="small" @click="showClomnuBox=true" v-if="vaildData(option.showClomnuBtn,true)"></el-button>
+    </div>
     <el-table :data="data" :stripe="option.stripe" :show-header="option.showHeader" :default-sort="option.defaultSort" @row-click="rowClick" @row-dblclick="rowDblclick" max-height="option.maxHeight" :height="option.height=='auto'?($AVUE.clientHeight - vaildData(option.calcHeight,275)):option.height" ref="table" :width="setPx(option.width,'100%')" :border="option.border" v-loading="tableLoading" @selection-change="selectionChange" @sort-change="sortChange">
       <!-- 下拉弹出框  -->
       <template v-if="option.expand">
@@ -21,7 +42,7 @@
         </el-table-column>
       </template>
       <!-- 循环列 -->
-      <el-table-column v-for="(column,index) in option.column" :prop="column.prop" :key="index" v-if="!column.hide" :show-overflow-tooltip="column.overHidden" :min-width="column.minWidth" :sortable="column.sortable" :align="vaildData(column.align,option.align)" :header-align="vaildData(column.headerAlign,option.headerAlign)" :width="column.width" :label="column.label" :fixed="column.fixed">
+      <el-table-column v-if="showClomnuIndex.indexOf(index)!=-1" v-for="(column,index) in option.column" :prop="column.prop" :key="column.prop" :show-overflow-tooltip="column.overHidden" :min-width="column.minWidth" :sortable="column.sortable" :align="vaildData(column.align,option.align)" :header-align="vaildData(column.headerAlign,option.headerAlign)" :width="column.width" :label="column.label" :fixed="column.fixed">
         <template slot-scope="scope">
           <slot :row="scope.row" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop" v-if="column.solt"></slot>
           <template v-else>
@@ -47,10 +68,10 @@
       <el-form ref="tableForm" class="crud-form" :model="tableForm" :label-width="setPx(option.labelWidth,80)" :rules="tableFormRules">
         <el-row :gutter="20" :span="24">
           <template v-for="(column,index) in option.column">
-            <el-col :span="column.span || 12" v-if="boxType==0?vaildData(column.addVisdiplay,true):vaildData(column.editVisdiplay,true)" :key="index">
+            <el-col :key="index" :span="column.span || 12" v-if="boxType==0?vaildData(column.addVisdiplay,true):vaildData(column.editVisdiplay,true)">
               <el-form-item :style="{height:setPx(column.formHeight,'auto')}" :label="column.label" :prop="column.prop" :label-width="setPx(column.labelWidth,option.labelWidth || 80)">
                 <slot :value="tableForm[column.prop]" :column="column" :dic="setDic(column.dicData,DIC[column.dicData])" :name="column.prop+'Form'" v-if="column.formsolt"></slot>
-                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :height="setPx(column.formHeight,'auto')" :size="column.size" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :placeholder="column.label" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?vaildData(column.addDisabled,false):vaildData(column.editDisabled,false)" :format="column.format" :value-format="column.valueFormat"></component>
+                <component :is="getComponent(column.type)" v-else v-model="tableForm[column.prop]" :precision="column.precision" :multiple="column.multiple" :height="setPx(column.formHeight,'auto')" :size="column.size" :clearable="column.clearable" :type="column.type" :minRows="column.minRows" :maxRows="column.maxRows" :label="column.label" :placeholder="column.placeholder" :dic="setDic(column.dicData,DIC[column.dicData])" :disabled="boxType==0?vaildData(column.addDisabled,false):vaildData(column.editDisabled,false)" :format="column.format" :value-format="column.valueFormat"></component>
               </el-form-item>
             </el-col>
           </template>
@@ -61,6 +82,15 @@
         <el-button type="primary" @click="rowSave" v-else>新 增</el-button>
         <el-button @click="hide">取 消</el-button>
       </span>
+    </el-dialog>
+    <el-dialog lock-scroll :modal-append-to-body="false" :append-to-body="true" title="多选" :visible.sync="showClomnuBox">
+      <el-checkbox-group v-model="showClomnuIndex">
+        <el-row :span="24">
+          <el-col :span="6" v-for="(item,index) in showClomnuList" :key="index">
+            <el-checkbox :label="item.index">{{item.label}}</el-checkbox>
+          </el-col>
+        </el-row>
+      </el-checkbox-group>
     </el-dialog>
 
   </div>
@@ -75,8 +105,12 @@ export default {
   components: {},
   data() {
     return {
+      searchForm: {},
       boxVisible: false,
       boxType: 0,
+      showClomnuIndex: [],
+      showClomnuBox: false,
+      showClomnuList: [],
       DIC: {},
       tableForm: {},
       tableFormRules: {},
@@ -89,6 +123,10 @@ export default {
     this.rulesInit()
     // 初始化字典
     this.dicInit()
+    // 初始化表单
+    this.formInit()
+    // 初始化动态列
+    this.showClomnuInit()
   },
   watch: {
     option: {
@@ -104,7 +142,11 @@ export default {
       deep: true
     }
   },
-  computed: {},
+  computed: {
+    searchFlag: function() {
+      return !validatenull(this.searchForm)
+    }
+  },
   mounted() {},
   props: {
     value: {
@@ -146,6 +188,10 @@ export default {
     }
   },
   methods: {
+    showClomnu() {},
+    refreshChange() {
+      this.$emit('refresh-change', this.page)
+    },
     vaildData(val, dafult) {
       if (typeof val === 'boolean') {
         return val
@@ -158,6 +204,18 @@ export default {
         if (ele.rules) this.tableFormRules[ele.prop] = ele.rules
       })
     },
+    showClomnuInit: function() {
+      this.option.column.forEach((ele, index) => {
+        const obj = {
+          label: ele.label,
+          index: index
+        }
+        if (validatenull(ele.hide)) {
+          this.showClomnuIndex.push(index)
+        }
+        this.showClomnuList.push(Object.assign({}, obj))
+      })
+    },
     dicInit() {
       this.GetDic(this.option.dic).then(data => {
         this.DIC = data
@@ -166,24 +224,51 @@ export default {
     formVal() {
       this.$emit('input', this.tableForm)
     },
+    formReset() {
+      for (const o in this.tableForm) {
+        if (this.tableForm[o] instanceof Array) {
+          this.tableForm[o] = []
+        } else if (typeof this.tableForm[o] === 'number') {
+          this.tableForm[o] = 0
+        } else {
+          this.tableForm[o] = ''
+        }
+      }
+    },
     formInit() {
       const list = this.option.column
-      const from = {}
+      const form = {}
+      const searchForm = {}
       list.forEach(ele => {
         if (
           ele.type === 'checkbox' ||
           ele.type === 'radio' ||
-          ele.type === 'cascader'
+          ele.type === 'cascader' ||
+          (ele.type === 'select' && ele.multiple)
         ) {
-          from[ele.prop] = []
+          form[ele.prop] = []
+          if (ele.search) {
+            searchForm[ele.prop] = []
+          }
         } else if (ele.type === 'number') {
-          from[ele.prop] = 0
+          form[ele.prop] = 0
+          if (ele.search) {
+            searchForm[ele.prop] = 0
+          }
         } else {
-          from[ele.prop] = ''
+          form[ele.prop] = ''
+          if (ele.search) {
+            searchForm[ele.prop] = ''
+          }
         }
-        if (!validatenull(ele.valueDefault)) from[ele.prop] = ele.valueDefault
+        if (!validatenull(ele.valueDefault)) form[ele.prop] = ele.valueDefault
       })
-      this.tableForm = Object.assign({}, from)
+      this.tableForm = Object.assign({}, form)
+      this.searchForm = Object.assign({}, searchForm)
+    },
+    // 搜索清空
+    searchReset() {
+      this.$refs['searchForm'].resetFields()
     },
     // 页大小回调
     sizeChange(val) {
@@ -211,6 +296,10 @@ export default {
     // 排序回调
     sortChange(val) {
       this.$emit('sort-change', val)
+    },
+    // 搜索回调
+    searchChnage() {
+      this.$emit('search-change', this.searchForm)
     },
     // 行双击
     rowDblclick(row, event) {
@@ -252,7 +341,6 @@ export default {
     },
     // 新增
     rowAdd() {
-      this.formInit()
       this.boxType = 0
       this.show()
     },
@@ -304,10 +392,10 @@ export default {
     hide(cancel) {
       const callack = () => {
         if (cancel !== false) {
-          // 释放form表单
-          this.tableForm = {}
           this.$nextTick(() => {
             this.$refs['tableForm'].resetFields()
+            // 释放form表单
+            this.formReset()
           })
           this.boxVisible = false
         }
@@ -332,9 +420,18 @@ export default {
   padding: 0 8px;
 }
 .crud-header {
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   & > .el-button {
     padding: 12px 25px;
+  }
+}
+.crud-menu {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+  .el-button {
+    margin-left: 5px;
   }
 }
 .crud--overflow {

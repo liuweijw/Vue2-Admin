@@ -13,7 +13,7 @@ let baseUrl = ''
 const iconfontVersion = ['567566_r22zi6t8noas8aor']
 const iconfontUrl = `//at.alicdn.com/t/font_$key.css`
 const codeUrl = `${baseUrl}/code`
-const env = process.env.NODE_ENV
+const env = process.env
 if (env === 'development') {
   baseUrl = `` // 开发环境地址
 } else if (env === 'production') {
@@ -26,5 +26,6 @@ export {
   baseUrl,
   iconfontUrl,
   iconfontVersion,
-  codeUrl
+  codeUrl,
+  env
 }

@@ -1,33 +1,5 @@
 <template>
   <div class="table-container pull-height">
-    <div class="table-header">
-      <el-input style="width: 200px;"
-                size="medium"
-                class="filter-item"
-                placeholder="角色名称"
-                v-model="page.roleName"
-                @keyup.enter.native="handleSearch"></el-input>
-      <el-input style="width: 200px;"
-                size="medium"
-                class="filter-item"
-                placeholder="角色编码"
-                v-model="page.roleCode"
-                @keyup.enter.native="handleSearch"></el-input>
-      <el-button class="filter-item"
-                 size="small"
-                 type="primary"
-                 v-waves
-                 icon="search"
-                 @click="handleSearch()">搜索</el-button>
-      <el-button v-if="permission.role_add"
-                 class="filter-item"
-                 size="small"
-                 style="margin-left: 10px;"
-                 type="primary"
-                 icon="edit"
-                 v-waves
-                 @click="handleAdd()">新 增</el-button>
-    </div>
     <avue-crud :option="tableOption"
                :data="tableData"
                :table-loading="tableLoading"
@@ -38,9 +10,15 @@
                @current-change="handleCurrentChange"
                @row-save="handleSave"
                @row-update="handleUpdate"
-               @row-del="handleDel">
-      <template slot-scope="scope"
-                slot="menu">
+               @row-del="handleDel"
+               @search-change="handleSearchChange">
+      <el-button v-if="permission.role_add"
+                 slot="headerMiddle"
+                 size="small"
+                 type="success"
+                 icon="el-icon-edit"
+                 @click="handleAdd()">新 增</el-button>
+      <template slot-scope="scope" slot="menu">
         <el-button icon="el-icon-check"
                    size="small"
                    @click="handleRoleMenu(scope.row,scope.$index)">权限</el-button>
@@ -133,7 +111,9 @@ export default {
     handleCurrentChange(val) {
       this.page.currentPage = val
     },
-    handleSearch() { // 搜索
+    handleSearchChange(from) {
+      this.page.roleName = from.roleName
+      this.page.roleCode = from.roleCode
       this.page.currentPage = 1
       this.handleList()
     },
@@ -227,15 +207,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.table-container {
-  padding: 8px 10px;
-}
-.table-header {
-  margin-bottom: 10px;
-  & > .el-button {
-    padding: 12px 25px;
-  }
-}
-</style>

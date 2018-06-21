@@ -1,120 +1,140 @@
-const first = [
-  {
-    id: 111,
-    label: '数据展示',
-    href: '/exhibition/index',
-    icon: 'icon-shujuzhanshi2',
-    children: []
+const first = [{
+  id: 23,
+  label: '环境变量',
+  icon: 'icon-dongtai',
+  href: '/dev/index',
+  meta: {
   },
-  {
-    id: 112,
-    label: '第三方网站',
-    href: '',
-    icon: 'icon-iframe',
-    meta: {},
-    children: [
-      {
-        id: 113,
-        label: '百度',
-        href: 'https://www.baidu.com',
-        icon: 'icon-baidu1',
-        children: []
-      }
-    ]
-  },
-  {
-    id: 116,
-    label: '表格&表单',
-    href: '',
-    icon: 'icon-biaoge',
-    meta: {},
-    children: [
-      {
-        id: 117,
-        label: '表格',
-        href: '/table/index',
-        query: {
-          a: 1
-        },
-        icon: 'icon-biaoge',
-        meta: {},
-        children: []
+  children: []
+}, {
+  id: 24,
+  label: '数据持久化',
+  href: `/store/index`,
+  icon: 'icon-huanyingye',
+  meta: {},
+  children: []
+}, {
+  id: 25,
+  label: '剪切板',
+  href: `/clipboard/index`,
+  icon: 'icon-canshu',
+  meta: {},
+  children: []
+}, {
+  id: 111,
+  label: '数据展示',
+  href: '/exhibition/index',
+  icon: 'icon-shujuzhanshi2',
+  children: []
+}, {
+  id: 112,
+  label: '第三方网站',
+  href: '',
+  icon: 'icon-iframe',
+  meta: {},
+  children: [
+    {
+      id: 113,
+      label: '百度',
+      href: 'https://www.baidu.com',
+      icon: 'icon-baidu1',
+      children: []
+    }
+  ]
+},
+{
+  id: 116,
+  label: '表格&表单',
+  href: '',
+  icon: 'icon-biaoge',
+  meta: {},
+  children: [
+    {
+      id: 117,
+      label: '表格',
+      href: '/table/index',
+      query: {
+        a: 1
       },
-      {
-        id: 118,
-        label: '生成器',
-        href: `/table/generator`,
-        icon: 'icon-huanyingye',
-        meta: {},
-        children: []
+      icon: 'icon-biaoge',
+      meta: {},
+      children: []
+    },
+    {
+      id: 118,
+      label: '生成器',
+      href: `/table/generator`,
+      icon: 'icon-huanyingye',
+      meta: {},
+      children: []
+    },
+    {
+      id: 119,
+      label: '表单',
+      href: '/forms/index',
+      query: {
+        a: 1
       },
-      {
-        id: 119,
-        label: '表单',
-        href: '/forms/index',
-        query: {
-          a: 1
-        },
-        icon: 'icon-biaodan',
-        meta: {},
-        children: []
-      }
-    ]
-  },
-  {
-    id: 120,
-    label: '阿里图标',
-    href: '/iconfont/index',
-    icon: 'icon-changyonglogo27',
-    meta: {},
-    children: []
-  },
-  {
-    id: 121,
-    label: '高级路由',
-    href: '#',
-    icon: 'icon-iconset0265',
-    meta: {},
-    children: [
-      {
-        id: 122,
-        label: '动态路由',
-        href: '/advanced-router/mutative-router',
-        icon: 'icon-dongtai',
-        children: []
-      },
-      {
-        id: 123,
-        label: '参数路由',
-        href: '/advanced-router/argument-page',
-        icon: 'icon-canshu',
-        children: []
-      }
-    ]
-  },
-  {
-    id: 124,
-    label: '综合错误',
-    href: '#',
-    icon: 'icon-cuowu',
-    meta: {},
-    children: [
-      {
-        id: 125,
-        label: '错误日志',
-        href: '/errlog/index',
-        icon: 'icon-rizhi',
-        children: []
-      },
-      {
-        id: 126,
-        label: '错误页面',
-        href: '/errlog/page',
-        icon: 'icon-cuowutishitubiao',
-        children: []
-      }
-    ]
-  }
+      icon: 'icon-biaodan',
+      meta: {},
+      children: []
+    }
+  ]
+},
+{
+  id: 120,
+  label: '阿里图标',
+  href: '/iconfont/index',
+  icon: 'icon-changyonglogo27',
+  meta: {},
+  children: []
+},
+{
+  id: 121,
+  label: '高级路由',
+  href: '#',
+  icon: 'icon-iconset0265',
+  meta: {},
+  children: [
+    {
+      id: 122,
+      label: '动态路由',
+      href: '/advanced-router/mutative-router',
+      icon: 'icon-dongtai',
+      children: []
+    },
+    {
+      id: 123,
+      label: '参数路由',
+      href: '/advanced-router/argument-page',
+      icon: 'icon-canshu',
+      children: []
+    }
+  ]
+},
+{
+  id: 124,
+  label: '综合错误',
+  href: '#',
+  icon: 'icon-cuowu',
+  meta: {},
+  children: [
+    {
+      id: 125,
+      label: '错误日志',
+      href: '/errlog/index',
+      icon: 'icon-rizhi',
+      children: []
+    },
+    {
+      id: 126,
+      label: '错误页面',
+      href: '/errlog/page',
+      icon: 'icon-cuowutishitubiao',
+      children: []
+    }
+  ]
+}
 ]
 const second = [
   {

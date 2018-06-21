@@ -36,6 +36,13 @@ export default {
     valueDefault: 0
   },
   {
+    label: '开关',
+    prop: 'switch',
+    type: 'switch',
+    dicData: 'SEX',
+    hide: true
+  },
+  {
     label: '地址',
     span: 24,
     type: 'textarea',

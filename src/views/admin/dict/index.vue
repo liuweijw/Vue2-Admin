@@ -1,33 +1,5 @@
 <template>
   <div class="table-container pull-height">
-    <div class="table-header">
-      <el-input style="width: 200px;"
-                size="medium"
-                class="filter-item"
-                placeholder="字典名称"
-                v-model="page.type"
-                @keyup.enter.native="handleSearch"></el-input>
-      <el-input style="width: 200px;"
-                size="medium"
-                class="filter-item"
-                placeholder="标签名"
-                v-model="page.label"
-                @keyup.enter.native="handleSearch"></el-input>
-      <el-button class="filter-item"
-                 size="small"
-                 type="primary"
-                 v-waves
-                 icon="search"
-                 @click="handleSearch()">搜索</el-button>
-      <el-button v-if="permission.dict_add"
-                 class="filter-item"
-                 size="small"
-                 style="margin-left: 10px;"
-                 type="primary"
-                 icon="edit"
-                 v-waves
-                 @click="handleAdd()">新 增</el-button>
-    </div>
     <avue-crud :option="tableOption"
                :data="tableData"
                :table-loading="tableLoading"
@@ -38,7 +10,15 @@
                @current-change="handleCurrentChange"
                @row-save="handleSave"
                @row-update="handleUpdate"
-               @row-del="handleDel">
+               @row-del="handleDel"
+               @refresh-change="handlerefreshChange"
+               @search-change="handleSearchChange">
+      <el-button v-if="permission.dict_add"
+                 slot="headerMiddle"
+                 size="small"
+                 type="success"
+                 icon="el-icon-edit"
+                 @click="handleAdd()">新 增</el-button>
       <template slot-scope="scope" slot="statu">
         <el-tag :type="scope.row.statu==='0'?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
       </template>
@@ -104,7 +84,12 @@ export default {
     handleCurrentChange(val) {
       this.page.currentPage = val
     },
-    handleSearch() { // 搜索
+    handlerefreshChange(page) {
+      this.page = page
+    },
+    handleSearchChange(form) {
+      this.page.label = form.label
+      this.page.type = form.type
       this.page.currentPage = 1
       this.handleList()
     },
@@ -157,15 +142,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.table-container {
-  padding: 8px 10px;
-}
-.table-header {
-  margin-bottom: 10px;
-  & > .el-button {
-    padding: 12px 25px;
-  }
-}
-</style>

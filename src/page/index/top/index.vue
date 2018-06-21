@@ -11,12 +11,12 @@
       <topMenu></topMenu>
     </h1>
     <div class="top-button is-right">
-      <!-- <el-tooltip class="item" effect="dark" content="主题色" placement="bottom">
+      <el-tooltip class="item" effect="dark" content="主题色" placement="bottom">
         <span class="top-item">
           <top-theme></top-theme>
         </span>
       </el-tooltip>
-      <el-tooltip class="item" effect="dark" content="锁屏" placement="bottom">
+      <!-- <el-tooltip class="item" effect="dark" content="锁屏" placement="bottom">
         <span class="top-item">
           <top-lock></top-lock>
         </span>

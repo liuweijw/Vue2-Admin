@@ -15,16 +15,16 @@ export default {
   name: 'top-menu',
   data() {
     return {
-      activeIndex: '-1',
+      activeIndex: '1',
       items: [
+        // {
+        //   label: '开发实例',
+        //   href: '/home/index',
+        //   roles: ['ROLE_SUPER_ADMIN'],
+        //   parentId: 0
+        // },
         {
-          label: '开发实例',
-          href: '/home/index',
-          roles: ['ROLE_SUPER_ADMIN'],
-          parentId: 0
-        },
-        {
-          label: '权限管理',
+          label: '后台管理',
           roles: ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN'],
           parentId: 1
         }

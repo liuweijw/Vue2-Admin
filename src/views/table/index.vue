@@ -1,20 +1,24 @@
 <template>
   <div class="table-container pull-chheight">
-    <div class="table-header">
-      <el-button type="primary" @click="handleAdd" size="small" v-if="permission.sys_crud_btn_add">新 增</el-button>
-      <el-button type="primary" @click="handleRowEdit" size="small">编 辑</el-button>
-      <el-button type="primary" @click="handleRowDel" size="small">删 除</el-button>
-      <el-button type="info" @click="handleExport" size="small" v-if="permission.sys_crud_btn_export">导出excel</el-button>
-      <el-button type="warning" @click="handleJpeg" size="small">导出图片</el-button>
-      <el-button type="danger" @click="toggleSelection([tableData[1]])" size="small">切换第二选中状态</el-button>
-      <el-button @click="toggleSelection()" size="small">取消选择</el-button>
-      <el-button type="success" size="small" v-if="permission.sys_crud_btn_add">
-        <router-link :to="{path:'/forms/index'}">
-          表单CRUD
-        </router-link>
-      </el-button>
-    </div>
-    <avue-crud :option="tableOption" v-model="user" :data="tableData" :table-loading="tableLoading" :before-open="boxhandleOpen" :before-close="boxhandleClose" @row-dblclick="handleRowDBLClick" @row-click="handleRowClick" :page="page" ref="crud" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel" @current-change="handleCurrentChange" @selection-change="handleSelectionChange">
+    <avue-crud :option="tableOption" v-model="user" :data="tableData" :table-loading="tableLoading" :before-open="boxhandleOpen" :before-close="boxhandleClose" @row-dblclick="handleRowDBLClick" @row-click="handleRowClick" :page="page" ref="crud" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel" @refresh-change="handlerefreshChange" @current-change="handleCurrentChange" @search-change="handleSearchChange" @selection-change="handleSelectionChange">
+      <div class="table-header" slot="headerAfter">
+        <el-button type="primary" @click="handleAdd" size="small" v-if="permission.sys_crud_btn_add">新 增</el-button>
+        <el-button type="primary" @click="handleRowEdit" size="small">编 辑</el-button>
+        <el-button type="primary" @click="handleRowDel" size="small">删 除</el-button>
+        <el-button type="info" @click="handleExport" size="small" v-if="permission.sys_crud_btn_export">导出excel</el-button>
+        <el-button type="warning" @click="handleJpeg" size="small">导出图片</el-button>
+        <el-button type="danger" @click="toggleSelection([tableData[1]])" size="small">切换第二选中状态</el-button>
+        <el-button @click="toggleSelection()" size="small">取消选择</el-button>
+        <el-button type="success" size="small" v-if="permission.sys_crud_btn_add">
+          <router-link :to="{path:'/forms/index'}">
+            表单CRUD
+          </router-link>
+        </el-button>
+      </div>
+      <template slot="headerMenu">
+        <el-button type="primary" icon="el-icon-edit" @click="handleRowEdit" circle size="small"></el-button>
+        <el-button type="danger" icon="el-icon-delete" circle size="small" @click="handleRowDel"></el-button>
+      </template>
       <template slot-scope="props" slot="expand">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="姓名">
@@ -64,11 +68,12 @@
 import { mapGetters } from 'vuex'
 import html2canvas from 'html2canvas'
 import tableOption from '@/const/table/tableOption'
-
+import { validatenull } from '../../../packages/utils/validate'
 export default {
   name: 'table',
   data() {
     return {
+      tableSearch: {},
       tableOption: tableOption, // 表格设置属性
       tableData: [], // 表格的数据
       tableRow: {},
@@ -109,7 +114,7 @@ export default {
         resolve(JSON.parse(this.formJson))
       })
       p
-        .then((data) => {
+        .then(data => {
           this.tableOption = data
           this.formJson = JSON.stringify(data, null, 2)
           this.$notify({
@@ -117,7 +122,7 @@ export default {
             type: 'success'
           })
         })
-        .catch((err) => {
+        .catch(err => {
           this.$notify({
             center: true,
             dangerouslyUseHTMLString: true,
@@ -125,6 +130,17 @@ export default {
             type: 'error'
           })
         })
+    },
+    /**
+     * @title 刷新数据
+     *
+     **/
+    handlerefreshChange(page) {
+      this.handleList(this.tableSearch)
+      this.$notify({
+        message: `刷新数据成功${JSON.stringify(page)}`,
+        type: 'success'
+      })
     },
     /**
      * @title 权限更新
@@ -148,7 +164,22 @@ export default {
       }
     },
     handleRowEdit() {
-      this.$refs.crud.rowEdit(this.tableRow, -1)
+      if (validatenull(this.tableRow)) {
+        this.$notify({
+          showClose: true,
+          message: '请选择一行要编辑的数据',
+          type: 'error'
+        })
+        return false
+      } else if (this.tableRow.length > 1) {
+        this.$notify({
+          showClose: true,
+          message: '请选择一行数据，不要选择多行',
+          type: 'error'
+        })
+        return false
+      }
+      this.handleEdit(this.tableRow[0], -1)
     },
     handleEdit(row, index) {
       this.$refs.crud.rowEdit(row, index)
@@ -157,7 +188,7 @@ export default {
      * @title 打开权限
      */
     handleGrade(row, index) {
-      this.$store.dispatch('GetMenuAll').then((data) => {
+      this.$store.dispatch('GetMenuAll').then(data => {
         this.grade.box = true
         this.tabelObj = row
         this.grade.check = this.tabelObj.check
@@ -168,7 +199,7 @@ export default {
      *
      **/
     handleExport() {
-      import('@/vendor/Export2Excel').then((excel) => {
+      import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['username', 'name']
         const filterVal = ['username', 'name']
         const list = this.tableData
@@ -182,8 +213,8 @@ export default {
      **/
     handleJpeg() {
       const table = this.$refs.crud.$el
-      html2canvas(table).then((canvas) => {
-        const url = canvas.toDataURL()
+      html2canvas(table).then(canvas => {
+        var url = canvas.toDataURL()
         const a = document.createElement('a')
         a.href = url
         a.download = '未命名'
@@ -194,9 +225,9 @@ export default {
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v =>
-        filterVal.map((j) => {
+        filterVal.map(j => {
           if (j === 'timestamp') {
-            /* eslint-disable */
+            // eslint-disable-next-line
             return parseTime(v[j])
           } else {
             return v[j]
@@ -211,6 +242,19 @@ export default {
     handleCurrentChange(val) {
       this.tablePage = val
       this.handleList()
+    },
+    /**
+     * @title 搜索按钮回掉
+     *
+     **/
+    handleSearchChange(form) {
+      this.tableSearch = form
+      this.$notify({
+        showClose: true,
+        message: JSON.stringify(this.tableSearch),
+        type: 'success'
+      })
+      this.handleList(this.tableSearch)
     },
     /**
      * @title 打开新增窗口
@@ -234,11 +278,14 @@ export default {
      * @detail 赋值为tableData表格即可
      *
      **/
-    handleList() {
+    handleList(form) {
       this.tableLoading = true
       this.$store
-        .dispatch('GetTableData', { page: `${this.tablePage}` })
-        .then((data) => {
+        .dispatch(
+          'GetTableData',
+          Object.assign({}, form, { page: `${this.tablePage}` })
+        )
+        .then(data => {
           setTimeout(() => {
             this.tableData = data.tableData
             this.page = {
@@ -256,7 +303,7 @@ export default {
      *
      **/
     handleSelectionChange(val) {
-      this.tableRow = val[0]
+      this.tableRow = val
       this.$notify({
         showClose: true,
         message: JSON.stringify(val),
@@ -295,7 +342,7 @@ export default {
     },
 
     /**
-     * @title 行单击
+     * @title 行单机
      * @param row 为当前的数据
      * @param event 事件
      * @param column 列
@@ -304,16 +351,27 @@ export default {
     handleRowClick(row, event, column) {
       this.$notify({
         showClose: true,
-        message: '单击',
+        message: '单机',
         type: 'success'
       })
     },
     handleRowDel() {
-      this.$notify({
-        showClose: true,
-        message: this.tableRow,
-        type: 'success'
-      })
+      if (validatenull(this.tableRow)) {
+        this.$notify({
+          showClose: true,
+          message: '请选择一行要删除的数据',
+          type: 'error'
+        })
+        return false
+      } else if (this.tableRow.length > 1) {
+        this.$notify({
+          showClose: true,
+          message: '请选择一行数据，不要选择多行',
+          type: 'error'
+        })
+        return false
+      }
+      this.handleDel(this.tableRow[0], -1)
     },
     /**
      * @title 数据删除
@@ -335,7 +393,6 @@ export default {
             type: 'success'
           })
         })
-        .catch((err) => {})
     },
     /**
      * @title 数据更新

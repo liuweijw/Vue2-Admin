@@ -6,6 +6,9 @@ export const tableOption = {
   stripe: true,
   expand: false,
   editBtn: false,
+  showClomnuBtn: false,
+  refreshBtn: false,
+  searchSize: 'small',
   align: 'center',
   menuAlign: 'center',
   dic: ['DEL_FLAG'],
@@ -22,6 +25,7 @@ export const tableOption = {
       label: '服务id',
       prop: 'serviceId',
       sortable: true,
+      search: true,
       width: '165'
     },
     {

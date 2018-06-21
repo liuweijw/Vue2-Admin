@@ -5,16 +5,21 @@ export const tableOption = {
   showHeader: true,
   stripe: true,
   expand: false,
+  showClomnuBtn: false,
+  refreshBtn: false,
+  searchSize: 'small',
   align: 'center',
   menuAlign: 'center',
   dic: ['DEL_FLAG'],
   defaultSort: { prop: 'type', order: 'descending' },
   column: [
     {
-      label: '类型',
+      label: '字典类型',
       prop: 'type',
       sortable: true,
       width: '150',
+      search: true,
+      // placeholder: '自定义输入placeholder',
       rules: [{ required: true, message: '请输入字典类型', trigger: 'blur' }]
     },
     {
@@ -26,6 +31,7 @@ export const tableOption = {
     {
       label: '标签名',
       prop: 'label',
+      search: true,
       rules: [{ required: true, message: '请输入字典标签名', trigger: 'blur' }]
     },
     {

@@ -7,14 +7,12 @@ export default {
   page: false,
   height: '500',
   menuWidth: '150',
-  column: [
-    {
-      label: '姓名',
-      prop: 'name'
-    }, {
-      label: 'git地址',
-      prop: 'git',
-      solt: true
-    }
-  ]
+  column: [{
+    label: '姓名',
+    prop: 'name'
+  }, {
+    label: 'git地址',
+    prop: 'git',
+    solt: true
+  }]
 }

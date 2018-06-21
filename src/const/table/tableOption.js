@@ -5,21 +5,26 @@ export default {
   expand: true,
   stripe: true,
   selection: true,
+  showClomnuBtn: true,
+  refreshBtn: true,
   menuWidth: 300,
   menuAlign: 'center',
   editBtn: false,
   align: 'center',
-  // defaultSort: {
-  //   prop: 'name',
-  //   order: 'descending'
-  // },
+  searchSize: 'small',
+    // defaultSort: {
+    //   prop: 'name',
+    //   order: 'descending'
+    // },
   dic: ['VAILDATA', 'SEX', 'TYPE'],
   column: [{
     label: '用户名',
     prop: 'username',
     width: 120,
     sortable: true,
+    search: true,
     solt: true,
+    placeholder: '自定义输入placeholder',
     rules: [{
       required: true,
       message: '请输入用户名',
@@ -50,14 +55,48 @@ export default {
     hide: true
   },
   {
+    label: '时间',
+    prop: 'time',
+    type: 'time',
+    hide: true
+  },
+  {
+    label: '开关',
+    prop: 'switch',
+    type: 'switch',
+    dicData: 'TYPE',
+    hide: true
+  },
+  {
+    label: 'select多选',
+    prop: 'select',
+    type: 'select',
+    multiple: true,
+    dicData: 'TYPE',
+    hide: true
+  },
+  {
+    label: '日期时间',
+    prop: 'datetime',
+    type: 'datetime',
+    hide: true
+  },
+  {
     label: '权限',
     prop: 'grade',
     type: 'radio',
     dicData: 'VAILDATA',
+    search: true,
     valueDefault: true,
     formatter: (row) => {
       return row.grade
     }
+  },
+  {
+    label: '密码',
+    prop: 'password',
+    type: 'password',
+    hide: true
   },
   {
     label: '地址',

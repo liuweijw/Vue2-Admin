@@ -43,3 +43,47 @@ export const removeStore = params => {
   window.localStorage.removeItem(name)
   window.sessionStorage.removeItem(name)
 }
+
+/**
+ * 获取全部localStorage
+ */
+export const getAllStore = (params) => {
+  const list = []
+  const {
+    type
+  } = params
+  for (let i = 1; i <= window.sessionStorage.length; i++) {
+    if (type) {
+      list.push({
+        name: window.sessionStorage.key(i),
+        content: getStore({
+          name: window.sessionStorage.key(i),
+          type: 'session'
+        })
+      })
+    } else {
+      list.push(getStore({
+        name: window.localStorage.key(i),
+        content: getStore({
+          name: window.localStorage.key(i)
+        })
+      }))
+    }
+  }
+
+  return list
+}
+
+/**
+ * 清空全部localStorage
+ */
+export const clearStore = (params) => {
+  const {
+    type
+  } = params
+  if (type) {
+    window.sessionStorage.clear()
+    return
+  }
+  window.localStorage.clear()
+}

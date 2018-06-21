@@ -40,9 +40,9 @@ export const findByvalue = (dic, value) => {
   }
   return result
 }
-/**
- * 根据字典的value查找对应的index
- */
+    /**
+     * 根据字典的value查找对应的index
+     */
 export const findArray = (dic, value) => {
   for (let i = 0; i < dic.length; i++) {
     if (dic[i].value + '' === value + '') {
@@ -51,15 +51,15 @@ export const findArray = (dic, value) => {
   }
   return -1
 }
-/**
- * 获取字典
- */
+    /**
+     * 获取字典
+     */
 export const setDic = (dicData, DIC) => {
-  return typeof dicData === 'string' ? DIC : dicData
+  return (typeof (dicData) === 'string') ? DIC : dicData
 }
-/**
- * 设置px
- */
+    /**
+     * 设置px
+     */
 export const setPx = (val, defval) => {
   if (validatenull(val)) {
     val = defval
@@ -70,6 +70,26 @@ export const setPx = (val, defval) => {
   }
   return val
 }
+
+/**
+ * 搜索框获取动态组件
+ */
+export const getSearchType = (type) => {
+  if (type === 'select' || type === 'radio' || type === 'checkbox') {
+    return 'crudSelect'
+  } else if (type === 'time') {
+    return 'crudTime'
+  } else if (type === 'date' || type === 'datetime') {
+    return 'crudDate'
+  } else if (type === 'cascader') {
+    return 'crudCascader'
+  } else if (type === 'number') {
+    return 'crudInputNumber'
+  } else {
+    return 'crudInput'
+  }
+}
+
 /**
  * 动态获取组件
  */
@@ -90,6 +110,10 @@ export const getComponent = (type) => {
     return 'crudInputNumber'
   } else if (type === 'ueditor') {
     return 'crudUeditor'
+  } else if (type === 'password') {
+    return 'crudInput'
+  } else if (type === 'switch') {
+    return 'crudSwitch'
   } else {
     return 'crudInput'
   }

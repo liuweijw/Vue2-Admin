@@ -163,12 +163,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.menu-container {
-  padding: 0 20px;
-}
-.menu-header {
-  padding: 8px 0;
-}
-</style>

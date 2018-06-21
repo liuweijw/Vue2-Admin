@@ -21,7 +21,7 @@ export const userInfo = {
   ]// 权限级别
 }
 const List = []
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 10; i++) {
   List.push(Mock.mock({
     id: '@increment',
     name: Mock.mock('@cname'),

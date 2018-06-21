@@ -1,19 +1,5 @@
 <template>
   <div class="table-container pull-height">
-    <div class="table-header">
-      <el-input style="width: 200px;"
-                size="medium"
-                class="filter-item"
-                placeholder="服务ID"
-                v-model="page.serviceId"
-                @keyup.enter.native="handleSearch"></el-input>
-      <el-button class="filter-item"
-                 size="small"
-                 type="primary"
-                 v-waves
-                 icon="search"
-                 @click="handleSearch()">搜索</el-button>
-    </div>
     <avue-crud :option="tableOption"
                :data="tableData"
                :table-loading="tableLoading"
@@ -22,7 +8,8 @@
                width="290"
                @size-change="handleSizeChange"
                @current-change="handleCurrentChange"
-               @row-del="handleDel">
+               @row-del="handleDel"
+               @search-change="handleSearchChange">
       <template slot-scope="scope" slot="serialIndex">
         <span>{{ getSerialIndex(scope.row.index) }}</span>
       </template>
@@ -92,7 +79,8 @@ export default {
       this.page.currentPage = val
       this.handleList()
     },
-    handleSearch() {
+    handleSearchChange(form) {
+      this.page.serviceId = form.serviceId
       this.page.currentPage = 1
       this.handleList()
     },
@@ -123,15 +111,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.table-container {
-  padding: 8px 10px;
-}
-.table-header {
-  margin-bottom: 10px;
-  & > .el-button {
-    padding: 12px 25px;
-  }
-}
-</style>
