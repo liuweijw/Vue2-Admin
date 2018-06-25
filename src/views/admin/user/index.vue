@@ -12,7 +12,8 @@
                @current-change="handleCurrentChange"
                @row-save="handleSave"
                @row-update="handleUpdate"
-               @row-del="handleDel">
+               @row-del="handleDel"
+               @search-change="handleSearchChange">
         <el-button v-if="permission.user_add"
                  slot="headerMiddle"
                  size="small"
@@ -26,6 +27,9 @@
       <template slot-scope="scope" slot="roleDesc">
         {{roleDescValue(scope.row)}}
       </template>
+      <template slot-scope="scope" slot="deptIdForm">
+        <el-input v-model="userObj.deptName" placeholder="选择部门" @focus="handleDept()" readonly></el-input>
+      </template>
       <template slot-scope="scope" slot="roleIdForm">
         <el-select v-model="roleEditRoleId" :placeholder="'请选择角色'" @change="handleChange">
           <el-option v-for="(item,index) in roleEditData" :key="index" :label="item.label" :value="item.value">
@@ -33,12 +37,18 @@
         </el-select>
       </template>
     </avue-crud>
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogDeptVisible">
+      <el-tree class="filter-tree" :data="treeDeptData" :default-checked-keys="checkedKeys" check-strictly node-key="id" highlight-current ref="deptTree" :props="defaultProps" @node-click="getNodeData" default-expand-all>
+      </el-tree>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { fetchUserList, add, update, del } from '@/api/user'
-import { fetchListAll } from '@/api/role'
+import { fetchDeptTree } from '@/api/dept'
+import { fetchDeptRoleList } from '@/api/role'
 import { mapGetters } from 'vuex'
 import { userOption } from '@/const/admin/userTabelOption.js'
 import { validatenull } from '@/util/validate'
@@ -65,9 +75,24 @@ export default {
       userObj: {
         username: '',
         password: '',
+        mobile: '',
         statu: 0,
         roleId: '',
-        userId: ''
+        userId: '',
+        deptId: '',
+        deptName: ''
+      },
+      treeDeptData: [],
+      checkedKeys: [],
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
+      dialogDeptVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '创建'
       }
     }
   },
@@ -77,7 +102,6 @@ export default {
     this.tableOption.editBtn = (this.permission.user_upd !== undefined && this.permission.user_upd)
     this.tableOption.menu = this.tableOption.delBtn || this.tableOption.editBtn
     this.handleList()
-    this.handleRoleList()
   },
   watch: {},
   mounted() { },
@@ -121,6 +145,33 @@ export default {
       this.page.currentPage = 1
       this.handleList()
     },
+    handleSearchChange(form) {
+      this.page.username = form.username
+      this.page.currentPage = 1
+      this.handleList()
+    },
+    handleDept() {
+      fetchDeptTree().then(res => {
+        this.treeDeptData = res.data
+        this.dialogDeptVisible = true
+      })
+    },
+    getNodeData(data) {
+      this.dialogDeptVisible = false
+      this.userObj.deptId = data.id
+      this.userObj.deptName = data.name
+      fetchDeptRoleList(data.id).then(res => {
+        this.roleEditData = []
+        if (validatenull(res.data)) return
+        res.data.forEach(r => {
+          const role = {
+            label: r.roleName,
+            value: r.roleId
+          }
+          this.roleEditData.push(role)
+        })
+      })
+    },
     findByvalue(dic, value) {
       return this.$refs.crud.findByvalue(dic, value)
     },
@@ -133,10 +184,26 @@ export default {
       return rDesc
     },
     handleAdd() {
-      this.roleEditRoleId = this.roleEditData[0].value
+      // this.roleEditRoleId = this.roleEditData[0].value
+      this.userObj.deptId = ''
+      this.userObj.deptName = ''
+      this.roleEditRoleId = ''
       this.$refs.crud.rowAdd()
     },
     handleRowEdit(row, index) {
+      this.userObj.deptId = row.deptId
+      this.userObj.deptName = row.deptName
+      this.roleEditData = []
+      fetchDeptRoleList(row.deptId).then(res => {
+        if (validatenull(res.data)) return
+        res.data.forEach(r => {
+          const role = {
+            label: r.roleName,
+            value: r.roleId
+          }
+          this.roleEditData.push(role)
+        })
+      })
       if (validatenull(row.roleList)) {
         this.roleEditRoleId = ''
         return
@@ -146,6 +213,7 @@ export default {
     handleSave(row, done) {
       this.userObj.username = row.username
       this.userObj.password = row.password
+      this.userObj.mobile = row.mobile
       this.userObj.statu = 0
       this.userObj.roleId = this.roleEditRoleId
       this.userObj.userId = ''
@@ -163,6 +231,7 @@ export default {
       this.userObj.username = row.username
       this.userObj.password = ''
       this.userObj.statu = row.statu
+      this.userObj.mobile = row.mobile
       this.userObj.roleId = this.roleEditRoleId
       this.userObj.userId = row.userId
       update(this.userObj).then(res => {
@@ -191,17 +260,6 @@ export default {
         })
       }).catch(() => {
         this.$message({ type: 'info', message: '已取消删除' })
-      })
-    },
-    handleRoleList() {
-      fetchListAll().then(res => {
-        res.data.forEach(r => {
-          const role = {
-            label: r.roleName,
-            value: r.roleId
-          }
-          this.roleEditData.push(role)
-        })
       })
     }
   }

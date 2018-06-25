@@ -178,14 +178,14 @@ const second = [
         href: '/admin/dict',
         icon: 'el-icon-menu',
         children: []
+      },
+      {
+        id: 7,
+        label: '部门管理',
+        href: '/admin/dept',
+        icon: 'el-icon-menu',
+        children: []
       }
-      // {
-      //   id: 7,
-      //   label: '部门管理',
-      //   href: '/admin/dept',
-      //   icon: 'el-icon-menu',
-      //   children: []
-      // }
     ]
   },
   {

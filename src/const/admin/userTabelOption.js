@@ -30,6 +30,24 @@ export const userOption = {
       rules: [{ required: true, message: '请输入用户名', trigger: 'blur' }]
     },
     {
+      label: '手机号码',
+      prop: 'mobile',
+      sortable: true,
+      rules: [{ required: true, message: '请输入手机号码', trigger: 'blur' }]
+    },
+    {
+      label: '所属部门',
+      prop: 'deptId',
+      formsolt: true,
+      hide: true
+    },
+    {
+      label: '所属部门',
+      prop: 'deptName',
+      addVisdiplay: false,
+      editVisdiplay: false
+    },
+    {
       label: '角色',
       prop: 'roleDesc',
       overHidden: true,
@@ -57,6 +75,7 @@ export const userOption = {
       label: '创建时间',
       prop: 'createTime',
       type: 'datetime',
+      overHidden: true,
       // format: 'yyyy-MM-dd HH:mm:ss',
       // valueFormat: 'yyyy-MM-dd HH:mm:ss',
       addVisdiplay: false,

@@ -1,41 +1,52 @@
 <template>
-  <el-container class="menu-container pull-chheight">
-    <el-header class="menu-header">
+  <div class="app-container calendar-list-container">
+    <div class="filter-container">
       <el-button-group>
         <el-button type="primary" icon="el-icon-plus" size="small" @click.native="handleAdd" v-if="permission.menu_add">新增</el-button>
         <el-button type="primary" icon="el-icon-edit" size="small" @click.native="handleEdit" v-if="permission.menu_upd">编辑</el-button>
         <el-button type="primary" icon="el-icon-delete" size="small" @click.native="handleDel" v-if="permission.menu_del">删除</el-button>
       </el-button-group>
-    </el-header>
-    <el-container>
-      <el-aside width="300px">
-        <el-tree :data="menuAll" node-key="id" highlight-current default-expand-all :expand-on-click-node="false" @node-click="handleNodeClick"></el-tree>
-      </el-aside>
-      <el-main>
-        <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item label="父节点ID">
-            <el-input v-model="parentForm.id" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="父节点">
-            <el-input v-model="parentForm.label" :disabled="true"></el-input>
-          </el-form-item>
-          <el-form-item label="菜单名称">
-            <el-input v-model="form.label" :disabled="formMenu"></el-input>
-          </el-form-item>
-          <el-form-item label="菜单path">
-            <el-input v-model="form.path" :disabled="formMenu"></el-input>
-          </el-form-item>
-          <el-form-item label="菜单规则">
-            <el-input v-model="form.url" :disabled="formMenu"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="handleAddSubmit" :disabled="formMenu" v-if="formStatus=='add'">新增</el-button>
-            <el-button type="primary" @click="handleUpdSubmit" :disabled="formMenu" v-if="formStatus=='edit'">修改</el-button>
-          </el-form-item>
-        </el-form>
-      </el-main>
-    </el-container>
-  </el-container>
+    </div>
+    <el-row>
+      <el-col :span="8" style='margin-top:15px;'>
+        <el-tree
+           class="filter-tree"
+           :data="menuAll"
+           node-key="id"
+           highlight-current
+           default-expand-all
+           :expand-on-click-node="false"
+           @node-click="handleNodeClick"
+        >
+      </el-tree>
+    </el-col>
+    <el-col :span="16" style='margin-top:15px;'>
+        <el-card class="box-card">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="父节点ID">
+              <el-input v-model="parentForm.id" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="父节点">
+              <el-input v-model="parentForm.label" :disabled="true"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单名称">
+              <el-input v-model="form.label" :disabled="formMenu"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单path">
+              <el-input v-model="form.path" :disabled="formMenu"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单规则">
+              <el-input v-model="form.url" :disabled="formMenu"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleAddSubmit" :disabled="formMenu" v-if="formStatus=='add'">新增</el-button>
+              <el-button type="primary" @click="handleUpdSubmit" :disabled="formMenu" v-if="formStatus=='edit'">修改</el-button>
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 
 <script>

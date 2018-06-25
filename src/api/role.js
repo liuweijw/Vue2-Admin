@@ -15,13 +15,6 @@ export function fetchList(_params) {
   })
 }
 
-export function fetchListByDeptId(deptId) {
-  return request({
-    url: '/admin/role/listByDeptId/' + deptId,
-    method: 'get'
-  })
-}
-
 export function del(id) {
   return request({
     url: '/admin/role/del/' + id,
@@ -50,5 +43,12 @@ export function updRoleMenuPermission(_from) {
     url: '/admin/role/updRoleMenuPermission',
     method: 'post',
     data: _from
+  })
+}
+
+export function fetchDeptRoleList(deptId) {
+  return request({
+    url: '/admin/role/findRoleList/' + deptId,
+    method: 'get'
   })
 }
