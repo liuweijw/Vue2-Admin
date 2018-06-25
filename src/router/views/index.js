@@ -17,6 +17,10 @@ export default [{
       name: '角色管理',
       component: _import('admin/role/index', 'views')
     }, {
+      path: 'dept',
+      name: '部门管理',
+      component: _import('admin/dept/index', 'views')
+    }, {
       path: 'logs',
       name: '日志管理',
       component: _import('admin/logs/index', 'views')
@@ -24,10 +28,6 @@ export default [{
       path: 'dict',
       name: '字典管理',
       component: _import('admin/dict/index', 'views')
-    }, {
-      path: 'dept',
-      name: '部门管理',
-      component: _import('admin/dept/index', 'views')
     }
   ]
 }, {

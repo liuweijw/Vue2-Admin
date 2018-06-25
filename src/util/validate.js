@@ -212,4 +212,15 @@ export function validatenull(val) {
   }
   return false
 }
-
+/**
+ * validate 大于0的浮点数
+ * @param _num
+ * @returns {boolean}
+ */
+export function validateFloat(_num) {
+  try {
+    return parseFloat(_num) > 0
+  } catch (e) {
+    return false
+  }
+}

@@ -1,20 +1,20 @@
 const first = [{
-  id: 23,
+  id: 120,
   label: '环境变量',
-  icon: 'icon-dongtai',
+  icon: 'icon-xitongguanli',
   href: '/dev/index',
   meta: {
   },
   children: []
 }, {
-  id: 24,
+  id: 121,
   label: '数据持久化',
   href: `/store/index`,
-  icon: 'icon-huanyingye',
+  icon: 'icon-shuju2',
   meta: {},
   children: []
 }, {
-  id: 25,
+  id: 122,
   label: '剪切板',
   href: `/clipboard/index`,
   icon: 'icon-canshu',
@@ -24,20 +24,20 @@ const first = [{
   id: 111,
   label: '数据展示',
   href: '/exhibition/index',
-  icon: 'icon-shujuzhanshi2',
+  icon: 'icon-shuju4',
   children: []
 }, {
   id: 112,
   label: '第三方网站',
   href: '',
-  icon: 'icon-iframe',
+  icon: 'icon-wangzhi',
   meta: {},
   children: [
     {
       id: 113,
       label: '百度',
       href: 'https://www.baidu.com',
-      icon: 'icon-baidu1',
+      icon: 'icon-changyonglogo48',
       children: []
     }
   ]
@@ -46,7 +46,7 @@ const first = [{
   id: 116,
   label: '表格&表单',
   href: '',
-  icon: 'icon-biaoge',
+  icon: 'icon-tijiaorizhi',
   meta: {},
   children: [
     {
@@ -56,7 +56,7 @@ const first = [{
       query: {
         a: 1
       },
-      icon: 'icon-biaoge',
+      icon: 'icon-tijiaorizhi',
       meta: {},
       children: []
     },
@@ -64,7 +64,7 @@ const first = [{
       id: 118,
       label: '生成器',
       href: `/table/generator`,
-      icon: 'icon-huanyingye',
+      icon: 'icon-guanli2',
       meta: {},
       children: []
     },
@@ -75,7 +75,7 @@ const first = [{
       query: {
         a: 1
       },
-      icon: 'icon-biaodan',
+      icon: 'icon-tijiaorizhi',
       meta: {},
       children: []
     }
@@ -93,21 +93,21 @@ const first = [{
   id: 121,
   label: '高级路由',
   href: '#',
-  icon: 'icon-iconset0265',
+  icon: 'icon-luyou',
   meta: {},
   children: [
     {
       id: 122,
       label: '动态路由',
       href: '/advanced-router/mutative-router',
-      icon: 'icon-dongtai',
+      icon: 'icon-msnui-workflow',
       children: []
     },
     {
       id: 123,
       label: '参数路由',
       href: '/advanced-router/argument-page',
-      icon: 'icon-canshu',
+      icon: 'icon-iconset0450',
       children: []
     }
   ]
@@ -123,14 +123,14 @@ const first = [{
       id: 125,
       label: '错误日志',
       href: '/errlog/index',
-      icon: 'icon-rizhi',
+      icon: 'icon-caozuorizhi1',
       children: []
     },
     {
       id: 126,
       label: '错误页面',
       href: '/errlog/page',
-      icon: 'icon-cuowutishitubiao',
+      icon: 'icon-caozuorizhi1',
       children: []
     }
   ]
@@ -140,7 +140,7 @@ const second = [
   {
     id: 1,
     label: '系统管理',
-    icon: 'icon-liuliangyunpingtaitubiao08',
+    icon: 'icon-xitong',
     href: '',
     meta: {},
     children: [
@@ -148,50 +148,50 @@ const second = [
         id: 2,
         label: '用户管理',
         href: '/admin/user',
-        icon: 'icon-yonghuguanli',
+        icon: 'icon-webicon208',
         children: []
       },
       {
         id: 3,
         label: '菜单管理',
         href: '/admin/menu',
-        icon: 'el-icon-menu',
+        icon: 'icon-caidan11',
         children: []
       },
       {
         id: 4,
         label: '角色管理',
         href: '/admin/role',
-        icon: 'el-icon-menu',
+        icon: 'icon-jiaoseguanli',
         children: []
       },
       {
         id: 5,
         label: '日志管理',
         href: '/admin/logs',
-        icon: 'el-icon-menu',
+        icon: 'icon-rizhi',
         children: []
       },
       {
         id: 6,
         label: '字典管理',
         href: '/admin/dict',
-        icon: 'el-icon-menu',
+        icon: 'icon-zidian',
+        children: []
+      },
+      {
+        id: 7,
+        label: '部门管理',
+        href: '/admin/dept',
+        icon: 'icon-web-icon-',
         children: []
       }
-      // {
-      //   id: 7,
-      //   label: '部门管理',
-      //   href: '/admin/dept',
-      //   icon: 'el-icon-menu',
-      //   children: []
-      // }
     ]
   },
   {
     id: 8,
     label: '系统监控',
-    icon: 'el-icon-view',
+    icon: 'icon-xitongjiankong',
     href: '',
     meta: {},
     children: [
@@ -199,42 +199,42 @@ const second = [
         id: 9,
         label: '服务监控',
         href: 'http://websiteIp:1010',
-        icon: 'el-icon-document',
+        icon: 'icon-dongtai',
         children: []
       },
       {
         id: 10,
         label: 'zipkin监控',
         href: 'http://websiteIp:1011',
-        icon: 'el-icon-document',
+        icon: 'icon-dongtai',
         children: []
       },
       {
         id: 11,
         label: 'pinpoint监控',
         href: '/monitor/pinpoint',
-        icon: 'el-icon-document',
+        icon: 'icon-dongtai',
         children: []
       },
       {
         id: 12,
         label: '缓存状态',
         href: '/monitor/cache',
-        icon: 'el-icon-document',
+        icon: 'icon-dongtai',
         children: []
       },
       // {
       //   id: 13,
       //   label: 'ELK状态',
       //   href: '/monitor/elk',
-      //   icon: 'el-icon-document',
+      //   icon: 'icon-dongtai',
       //   children: []
       // },
       {
         id: 14,
         label: '接口文档',
         href: 'http://websiteIp:1003/swagger-ui.html',
-        icon: 'el-icon-document',
+        icon: 'icon-api',
         children: []
       }
     ]

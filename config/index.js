@@ -43,6 +43,13 @@ module.exports = {
           '^/admin': '/admin'
         }
       }
+      // '/devadmin': {
+      //   target: 'http://localhost:2012',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/devadmin': ''
+      //   }
+      // }
     },
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

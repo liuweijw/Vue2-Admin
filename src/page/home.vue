@@ -1,7 +1,7 @@
 <template>
   <div class="wel-contailer">
     <div class="banner-text">
-      <h2>Vue2 管理系统</h2>
+      <h2>Vue2-Admin 后台管理系统</h2>
     </div>
   </div>
 </template>

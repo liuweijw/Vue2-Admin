@@ -10,7 +10,7 @@
  */
 
 let baseUrl = ''
-const iconfontVersion = ['567566_r22zi6t8noas8aor']
+const iconfontVersion = ['721821_qpkkgvdzu4']
 const iconfontUrl = `//at.alicdn.com/t/font_$key.css`
 const codeUrl = `${baseUrl}/code`
 const env = process.env

@@ -2,21 +2,21 @@
 <div class="iconfon-container pull-height">
     <h3 style="color:red;">修改./src/config/env.js中的iconfontVersion地址即可实时调用阿里云在线图标库</h3>
     <ul class="icon-list">
-        <li><span><i class="icon-daohanglanmoshi02"></i><span class="icon-name">icon-daohanglanmoshi02</span></span></li>
+        <li><span><i class="icon-xitongguanli"></i><span class="icon-name">icon-xitongguanli</span></span></li>
+        <li><span><i class="icon-shuju2"></i><span class="icon-name">icon-shuju2</span></span></li>
+        <li><span><i class="icon-canshu"></i><span class="icon-name">icon-canshu</span></span></li>
+        <li><span><i class="icon-shuju4"></i><span class="icon-name">icon-shuju4</span></span></li>
+        <li><span><i class="icon-wangzhi"></i><span class="icon-name">icon-wangzhi</span></span></li>
+        <li><span><i class="icon-changyonglogo48"></i><span class="icon-name">icon-changyonglogo48</span></span></li>
+        <li><span><i class="icon-mubiaoyemianliebiao"></i><span class="icon-name">icon-mubiaoyemianliebiao</span></span></li>
+        <li><span><i class="icon-guanli2"></i><span class="icon-name">icon-guanli2</span></span></li>
         <li><span><i class="icon-changyonglogo27"></i><span class="icon-name">icon-changyonglogo27</span></span></li>
-        <li><span><i class="icon-biaoge"></i><span class="icon-name">icon-biaoge</span></span></li>
-        <li><span><i class="icon-baidu1"></i><span class="icon-name">icon-baidu1</span></span></li>
-        <li><span><i class="icon-tubiao"></i><span class="icon-name">icon-tubiao</span></span></li>
-        <li><span><i class="icon-souhu"></i><span class="icon-name">icon-souhu</span></span></li>
-        <li><span><i class="icon-msnui-360"></i><span class="icon-name">icon-msnui-360</span></span></li>
-        <li><span><i class="icon-iframe"></i><span class="icon-name">icon-iframe</span></span></li>
-        <li><span><i class="icon-huanyingye"></i><span class="icon-name">icon-huanyingye</span></span></li>
-        <li><span><i class="icon-weixin"></i><span class="icon-name">icon-weixin</span></span></li>
-        <li><span><i class="icon-qq"></i><span class="icon-name">icon-qq</span></span></li>
-        <li><span><i class="icon-tuichu"></i><span class="icon-name">icon-tuichu</span></span></li>
-        <li><span><i class="icon-jiaoseguanli"></i><span class="icon-name">icon-jiaoseguanli</span></span></li>
-        <li><span><i class="icon-yonghuguanli"></i><span class="icon-name">icon-yonghuguanli</span></span></li>
-        <li><span><i class="icon-caidanguanli"></i><span class="icon-name">icon-caidanguanli</span></span></li>
+        <li><span><i class="icon-luyou"></i><span class="icon-name">icon-luyou</span></span></li>
+        <li><span><i class="icon-iconset0450"></i><span class="icon-name">icon-iconset0450</span></span></li>
+        <li><span><i class="icon-rizhi"></i><span class="icon-name">icon-rizhi</span></span></li>
+        <li><span><i class="icon-webicon208"></i><span class="icon-name">icon-webicon208</span></span></li>
+        <li><span><i class="icon-zidian"></i><span class="icon-name">icon-zidian</span></span></li>
+        <li><span><i class="icon-web-icon-"></i><span class="icon-name">icon-web-icon-</span></span></li>
     </ul>
 </div>
 </template>

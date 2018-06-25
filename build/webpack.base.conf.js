@@ -39,6 +39,7 @@ module.exports = {
 		'vuex': 'Vuex',
 		'axios': 'axios',
 		'element-ui': 'ELEMENT',
+		// "BMap": "BMap"
 	},
 	resolve: {
 		extensions: ['.js', '.vue', '.json'],
@@ -107,9 +108,6 @@ module.exports = {
       'process.env': JSON.stringify(env)
 		}),
 	],
-	// externals: { //html  <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=Tm7h1NrKLoNYpLEfcOZDqw2OxrkkGizX"></script>
-	// 	'BMap': 'BMap'
-	// },
 	node: {
 		// prevent webpack from injecting useless setImmediate polyfill because Vue
 		// source contains it (although only uses it if it's native).

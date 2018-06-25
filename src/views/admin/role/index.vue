@@ -6,6 +6,7 @@
                :page="page"
                ref="crud"
                width="290"
+               @row-edit='handleRowEdit'
                @size-change="handleSizeChange"
                @current-change="handleCurrentChange"
                @row-save="handleSave"
@@ -23,9 +24,12 @@
                    size="small"
                    @click="handleRoleMenu(scope.row,scope.$index)">权限</el-button>
       </template>
-      <template slot-scope="scope"
-                slot="statu">
+      <template slot-scope="scope" slot="statu">
         <el-tag :type="scope.row.statu==='0'?'success':'danger'">{{findByvalue(scope.dic,scope.row.statu)}}</el-tag>
+      </template>
+      <template slot-scope="scope" slot="deptIdForm">
+        <el-input v-model="form.deptName" placeholder="选择部门" @focus="handleDept()" readonly></el-input>
+        <input type="hidden" v-model="form.deptId" />
       </template>
     </avue-crud>
     <el-dialog title="菜单"
@@ -39,11 +43,14 @@
                ref="menuTreeRef"
                @check-change="handleMenuCheckChange">
       </el-tree>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button type="primary"
-                   @click="handleMenuUpdate">更新</el-button>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleMenuUpdate">更新</el-button>
       </span>
+    </el-dialog>
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogDeptVisible">
+      <el-tree class="filter-tree" :data="treeDeptData" :default-checked-keys="checkedKeys" check-strictly node-key="id" highlight-current ref="deptTree" :props="defaultProps" @node-click="getNodeData" default-expand-all>
+      </el-tree>
     </el-dialog>
 
   </div>
@@ -53,6 +60,7 @@
 import { mapGetters } from 'vuex'
 import { roleTableOption } from '@/const/role/roleTableOption'
 import { fetchList, del, add, update, updRoleMenuPermission } from '@/api/role'
+import { fetchDeptTree } from '@/api/dept'
 import { fetchMenuTreeList } from '@/api/menu'
 export default {
   name: 'role',
@@ -75,7 +83,23 @@ export default {
         box: false,
         check: []
       },
-      menuAll: []
+      menuAll: [],
+      form: {
+        deptName: '',
+        deptId: ''
+      },
+      treeDeptData: [],
+      checkedKeys: [],
+      defaultProps: {
+        children: 'children',
+        label: 'name'
+      },
+      dialogDeptVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '创建'
+      }
     }
   },
   created() {
@@ -117,11 +141,29 @@ export default {
       this.page.currentPage = 1
       this.handleList()
     },
+    handleDept() {
+      fetchDeptTree().then(res => {
+        this.treeDeptData = res.data
+        this.dialogDeptVisible = true
+      })
+    },
+    getNodeData(data) {
+      this.dialogDeptVisible = false
+      this.form.deptId = data.id
+      this.form.deptName = data.name
+    },
+    handleRowEdit(row, index) {
+      this.form.deptId = row.id
+      this.form.deptName = row.deptName
+    },
     handleAdd() {
+      this.form.deptId = ''
+      this.form.deptName = ''
       this.$refs.crud.rowAdd()
     },
     handleSave(row, done) {
       row.statu = 0
+      row.deptId = this.form.deptId
       add(row).then(res => {
         if (res.data) {
           this.handleList()
@@ -133,6 +175,7 @@ export default {
       })
     },
     handleUpdate(row, index, done) {
+      row.deptId = this.form.deptId
       update(row).then(res => {
         if (res.data) {
           this.handleList()

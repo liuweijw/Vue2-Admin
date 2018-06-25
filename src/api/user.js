@@ -91,7 +91,7 @@ export function del(userId) {
 
 export function add(_from) {
   return request({
-    url: '/admin/user/addUser',
+    url: '/admin/user/add',
     method: 'post',
     data: _from
   })
@@ -99,7 +99,7 @@ export function add(_from) {
 
 export function update(_from) {
   return request({
-    url: '/admin/user/updateUser',
+    url: '/admin/user/upd',
     method: 'post',
     data: _from
   })
@@ -107,7 +107,7 @@ export function update(_from) {
 
 export function modifyUser(_from) {
   return request({
-    url: '/admin/user/modifyUser',
+    url: '/admin/user/modify',
     method: 'post',
     data: _from
   })

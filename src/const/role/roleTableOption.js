@@ -31,12 +31,24 @@ export const roleTableOption = {
       rules: [{ required: true, message: '请输入角色编码', trigger: 'blur' }]
     },
     {
-      label: '创建时间',
-      prop: 'createTime',
-      type: 'date',
-      addVisdiplay: false,
-      editDisabled: true,
+      label: '所属部门',
+      prop: 'deptId',
+      formsolt: true,
       hide: true
+    },
+    {
+      label: '所属部门',
+      prop: 'deptName',
+      addVisdiplay: false,
+      editVisdiplay: false
+    },
+    {
+      label: '更新时间',
+      prop: 'updateTime',
+      type: 'date',
+      overHidden: true,
+      addVisdiplay: false,
+      editVisdiplay: false
     },
     {
       label: '状态',
