@@ -185,13 +185,6 @@ const second = [
         href: '/admin/dept',
         icon: 'icon-web-icon-',
         children: []
-      },
-      {
-        id: 7,
-        label: '部门管理',
-        href: '/admin/dept',
-        icon: 'el-icon-menu',
-        children: []
       }
     ]
   },
