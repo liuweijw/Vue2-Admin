@@ -45,7 +45,8 @@ export default {
   {
     label: '地址',
     span: 24,
-    type: 'textarea',
+    formHeight: 180,
+    type: 'ueditor',
     prop: 'address'
   }
   ]

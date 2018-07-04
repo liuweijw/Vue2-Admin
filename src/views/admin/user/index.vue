@@ -15,7 +15,7 @@
                @row-del="handleDel"
                @search-change="handleSearchChange">
         <el-button v-if="permission.user_add"
-                 slot="headerMiddle"
+                 slot="searchAfter"
                  size="small"
                  type="success"
                  icon="el-icon-edit"

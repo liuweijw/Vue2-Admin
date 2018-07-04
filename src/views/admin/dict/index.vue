@@ -14,7 +14,7 @@
                @refresh-change="handlerefreshChange"
                @search-change="handleSearchChange">
       <el-button v-if="permission.dict_add"
-                 slot="headerMiddle"
+                 slot="searchAfter"
                  size="small"
                  type="success"
                  icon="el-icon-edit"

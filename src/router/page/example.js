@@ -30,6 +30,15 @@ export default [{
     component: _import('dev/index', 'views')
   }]
 }, {
+  path: '/guide',
+  component: Layout,
+  redirect: '/guide/index',
+  children: [{
+    path: 'index',
+    name: '引导页',
+    component: _import('guide/index', 'views')
+  }]
+}, {
   path: '/store',
   component: Layout,
   redirect: '/store/index',
@@ -60,8 +69,17 @@ export default [{
     path: 'generator',
     name: '表格生成器',
     component: _import('table/generator', 'views')
-  }
-  ]
+  },
+  {
+    path: 'tree',
+    name: '普通的tree表格',
+    component: _import('table/table-tree/index', 'views')
+  },
+  {
+    path: 'alltree',
+    name: '自定义tree表格',
+    component: _import('table/table-tree/all', 'views')
+  }]
 }, {
   path: '/exhibition',
   component: Layout,

@@ -1,46 +1,25 @@
 <template>
-  <el-switch v-model="text" :active-text="getDic(0).label" :active-value="getDic(0).value" :inactive-value="getDic(1).value" :inactive-text="getDic(1).label" :disabled="disabled" :size="size">
+  <el-switch v-model="text"
+             :active-text="getDic(0)[labelKey]"
+             :active-value="getDic(0)[valueKey]"
+             :inactive-value="getDic(1)[valueKey]"
+             :inactive-text="getDic(1)[labelKey]"
+             :disabled="disabled"
+             :width="width"
+             :size="size">
   </el-switch>
 </template>
 
 <script>
+import crudCompoents from '../../mixins/crud-compoents.js'
 export default {
   name: 'AvueCrudSwitch',
+  mixins: [crudCompoents()],
   data() {
-    return {
-      text: ''
-    }
+    return {}
   },
-  props: {
-    value: {
-      default: ''
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    size: {
-      type: String,
-      default: ''
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    dic: {
-      default: () => {
-        return []
-      }
-    }
-  },
-  watch: {
-    value: function(n, o) {
-      this.text = this.value
-    }
-  },
-  created() {
-    this.text = this.value
-  },
+  watch: {},
+  created() {},
   mounted() {},
   methods: {
     handleChange(value) {

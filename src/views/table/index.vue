@@ -1,26 +1,66 @@
 <template>
   <div class="table-container pull-chheight">
-    <avue-crud :option="tableOption" v-model="user" :data="tableData" :table-loading="tableLoading" :before-open="boxhandleOpen" :before-close="boxhandleClose" @row-dblclick="handleRowDBLClick" @row-click="handleRowClick" :page="page" ref="crud" @row-save="handleSave" @row-update="handleUpdate" @row-del="handleDel" @refresh-change="handlerefreshChange" @current-change="handleCurrentChange" @search-change="handleSearchChange" @selection-change="handleSelectionChange">
-      <div class="table-header" slot="headerAfter">
-        <el-button type="primary" @click="handleAdd" size="small" v-if="permission.sys_crud_btn_add">新 增</el-button>
-        <el-button type="primary" @click="handleRowEdit" size="small">编 辑</el-button>
-        <el-button type="primary" @click="handleRowDel" size="small">删 除</el-button>
-        <el-button type="info" @click="handleExport" size="small" v-if="permission.sys_crud_btn_export">导出excel</el-button>
-        <el-button type="warning" @click="handleJpeg" size="small">导出图片</el-button>
-        <el-button type="danger" @click="toggleSelection([tableData[1]])" size="small">切换第二选中状态</el-button>
-        <el-button @click="toggleSelection()" size="small">取消选择</el-button>
-        <el-button type="success" size="small" v-if="permission.sys_crud_btn_add">
+    <avue-crud :option="tableOption"
+               v-model="user"
+               :data="tableData"
+               :table-loading="tableLoading"
+               :before-open="boxhandleOpen"
+               :before-close="boxhandleClose"
+               @row-dblclick="handleRowDBLClick"
+               @row-click="handleRowClick"
+               :page="page"
+               ref="crud"
+               @row-save="handleSave"
+               @row-update="handleUpdate"
+               @row-del="handleDel"
+               @refresh-change="handlerefreshChange"
+               @current-change="handleCurrentChange"
+               @search-change="handleSearchChange"
+               @selection-change="handleSelectionChange">
+      <template slot="menuLeft">
+        <el-button type="primary"
+                   @click="handleRowEdit"
+                   size="small">编 辑</el-button>
+        <el-button type="primary"
+                   @click="handleRowDel"
+                   size="small">删 除</el-button>
+        <el-button type="info"
+                   @click="handleExport"
+                   size="small"
+                   v-if="permission.sys_crud_btn_export">导出excel</el-button>
+        <el-button type="warning"
+                   @click="handleJpeg"
+                   size="small">导出图片</el-button>
+        <el-button type="danger"
+                   @click="toggleSelection([tableData[1]])"
+                   size="small">切换第二选中状态</el-button>
+        <el-button @click="toggleSelection()"
+                   size="small">取消选择</el-button>
+        <el-button type="success"
+                   size="small"
+                   v-if="permission.sys_crud_btn_add">
           <router-link :to="{path:'/forms/index'}">
             表单CRUD
           </router-link>
         </el-button>
-      </div>
-      <template slot="headerMenu">
-        <el-button type="primary" icon="el-icon-edit" @click="handleRowEdit" circle size="small"></el-button>
-        <el-button type="danger" icon="el-icon-delete" circle size="small" @click="handleRowDel"></el-button>
       </template>
-      <template slot-scope="props" slot="expand">
-        <el-form label-position="left" inline class="demo-table-expand">
+      <template slot="menuRight">
+        <el-button type="primary"
+                   icon="el-icon-edit"
+                   @click="handleRowEdit"
+                   circle
+                   size="small"></el-button>
+        <el-button type="danger"
+                   icon="el-icon-delete"
+                   circle
+                   size="small"
+                   @click="handleRowDel"></el-button>
+      </template>
+      <template slot-scope="props"
+                slot="expand">
+        <el-form label-position="left"
+                 inline
+                 class="demo-table-expand">
           <el-form-item label="姓名">
             <span>{{ props.row.name }}</span>
           </el-form-item>
@@ -38,26 +78,48 @@
           </el-form-item>
         </el-form>
       </template>
-      <template slot-scope="scope" slot="username">
+      <template slot-scope="scope"
+                slot="username">
         <el-tag>{{scope.row.username}}</el-tag>
       </template>
-      <template slot-scope="scope" slot="nameForm">
-        <avue-crud-input @click.native="tip" v-model="user.name">
+      <template slot-scope="scope"
+                slot="nameForm">
+        <avue-crud-input @click.native="tip"
+                         v-model="user.name">
         </avue-crud-input>
       </template>
-      <template slot-scope="scope" slot="menu">
-        <el-button type="primary" icon="el-icon-check" size="small" plain @click.stop="handleEdit(scope.row,scope.index)">编辑</el-button>
-        <el-button icon="el-icon-check" size="small" @click.stop="handleGrade(scope.row,scope.index)">权限</el-button>
+      <template slot-scope="scope"
+                slot="menu">
+        <el-button type="primary"
+                   icon="el-icon-check"
+                   size="small"
+                   plain
+                   @click.stop="handleEdit(scope.row,scope.index)">编辑</el-button>
+        <el-button icon="el-icon-check"
+                   size="small"
+                   @click.stop="handleGrade(scope.row,scope.index)">权限</el-button>
       </template>
     </avue-crud>
-    <el-button @click.native="formate" style="margin: 8px 0">格式化</el-button>
-    <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 15}" placeholder="请输入内容" v-model="formJson">
+    <el-button @click.native="formate"
+               style="margin: 8px 0">格式化</el-button>
+    <el-input type="textarea"
+              :autosize="{ minRows: 2, maxRows: 15}"
+              placeholder="请输入内容"
+              v-model="formJson">
     </el-input>
-    <el-dialog title="菜单" :visible.sync="grade.box" width="40%">
-      <el-tree :data="menuAll" :default-checked-keys="grade.check" :default-expanded-keys="grade.check" show-checkbox node-key="id">
+    <el-dialog title="菜单"
+               :visible.sync="grade.box"
+               width="40%">
+      <el-tree :data="menuAll"
+               :default-checked-keys="grade.check"
+               :default-expanded-keys="grade.check"
+               show-checkbox
+               node-key="id">
       </el-tree>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleGradeUpdate">更新</el-button>
+      <span slot="footer"
+            class="dialog-footer">
+        <el-button type="primary"
+                   @click="handleGradeUpdate">更新</el-button>
       </span>
     </el-dialog>
 
@@ -257,14 +319,6 @@ export default {
       this.handleList(this.tableSearch)
     },
     /**
-     * @title 打开新增窗口
-     * @detail 调用crud的handleadd方法即可
-     *
-     **/
-    handleAdd() {
-      this.$refs.crud.rowAdd()
-    },
-    /**
      * @title 选中第几行
      * @param row 选中那几行数据
      * @detail 调用crud的toggleSelection方法即可
@@ -440,12 +494,6 @@ export default {
 <style lang="scss" scoped>
 .table-container {
   padding: 8px 10px;
-}
-.table-header {
-  margin-bottom: 10px;
-  & > .el-button {
-    padding: 12px 25px;
-  }
 }
 .demo-table-expand {
   font-size: 0;

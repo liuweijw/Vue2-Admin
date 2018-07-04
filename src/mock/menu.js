@@ -1,4 +1,10 @@
 const first = [{
+  id: 129,
+  label: '引导页',
+  href: '/guide/index',
+  icon: 'icon-xitongguanli',
+  children: []
+}, {
   id: 120,
   label: '环境变量',
   icon: 'icon-xitongguanli',
@@ -59,9 +65,28 @@ const first = [{
       icon: 'icon-tijiaorizhi',
       meta: {},
       children: []
-    },
-    {
+    }, {
       id: 118,
+      label: '普通树表格',
+      href: '/table/tree',
+      query: {
+        a: 1
+      },
+      icon: 'icon-tijiaorizhi',
+      meta: {},
+      children: []
+    }, {
+      id: 119,
+      label: '自定义树表格',
+      href: '/table/alltree',
+      query: {
+        a: 1
+      },
+      icon: 'icon-tijiaorizhi',
+      meta: {},
+      children: []
+    }, {
+      id: 120,
       label: '生成器',
       href: `/table/generator`,
       icon: 'icon-guanli2',
@@ -69,7 +94,7 @@ const first = [{
       children: []
     },
     {
-      id: 119,
+      id: 121,
       label: '表单',
       href: '/forms/index',
       query: {
@@ -82,7 +107,7 @@ const first = [{
   ]
 },
 {
-  id: 120,
+  id: 122,
   label: '阿里图标',
   href: '/iconfont/index',
   icon: 'icon-changyonglogo27',
@@ -90,21 +115,21 @@ const first = [{
   children: []
 },
 {
-  id: 121,
+  id: 123,
   label: '高级路由',
   href: '#',
   icon: 'icon-luyou',
   meta: {},
   children: [
     {
-      id: 122,
+      id: 124,
       label: '动态路由',
       href: '/advanced-router/mutative-router',
       icon: 'icon-msnui-workflow',
       children: []
     },
     {
-      id: 123,
+      id: 125,
       label: '参数路由',
       href: '/advanced-router/argument-page',
       icon: 'icon-iconset0450',
@@ -113,21 +138,21 @@ const first = [{
   ]
 },
 {
-  id: 124,
+  id: 126,
   label: '综合错误',
   href: '#',
   icon: 'icon-cuowu',
   meta: {},
   children: [
     {
-      id: 125,
+      id: 127,
       label: '错误日志',
       href: '/errlog/index',
       icon: 'icon-caozuorizhi1',
       children: []
     },
     {
-      id: 126,
+      id: 128,
       label: '错误页面',
       href: '/errlog/page',
       icon: 'icon-caozuorizhi1',

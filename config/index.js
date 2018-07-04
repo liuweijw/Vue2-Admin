@@ -43,6 +43,7 @@ module.exports = {
           '^/admin': '/admin'
         }
       }
+      // ,
       // '/devadmin': {
       //   target: 'http://localhost:2012',
       //   changeOrigin: true,

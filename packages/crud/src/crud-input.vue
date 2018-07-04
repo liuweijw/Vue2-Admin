@@ -1,43 +1,23 @@
 <template>
-  <el-input :size="size" :clearable="clearable" v-model="text" :type="typeParam" :autosize="{ minRows: minRows, maxRows: maxRows}" :placeholder="placeholder?placeholder:`请输入${label}`" @change="handleChange" :disabled="disabled"></el-input>
+  <el-input :size="size"
+            :clearable="clearable"
+            v-model="text"
+            :type="typeParam"
+            :autosize="{ minRows: minRows, maxRows: maxRows}"
+            :placeholder="placeholder?placeholder:`请输入${label}`"
+            @change="handleChange"
+            :disabled="disabled"></el-input>
 </template>
 
 <script>
+import crudCompoents from '../../mixins/crud-compoents.js'
 export default {
   name: 'AvueCrudInput',
+  mixins: [crudCompoents()],
   data() {
-    return {
-      text: ''
-    }
+    return {}
   },
   props: {
-    value: {
-      default: ''
-    },
-    clearable: {
-      type: Boolean,
-      default: true
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    label: {
-      type: String,
-      default: ''
-    },
-    placeholder: {
-      type: String,
-      default: ''
-    },
-    size: {
-      type: String,
-      default: ''
-    },
-    type: {
-      type: String,
-      default: ''
-    },
     minRows: {
       type: String,
       default: '3'
@@ -47,11 +27,7 @@ export default {
       default: '4'
     }
   },
-  watch: {
-    value: function(n, o) {
-      this.text = this.value
-    }
-  },
+  watch: {},
   computed: {
     typeParam: function() {
       if (this.type === 'textarea') {
@@ -63,9 +39,7 @@ export default {
       }
     }
   },
-  created() {
-    this.text = this.value
-  },
+  created() {},
   mounted() {},
   methods: {
     handleChange(value) {
